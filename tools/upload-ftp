@@ -1,0 +1,12 @@
+
+#!/bin/bash
+# This is a script to upload ftp web using ncftp
+# brew install ncftp
+# configure host and ftp credentials vars in 
+# ~/.ftp_upload.gobyexamples
+
+source ~/.ftp_upload.gobyexamples
+
+ncftpput -R -v -u $FTP_USER -p $FTP_PASSWORD \
+  $FTP_HOST $FTP_REMOTE_DIR public/*
+

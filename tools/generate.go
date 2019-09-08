@@ -11,8 +11,11 @@ import (
 	"regexp"
 	"strings"
 	"text/template"
+	"unicode"
 
 	"github.com/russross/blackfriday"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
 
 var cacheDir = "/tmp/gobyexample-cache"
@@ -244,6 +247,9 @@ func parseExamples() []*Example {
 		exampleID = strings.Replace(exampleID, " ", "-", -1)
 		exampleID = strings.Replace(exampleID, "/", "-", -1)
 		exampleID = strings.Replace(exampleID, "'", "", -1)
+		exampleID = strings.Replace(exampleID, "(", "", -1)
+		exampleID = strings.Replace(exampleID, ")", "", -1)
+		exampleID = removeAccents(exampleID)
 		exampleID = dashPat.ReplaceAllString(exampleID, "-")
 		example.ID = exampleID
 		example.Segs = make([][]*Seg, 0)
@@ -271,6 +277,16 @@ func parseExamples() []*Example {
 		}
 	}
 	return examples
+}
+
+func removeAccents(s string) string {
+	isMn := func(r rune) bool {
+		return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
+	}
+
+	t := transform.Chain(norm.NFD, transform.RemoveFunc(isMn), norm.NFC)
+	result, _, _ := transform.String(t, s)
+	return result
 }
 
 func renderIndex(examples []*Example) {
@@ -305,6 +321,7 @@ func main() {
 	copyFile("templates/favicon.ico", siteDir+"/favicon.ico")
 	copyFile("templates/404.html", siteDir+"/404.html")
 	copyFile("templates/play.png", siteDir+"/play.png")
+	copyFile("templates/live.js", siteDir+"/live.js")
 	examples := parseExamples()
 	renderIndex(examples)
 	renderExamples(examples)
