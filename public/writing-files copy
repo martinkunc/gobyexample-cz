@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Writing Files</title>
+    <link rel=stylesheet href="site.css">
+    <script type="text/javascript" src="live.js"></script>
+  </head>
+  <body>
+    <div class="example" id="writing-files">
+      <h2><a href="./">Go podle Příkladů</a>: Writing Files</h2>
+      
+      
+      <p class="next">
+        Další příklad: <a href="line-filters">Line Filters</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+  </body>
+</html>
