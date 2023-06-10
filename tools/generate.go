@@ -18,10 +18,11 @@ import (
 // siteDir is the target directory into which the HTML gets generated. Its
 // default is set here but can be changed by an argument passed into the
 // program.
-var siteDir = "./public"
+var siteDir = "./docs"
 
 var cacheDir = "/tmp/gobyexample-cache"
-var pygmentizeBin = "./vendor/pygments/pygmentize"
+var pythonBin = "python3"
+var pygmentizeBin = "pygmentize"
 
 func verbose() bool {
 	return len(os.Getenv("VERBOSE")) > 0
@@ -60,6 +61,7 @@ func pipe(bin string, arg []string, src string) []byte {
 	bytes, err := ioutil.ReadAll(out)
 	check(err)
 	err = cmd.Wait()
+	fmt.Print(cmd.Stderr)
 	check(err)
 	return bytes
 }
@@ -85,7 +87,10 @@ func cachedPygmentize(lex string, src string) string {
 	if cacheErr == nil {
 		return string(cacheBytes)
 	}
-	renderBytes := pipe(pygmentizeBin, arg, src)
+
+	argn := append([]string{"-m", "pygments", "-a", "\"main\""}, arg...)
+	fmt.Printf("running: bin %s %v %s, arg ", pythonBin, argn, src)
+	renderBytes := pipe(pythonBin, argn, src)
 	// Newer versions of Pygments add silly empty spans.
 	renderCleanString := strings.Replace(string(renderBytes), "<span></span>", "", -1)
 	writeErr := ioutil.WriteFile(cachePath, []byte(renderCleanString), 0600)
