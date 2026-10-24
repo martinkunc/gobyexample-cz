@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Deploys the generated site in docs/ to Firebase Hosting on Google Cloud,
+# where it's served at https://gobyexample-cz.web.app. This replaces the
+# original S3/CloudFront upload in tools/upload.
+#
+# Example pages are generated without an extension (e.g. docs/arrays), which
+# Firebase would serve with a non-HTML content type. We therefore stage them
+# as *.html and rely on "cleanUrls" in firebase.json to serve them under their
+# original extension-less paths, so all existing links keep working.
+
+set -e
+
+SITE_DIR="docs"
+DEPLOY_DIR="build/firebase"
+FIREBASE="${FIREBASE:-firebase}"
+
+rm -rf "$DEPLOY_DIR"
+mkdir -p "$DEPLOY_DIR"
+
+for f in "$SITE_DIR"/*; do
+  name="$(basename "$f")"
+  case "$name" in
+    *.*) cp "$f" "$DEPLOY_DIR/$name" ;;
+    *)   cp "$f" "$DEPLOY_DIR/$name.html" ;;
+  esac
+done
+
+$FIREBASE deploy --only hosting "$@"
