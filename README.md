@@ -1,4 +1,5 @@
 # Go by Example
+Czech translation of the original
 
 Content and build toolchain for [Go by Example](https://gobyexample.com),
 a site that teaches Go via annotated example programs.

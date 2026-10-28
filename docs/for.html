@@ -2,14 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Go by Example: For</title>
+    <title>Go podle Příkladů: For</title>
     <link rel=stylesheet href="site.css">
   </head>
   <script>
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'constants';
+              window.location.href = 'konstanty';
           }
           
           
@@ -21,14 +21,14 @@
   </script>
   <body>
     <div class="example" id="for">
-      <h2><a href="./">Go by Example</a>: For</h2>
+      <h2><a href="./">Go podle Příkladů</a>: For</h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p><code>for</code> is Go&rsquo;s only looping construct. Here are
-three basic types of <code>for</code> loops.</p>
+            <p><code>for</code> je v Go jediná konstrukce pro cykly. Zde jsou
+tři základní typy <code>for</code> cyklů.</p>
 
           </td>
           <td class="code empty leading">
@@ -42,7 +42,7 @@ three basic types of <code>for</code> loops.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/lGYfUJwiGfi"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/QqDlqLNAUrb"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -75,7 +75,7 @@ three basic types of <code>for</code> loops.</p>
         
         <tr>
           <td class="docs">
-            <p>The most basic type, with a single condition.</p>
+            <p>Nejzákladnější cyklus s jednoduchou podmínkou</p>
 
           </td>
           <td class="code leading">
@@ -92,7 +92,9 @@ three basic types of <code>for</code> loops.</p>
         
         <tr>
           <td class="docs">
-            <p>A classic initial/condition/after <code>for</code> loop.</p>
+            <p>Klasický cyklus ve tvaru
+inicializace/podmínka/popodmínkový příkaz
+<code>for</code> cyklu.</p>
 
           </td>
           <td class="code leading">
@@ -107,15 +109,16 @@ three basic types of <code>for</code> loops.</p>
         
         <tr>
           <td class="docs">
-            <p><code>for</code> without a condition will loop repeatedly
-until you <code>break</code> out of the loop or <code>return</code> from
-the enclosing function.</p>
+            <p><code>for</code> bez podmínky bude cyklit opakovaně
+dokud ho nepřerušíte voláním <code>break</code> a nevyskočíte
+z cyklu nebo voláním <code>return</code> nevyskočíte z funkce
+kde se příkaz nachází</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;loop&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;smyčka&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="k">break</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
@@ -125,8 +128,8 @@ the enclosing function.</p>
         
         <tr>
           <td class="docs">
-            <p>You can also <code>continue</code> to the next iteration of
-the loop.</p>
+            <p>Také můžete přeskočit na provádění další iterace
+cyklu použitím příkazu <code>continue</code></p>
 
           </td>
           <td class="code">
@@ -160,7 +163,7 @@ the loop.</p>
 <span class="go">7</span>
 <span class="go">8</span>
 <span class="go">9</span>
-<span class="go">loop</span>
+<span class="go">smyčka</span>
 <span class="go">1</span>
 <span class="go">3</span>
 <span class="go">5</span>
@@ -171,9 +174,9 @@ the loop.</p>
         
         <tr>
           <td class="docs">
-            <p>We&rsquo;ll see some other <code>for</code> forms later when we look at
-<code>range</code> statements, channels, and other data
-structures.</p>
+            <p>Později ještě uvidíme další formy <code>for</code> když budeme
+mluvit o příkazech <code>range</code>, kanálech a dalších datových
+strukturách.</p>
 
           </td>
           <td class="code empty">
@@ -186,16 +189,16 @@ structures.</p>
       
       
       <p class="next">
-        Next example: <a href="if-else">If/Else</a>.
+        Další příklad: <a href="if-else">If/Else</a>.
       </p>
       
       <p class="footer">
-        by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> | <a href="https://github.com/mmcgrana/gobyexample/blob/master/examples/for">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
       </p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    i :\u003D 1\u000A    for i \u003C\u003D 3 {\u000A        fmt.Println(i)\u000A        i \u003D i + 1\u000A    }\u000A');codeLines.push('    for j :\u003D 7; j \u003C\u003D 9; j++ {\u000A        fmt.Println(j)\u000A    }\u000A');codeLines.push('    for {\u000A        fmt.Println(\"loop\")\u000A        break\u000A    }\u000A');codeLines.push('    for n :\u003D 0; n \u003C\u003D 5; n++ {\u000A        if n%2 \u003D\u003D 0 {\u000A            continue\u000A        }\u000A        fmt.Println(n)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    i :\u003D 1\u000A    for i \u003C\u003D 3 {\u000A        fmt.Println(i)\u000A        i \u003D i + 1\u000A    }\u000A');codeLines.push('    for j :\u003D 7; j \u003C\u003D 9; j++ {\u000A        fmt.Println(j)\u000A    }\u000A');codeLines.push('    for {\u000A        fmt.Println(\"smyčka\")\u000A        break\u000A    }\u000A');codeLines.push('    for n :\u003D 0; n \u003C\u003D 5; n++ {\u000A        if n%2 \u003D\u003D 0 {\u000A            continue\u000A        }\u000A        fmt.Println(n)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

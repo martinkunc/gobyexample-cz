@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Go by Example: Switch</title>
+    <title>Go podle Příkladů: Switch</title>
     <link rel=stylesheet href="site.css">
   </head>
   <script>
@@ -14,21 +14,20 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'arrays';
+              window.location.href = 'pole';
           }
           
       }
   </script>
   <body>
     <div class="example" id="switch">
-      <h2><a href="./">Go by Example</a>: Switch</h2>
+      <h2><a href="./">Go podle Příkladů</a>: Switch</h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p><em>Switch statements</em> express conditionals across many
-branches.</p>
+            <p><em>Příkazy switch</em> vyjadřují podmínky s mnoha větvemi.</p>
 
           </td>
           <td class="code empty leading">
@@ -42,7 +41,7 @@ branches.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/ZcDzdx3nYQn"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/CafZFRcIVSs"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -55,10 +54,8 @@ branches.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
-<span class="w">    </span><span class="s">&quot;time&quot;</span>
-<span class="p">)</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
 </pre></div>
 
           </td>
@@ -78,20 +75,20 @@ branches.</p>
         
         <tr>
           <td class="docs">
-            <p>Here&rsquo;s a basic <code>switch</code>.</p>
+            <p>Tady je základní <code>switch</code>.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">2</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;Write &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; as &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;Píšu &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; jako &quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;one&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;jedna&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;two&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;dvě&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="mi">3</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;three&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;tři&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -100,18 +97,18 @@ branches.</p>
         
         <tr>
           <td class="docs">
-            <p>You can use commas to separate multiple expressions
-in the same <code>case</code> statement. We use the optional
-<code>default</code> case in this example as well.</p>
+            <p>Můžete použít čárku pro oddělení více výrazů ve
+stejném větvi <code>case</code>. V tomto příkladě používáme
+také volitelnou case větev <code>default</code>.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">Weekday</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Saturday</span><span class="p">,</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sunday</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;It&#39;s the weekend&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Je víkend&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="k">default</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;It&#39;s a weekday&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Je pracovní den&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -120,9 +117,9 @@ in the same <code>case</code> statement. We use the optional
         
         <tr>
           <td class="docs">
-            <p><code>switch</code> without an expression is an alternate way
-to express if/else logic. Here we also show how the
-<code>case</code> expressions can be non-constants.</p>
+            <p>Příkaz <code>switch</code> bez výrazu je alternativní způsob
+jak vyjádřit logiku if/else. Také tady ukazujeme
+jak výrazy <code>case</code> mohou být ne-konstantní.</p>
 
           </td>
           <td class="code leading">
@@ -130,9 +127,9 @@ to express if/else logic. Here we also show how the
           <div class="highlight"><pre><span class="w">    </span><span class="nx">t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
 <span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">t</span><span class="p">.</span><span class="nx">Hour</span><span class="p">()</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">12</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;It&#39;s before noon&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Je před polednem&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="k">default</span><span class="p">:</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;It&#39;s after noon&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Je po poledni&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -141,10 +138,10 @@ to express if/else logic. Here we also show how the
         
         <tr>
           <td class="docs">
-            <p>A type <code>switch</code> compares types instead of values.  You
-can use this to discover the type of an interface
-value.  In this example, the variable <code>t</code> will have the
-type corresponding to its clause.</p>
+            <p>Typový příkaz <code>switch</code> porovnává typy místo hodnot.
+Můžete jej použit pro zjištění  typu hodnoty
+interface.  V tomto příkladu, proměnná <code>t</code> bude mít
+typ podle své odpovídající klauzule</p>
 
           </td>
           <td class="code">
@@ -152,16 +149,16 @@ type corresponding to its clause.</p>
           <div class="highlight"><pre><span class="w">    </span><span class="nx">whatAmI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">i</span><span class="p">.(</span><span class="kd">type</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="kt">bool</span><span class="p">:</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;I&#39;m a bool&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Jsem boolean&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="kt">int</span><span class="p">:</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;I&#39;m an int&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Jsem int&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="k">default</span><span class="p">:</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Don&#39;t know type %T\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Neznám typ %T\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="nx">whatAmI</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">whatAmI</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">whatAmI</span><span class="p">(</span><span class="s">&quot;hey&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">whatAmI</span><span class="p">(</span><span class="s">&quot;hej&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -179,12 +176,12 @@ type corresponding to its clause.</p>
           <td class="code">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>switch.go<span class="w"> </span>
-<span class="go">Write 2 as two</span>
-<span class="go">It&#39;s a weekday</span>
-<span class="go">It&#39;s after noon</span>
-<span class="go">I&#39;m a bool</span>
-<span class="go">I&#39;m an int</span>
-<span class="go">Don&#39;t know type string</span>
+<span class="go">Píšu 2 jako dvě</span>
+<span class="go">Je pracovní den</span>
+<span class="go">Je po poledni</span>
+<span class="go">Jsem boolean</span>
+<span class="go">Jsem int</span>
+<span class="go">Neznám typ string</span>
 </pre></div>
 
           </td>
@@ -194,16 +191,16 @@ type corresponding to its clause.</p>
       
       
       <p class="next">
-        Next example: <a href="arrays">Arrays</a>.
+        Další příklad: <a href="pole">Pole</a>.
       </p>
       
       <p class="footer">
-        by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> | <a href="https://github.com/mmcgrana/gobyexample/blob/master/examples/switch">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
       </p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    i :\u003D 2\u000A    fmt.Print(\"Write \", i, \" as \")\u000A    switch i {\u000A    case 1:\u000A        fmt.Println(\"one\")\u000A    case 2:\u000A        fmt.Println(\"two\")\u000A    case 3:\u000A        fmt.Println(\"three\")\u000A    }\u000A');codeLines.push('    switch time.Now().Weekday() {\u000A    case time.Saturday, time.Sunday:\u000A        fmt.Println(\"It\'s the weekend\")\u000A    default:\u000A        fmt.Println(\"It\'s a weekday\")\u000A    }\u000A');codeLines.push('    t :\u003D time.Now()\u000A    switch {\u000A    case t.Hour() \u003C 12:\u000A        fmt.Println(\"It\'s before noon\")\u000A    default:\u000A        fmt.Println(\"It\'s after noon\")\u000A    }\u000A');codeLines.push('    whatAmI :\u003D func(i interface{}) {\u000A        switch t :\u003D i.(type) {\u000A        case bool:\u000A            fmt.Println(\"I\'m a bool\")\u000A        case int:\u000A            fmt.Println(\"I\'m an int\")\u000A        default:\u000A            fmt.Printf(\"Don\'t know type %T\\n\", t)\u000A        }\u000A    }\u000A    whatAmI(true)\u000A    whatAmI(1)\u000A    whatAmI(\"hey\")\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    i :\u003D 2\u000A    fmt.Print(\"Píšu \", i, \" jako \")\u000A    switch i {\u000A    case 1:\u000A        fmt.Println(\"jedna\")\u000A    case 2:\u000A        fmt.Println(\"dvě\")\u000A    case 3:\u000A        fmt.Println(\"tři\")\u000A    }\u000A');codeLines.push('    switch time.Now().Weekday() {\u000A    case time.Saturday, time.Sunday:\u000A        fmt.Println(\"Je víkend\")\u000A    default:\u000A        fmt.Println(\"Je pracovní den\")\u000A    }\u000A');codeLines.push('    t :\u003D time.Now()\u000A    switch {\u000A    case t.Hour() \u003C 12:\u000A        fmt.Println(\"Je před polednem\")\u000A    default:\u000A        fmt.Println(\"Je po poledni\")\u000A    }\u000A');codeLines.push('    whatAmI :\u003D func(i interface{}) {\u000A        switch t :\u003D i.(type) {\u000A        case bool:\u000A            fmt.Println(\"Jsem boolean\")\u000A        case int:\u000A            fmt.Println(\"Jsem int\")\u000A        default:\u000A            fmt.Printf(\"Neznám typ %T\\n\", t)\u000A        }\u000A    }\u000A    whatAmI(true)\u000A    whatAmI(1)\u000A    whatAmI(\"hej\")\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

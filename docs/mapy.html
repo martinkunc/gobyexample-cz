@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Mapy</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'vyrezy-slice';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'range';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="mapy">
+      <h2><a href="./">Go podle Příkladů</a>: Mapy</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Mapy</em> jsou <a href="http://en.wikipedia.org/wiki/Associative_array">asociativní datové typy</a>
+zabudované do Go. (Někdy v jiných programovacích
+jazycích se jim také říká <em>hashe</em> nebo <em>slovníky</em>).</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/gsGn-Uszjgc"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro vytvoření prázdné mapy, použijte zabudovaný
+příkaz <code>make</code>:
+<code>make(map[typ-klíče]typ-hodnoty)</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">m</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nastavte dvojice klíč/hodnota s použitím typického
+zápisu
+<code>jméno[klíč] = hodnota</code></p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">m</span><span class="p">[</span><span class="s">&quot;k1&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="w">    </span><span class="nx">m</span><span class="p">[</span><span class="s">&quot;k2&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">13</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Vypsání např. s <code>fmt.Println</code> ukáže všechny
+její dvojice klíč/hodnota.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;mapa:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Hodnotu můžeme získat pro daný klíč zápisem
+<code>jméno[klíč]</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">v1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">m</span><span class="p">[</span><span class="s">&quot;k1&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;v1: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">v1</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Zabudovaná funkce <code>len</code> vrací při použití s mapou
+počet dvojic klíč/hodnota</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;len:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">m</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Zabudovaná funkce <code>delete</code> odstraňuje dvojice
+klíč hodnota z mapy.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nb">delete</span><span class="p">(</span><span class="nx">m</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;k2&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;mapa:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Volitelná druhá návratová hodnota během získávání
+hodnoty z mapy určuje jestli byl klíč v mapě
+nalezen. Může být použita pro rozlišení mezi
+chybějícími klíči a klíči s nulovými hodnotami
+jako <code>0</code> nebo <code>&quot;&quot;</code>. Zde nepotřebujeme vlastní
+hodnotu, tak ji ignorujeme s použitím
+<em>zahazovacího</em> identifikátoru
+<code>_</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">nal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">m</span><span class="p">[</span><span class="s">&quot;k2&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;nalezen:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">nal</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Také můžete deklarovat a inicializovat novou mapu
+na stejném řádku s takovouhle syntaxí:</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&quot;foo&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;mapa:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Všimněte si, že mapy se vypisují ve tvaru <code>map[k:v k:v]</code>
+když jsou vypsané funkcí <code>fmt.Println</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>maps.go<span class="w"> </span>
+<span class="go">mapa: map[k1:7 k2:13]</span>
+<span class="go">v1:  7</span>
+<span class="go">len: 2</span>
+<span class="go">mapa: map[k1:7]</span>
+<span class="go">nalezen: false</span>
+<span class="go">mapa: map[bar:2 foo:1]</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="range">Range</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    m :\u003D make(map[string]int)\u000A');codeLines.push('    m[\"k1\"] \u003D 7\u000A    m[\"k2\"] \u003D 13\u000A');codeLines.push('    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    v1 :\u003D m[\"k1\"]\u000A    fmt.Println(\"v1: \", v1)\u000A');codeLines.push('    fmt.Println(\"len:\", len(m))\u000A');codeLines.push('    delete(m, \"k2\")\u000A    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    _, nal :\u003D m[\"k2\"]\u000A    fmt.Println(\"nalezen:\", nal)\u000A');codeLines.push('    n :\u003D map[string]int{\"foo\": 1, \"bar\": 2}\u000A    fmt.Println(\"mapa:\", n)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

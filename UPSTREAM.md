@@ -1,12 +1,23 @@
 # Upstream base
 
-This translation was forked from https://github.com/mmcgrana/gobyexample at:
+The Czech translation (`examples/`, `examples.txt`, `templates/`, from the
+`cz-translation` branch) is based on https://github.com/mmcgrana/gobyexample at:
+
+    46fe6bc
+    2019-06-13  Merge pull request #247 from C-Ross/fixEnvarReference
+
+The build tooling was later merged with upstream up to:
 
     65c2883a9f041ca1db718f6cfdcab1042950ef00
     2019-09-06  Merge pull request #274 from mmcgrana/consistent-import
 
-(`git merge-base master upstream/master`; `examples.txt` here is identical to
-upstream's `examples.txt` at that commit.)
+so the topics below were derived from `65c2883`. Three topics were added
+upstream between `46fe6bc` and `65c2883` and are also missing from the
+translation: XML (`xml`), Directories (`directories`) and Temporary Files and
+Directories (`temporary-files-and-directories`).
+
+The example directories here use the Czech IDs (e.g. `ahoj-svete` for
+`hello-world`); the `.go` file names inside them keep the upstream names.
 
 Compared against upstream `master` at `28c81a7` (checked 2026-10-24).
 

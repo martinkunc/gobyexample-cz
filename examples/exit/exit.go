@@ -1,24 +1,22 @@
-// Use `os.Exit` to immediately exit with a given
-// status.
+// Použijte `os.Exit` pro okamžité ukončení s danou
+// návratovou hodnotou.
 
 package main
 
-import (
-	"fmt"
-	"os"
-)
+import "fmt"
+import "os"
 
 func main() {
 
-	// `defer`s will _not_ be run when using `os.Exit`, so
-	// this `fmt.Println` will never be called.
+	// Příkazy `defer` se při použití `os.Exit` _nespouští_
+	// takže tento `fmt.Println` se nikdy nezavolá.
 	defer fmt.Println("!")
 
-	// Exit with status 3.
+	// Exit se stavem 3.
 	os.Exit(3)
 }
 
-// Note that unlike e.g. C, Go does not use an integer
-// return value from `main` to indicate exit status. If
-// you'd like to exit with a non-zero status you should
-// use `os.Exit`.
+// Všimněte si, že naproti např. C, Go nepoužívá int
+// návratovou hodnotu z `main` pro nastavení návratové
+// hodnoty. Pokud budete potřebovat skončit s nenulovým
+// návratovým kódem, použijte `os.Exit`.

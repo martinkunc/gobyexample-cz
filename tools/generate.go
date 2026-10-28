@@ -258,6 +258,9 @@ func parseExamples() []*Example {
 		exampleID = strings.Replace(exampleID, " ", "-", -1)
 		exampleID = strings.Replace(exampleID, "/", "-", -1)
 		exampleID = strings.Replace(exampleID, "'", "", -1)
+		exampleID = strings.Replace(exampleID, "(", "", -1)
+		exampleID = strings.Replace(exampleID, ")", "", -1)
+		exampleID = removeAccents(exampleID)
 		exampleID = dashPat.ReplaceAllString(exampleID, "-")
 		example.ID = exampleID
 		example.Segs = make([][]*Seg, 0)
@@ -288,6 +291,18 @@ func parseExamples() []*Example {
 		}
 	}
 	return examples
+}
+
+// accentReplacer maps accented (Czech) letters to their ASCII base, so
+// that example IDs and URLs are plain ASCII.
+var accentReplacer = strings.NewReplacer(
+	"á", "a", "č", "c", "ď", "d", "é", "e", "ě", "e", "í", "i", "ň", "n",
+	"ó", "o", "ř", "r", "š", "s", "ť", "t", "ú", "u", "ů", "u", "ý", "y",
+	"ž", "z",
+)
+
+func removeAccents(s string) string {
+	return accentReplacer.Replace(s)
 }
 
 func renderIndex(examples []*Example) {

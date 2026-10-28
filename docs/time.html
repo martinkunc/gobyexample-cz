@@ -2,33 +2,33 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Go by Example: Time</title>
+    <title>Go podle Příkladů: Time</title>
     <link rel=stylesheet href="site.css">
   </head>
   <script>
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'xml';
+              window.location.href = 'json';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'epoch';
+              window.location.href = 'epocha';
           }
           
       }
   </script>
   <body>
     <div class="example" id="time">
-      <h2><a href="./">Go by Example</a>: Time</h2>
+      <h2><a href="./">Go podle Příkladů</a>: Time</h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Go offers extensive support for times and durations;
-here are some examples.</p>
+            <p>Go nabízí rozsáhlou podporu pro časy a doby trvání;
+zde jsou nějaké příklady.</p>
 
           </td>
           <td class="code empty leading">
@@ -42,7 +42,7 @@ here are some examples.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/u-7i_p8BHVt"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/ObXSiLvA6ai"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -55,10 +55,8 @@ here are some examples.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
-<span class="w">    </span><span class="s">&quot;time&quot;</span>
-<span class="p">)</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
 </pre></div>
 
           </td>
@@ -79,7 +77,7 @@ here are some examples.</p>
         
         <tr>
           <td class="docs">
-            <p>We&rsquo;ll start by getting the current time.</p>
+            <p>Začneme získáním aktuálního času.</p>
 
           </td>
           <td class="code leading">
@@ -93,9 +91,9 @@ here are some examples.</p>
         
         <tr>
           <td class="docs">
-            <p>You can build a <code>time</code> struct by providing the
-year, month, day, etc. Times are always associated
-with a <code>Location</code>, i.e. time zone.</p>
+            <p>Můžeš vytvořit strukturu <code>time</code> poskytnutím
+roku, měsíce, dne, atd. Časy jsou vždy spojeny s
+nějakou lokací (<code>Location</code>), např. časovou zónou.</p>
 
           </td>
           <td class="code leading">
@@ -110,8 +108,8 @@ with a <code>Location</code>, i.e. time zone.</p>
         
         <tr>
           <td class="docs">
-            <p>You can extract the various components of the time
-value as expected.</p>
+            <p>Je možné získat různé komponenty z hodnoty time
+očekávaným způsobem.</p>
 
           </td>
           <td class="code leading">
@@ -131,7 +129,7 @@ value as expected.</p>
         
         <tr>
           <td class="docs">
-            <p>The Monday-Sunday <code>Weekday</code> is also available.</p>
+            <p>Také je dostupný den v týdnu Pondělí-Neděle (<code>weekday</code>).</p>
 
           </td>
           <td class="code leading">
@@ -144,9 +142,9 @@ value as expected.</p>
         
         <tr>
           <td class="docs">
-            <p>These methods compare two times, testing if the
-first occurs before, after, or at the same time
-as the second, respectively.</p>
+            <p>Tyto metody spolu porovnávají dva časy, testují jestli
+se první stal před, po a nebo ve stejný čas
+jako druhý.</p>
 
           </td>
           <td class="code leading">
@@ -161,8 +159,8 @@ as the second, respectively.</p>
         
         <tr>
           <td class="docs">
-            <p>The <code>Sub</code> methods returns a <code>Duration</code> representing
-the interval between two times.</p>
+            <p>Metody <code>Sub</code> vrací trvání (<code>Duration</code>) reprezentující
+interval mezi dvěma časy.</p>
 
           </td>
           <td class="code leading">
@@ -176,8 +174,7 @@ the interval between two times.</p>
         
         <tr>
           <td class="docs">
-            <p>We can compute the length of the duration in
-various units.</p>
+            <p>Můžeme vypočítat délku trvání v různých jednotkách.</p>
 
           </td>
           <td class="code leading">
@@ -193,9 +190,8 @@ various units.</p>
         
         <tr>
           <td class="docs">
-            <p>You can use <code>Add</code> to advance a time by a given
-duration, or with a <code>-</code> to move backwards by a
-duration.</p>
+            <p>Můžeš použít <code>Add</code> pro to posun času dopředu o danou dobu,
+nebo s <code>-</code> pro posun času o danou dobu zpět.</p>
 
           </td>
           <td class="code">
@@ -247,8 +243,8 @@ duration.</p>
         
         <tr>
           <td class="docs">
-            <p>Next we&rsquo;ll look at the related idea of time relative to
-the Unix epoch.</p>
+            <p>Dále se podíváme na příbuznou podobu času vztaženou k
+epoše v Unixu.</p>
 
           </td>
           <td class="code empty">
@@ -261,16 +257,16 @@ the Unix epoch.</p>
       
       
       <p class="next">
-        Next example: <a href="epoch">Epoch</a>.
+        Další příklad: <a href="epocha">Epocha</a>.
       </p>
       
       <p class="footer">
-        by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> | <a href="https://github.com/mmcgrana/gobyexample/blob/master/examples/time">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
       </p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A    p :\u003D fmt.Println\u000A');codeLines.push('    now :\u003D time.Now()\u000A    p(now)\u000A');codeLines.push('    then :\u003D time.Date(\u000A        2009, 11, 17, 20, 34, 58, 651387237, time.UTC)\u000A    p(then)\u000A');codeLines.push('    p(then.Year())\u000A    p(then.Month())\u000A    p(then.Day())\u000A    p(then.Hour())\u000A    p(then.Minute())\u000A    p(then.Second())\u000A    p(then.Nanosecond())\u000A    p(then.Location())\u000A');codeLines.push('    p(then.Weekday())\u000A');codeLines.push('    p(then.Before(now))\u000A    p(then.After(now))\u000A    p(then.Equal(now))\u000A');codeLines.push('    diff :\u003D now.Sub(then)\u000A    p(diff)\u000A');codeLines.push('    p(diff.Hours())\u000A    p(diff.Minutes())\u000A    p(diff.Seconds())\u000A    p(diff.Nanoseconds())\u000A');codeLines.push('    p(then.Add(diff))\u000A    p(then.Add(-diff))\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000A');codeLines.push('func main() {\u000A    p :\u003D fmt.Println\u000A');codeLines.push('    now :\u003D time.Now()\u000A    p(now)\u000A');codeLines.push('    then :\u003D time.Date(\u000A        2009, 11, 17, 20, 34, 58, 651387237, time.UTC)\u000A    p(then)\u000A');codeLines.push('    p(then.Year())\u000A    p(then.Month())\u000A    p(then.Day())\u000A    p(then.Hour())\u000A    p(then.Minute())\u000A    p(then.Second())\u000A    p(then.Nanosecond())\u000A    p(then.Location())\u000A');codeLines.push('    p(then.Weekday())\u000A');codeLines.push('    p(then.Before(now))\u000A    p(then.After(now))\u000A    p(then.Equal(now))\u000A');codeLines.push('    diff :\u003D now.Sub(then)\u000A    p(diff)\u000A');codeLines.push('    p(diff.Hours())\u000A    p(diff.Minutes())\u000A    p(diff.Seconds())\u000A    p(diff.Nanoseconds())\u000A');codeLines.push('    p(then.Add(diff))\u000A    p(then.Add(-diff))\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

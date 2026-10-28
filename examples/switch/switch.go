@@ -1,63 +1,60 @@
-// _Switch statements_ express conditionals across many
-// branches.
+// _Příkazy switch_ vyjadřují podmínky s mnoha větvemi.
 
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
+import "time"
 
 func main() {
 
-	// Here's a basic `switch`.
+	// Tady je základní `switch`.
 	i := 2
-	fmt.Print("Write ", i, " as ")
+	fmt.Print("Píšu ", i, " jako ")
 	switch i {
 	case 1:
-		fmt.Println("one")
+		fmt.Println("jedna")
 	case 2:
-		fmt.Println("two")
+		fmt.Println("dvě")
 	case 3:
-		fmt.Println("three")
+		fmt.Println("tři")
 	}
 
-	// You can use commas to separate multiple expressions
-	// in the same `case` statement. We use the optional
-	// `default` case in this example as well.
+	// Můžete použít čárku pro oddělení více výrazů ve
+	// stejném větvi `case`. V tomto příkladě používáme
+	// také volitelnou case větev `default`.
 	switch time.Now().Weekday() {
 	case time.Saturday, time.Sunday:
-		fmt.Println("It's the weekend")
+		fmt.Println("Je víkend")
 	default:
-		fmt.Println("It's a weekday")
+		fmt.Println("Je pracovní den")
 	}
 
-	// `switch` without an expression is an alternate way
-	// to express if/else logic. Here we also show how the
-	// `case` expressions can be non-constants.
+	// Příkaz `switch` bez výrazu je alternativní způsob
+	// jak vyjádřit logiku if/else. Také tady ukazujeme
+	// jak výrazy `case` mohou být ne-konstantní.
 	t := time.Now()
 	switch {
 	case t.Hour() < 12:
-		fmt.Println("It's before noon")
+		fmt.Println("Je před polednem")
 	default:
-		fmt.Println("It's after noon")
+		fmt.Println("Je po poledni")
 	}
 
-	// A type `switch` compares types instead of values.  You
-	// can use this to discover the type of an interface
-	// value.  In this example, the variable `t` will have the
-	// type corresponding to its clause.
+	// Typový příkaz `switch` porovnává typy místo hodnot.
+	// Můžete jej použit pro zjištění  typu hodnoty
+	// interface.  V tomto příkladu, proměnná `t` bude mít
+	// typ podle své odpovídající klauzule
 	whatAmI := func(i interface{}) {
 		switch t := i.(type) {
 		case bool:
-			fmt.Println("I'm a bool")
+			fmt.Println("Jsem boolean")
 		case int:
-			fmt.Println("I'm an int")
+			fmt.Println("Jsem int")
 		default:
-			fmt.Printf("Don't know type %T\n", t)
+			fmt.Printf("Neznám typ %T\n", t)
 		}
 	}
 	whatAmI(true)
 	whatAmI(1)
-	whatAmI("hey")
+	whatAmI("hej")
 }

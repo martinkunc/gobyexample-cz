@@ -2,34 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Go by Example: Range</title>
+    <title>Go podle Příkladů: Range</title>
     <link rel=stylesheet href="site.css">
   </head>
   <script>
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'maps';
+              window.location.href = 'mapy';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'functions';
+              window.location.href = 'funkce';
           }
           
       }
   </script>
   <body>
     <div class="example" id="range">
-      <h2><a href="./">Go by Example</a>: Range</h2>
+      <h2><a href="./">Go podle Příkladů</a>: Range</h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p><em>range</em> iterates over elements in a variety of data
-structures. Let&rsquo;s see how to use <code>range</code> with some
-of the data structures we&rsquo;ve already learned.</p>
+            <p><em>range</em> iteruje přes elementy v různých datových
+strukturách. Pojďmě se podívat jako použít <code>range</code>
+s některými datovými strukturami o kterých jsme se už
+dozvěděli.</p>
 
           </td>
           <td class="code empty leading">
@@ -43,7 +44,7 @@ of the data structures we&rsquo;ve already learned.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/JTY1VAUjfBw"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/WuxEDZ6Eym-"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -76,8 +77,8 @@ of the data structures we&rsquo;ve already learned.</p>
         
         <tr>
           <td class="docs">
-            <p>Here we use <code>range</code> to sum the numbers in a slice.
-Arrays work like this too.</p>
+            <p>Tady používáme <code>range</code> pro součet čísel ve výřezu.
+Jde to použít stejně i u polí.</p>
 
           </td>
           <td class="code leading">
@@ -87,7 +88,7 @@ Arrays work like this too.</p>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">num</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">nums</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">num</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;sum:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">sum</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;součet:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">sum</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -95,11 +96,11 @@ Arrays work like this too.</p>
         
         <tr>
           <td class="docs">
-            <p><code>range</code> on arrays and slices provides both the
-index and value for each entry. Above we didn&rsquo;t
-need the index, so we ignored it with the
-blank identifier <code>_</code>. Sometimes we actually want
-the indexes though.</p>
+            <p><code>range</code> na polích a výřezech poskytuje oboje, index
+a hodnotu pro každý záznam. Výše jsme index
+nepotřebovali, tak jsme ho ignorovali s použitím
+zahazovacího identifikátoru <code>_</code>. Přesto se někdy
+index může hodit.</p>
 
           </td>
           <td class="code leading">
@@ -116,12 +117,12 @@ the indexes though.</p>
         
         <tr>
           <td class="docs">
-            <p><code>range</code> on map iterates over key/value pairs.</p>
+            <p><code>range</code> v mapách iteruje přes dvojice klíč/hodnota.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">kvs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;a&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;apple&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">}</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">kvs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;a&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ananas&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;banán&quot;</span><span class="p">}</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">kvs</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s -&gt; %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
@@ -132,13 +133,13 @@ the indexes though.</p>
         
         <tr>
           <td class="docs">
-            <p><code>range</code> can also iterate over just the keys of a map.</p>
+            <p><code>range</code> může také iterovat jen přes klíče v mapě.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">k</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">kvs</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;key:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">k</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;klíč:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">k</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -147,9 +148,12 @@ the indexes though.</p>
         
         <tr>
           <td class="docs">
-            <p><code>range</code> on strings iterates over Unicode code
-points. The first value is the starting byte index
-of the <code>rune</code> and the second the <code>rune</code> itself.</p>
+            <p><code>range</code> na řetězcích iteruje přes Unicode kódové
+body. První hodnota je index počátečního byte
+<code>runy</code> a druhá je samotná <code>runa</code>.
+*Pozn: Unicode kódový bod je pozice v tabulce kódu,
+může reprezentovat např. znak. Runa je Go typ pro
+jeden codepoint reprezentovaný jako znak.</p>
 
           </td>
           <td class="code">
@@ -191,16 +195,16 @@ of the <code>rune</code> and the second the <code>rune</code> itself.</p>
       
       
       <p class="next">
-        Next example: <a href="functions">Functions</a>.
+        Další příklad: <a href="funkce">Funkce</a>.
       </p>
       
       <p class="footer">
-        by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> | <a href="https://github.com/mmcgrana/gobyexample/blob/master/examples/range">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
       </p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    nums :\u003D []int{2, 3, 4}\u000A    sum :\u003D 0\u000A    for _, num :\u003D range nums {\u000A        sum +\u003D num\u000A    }\u000A    fmt.Println(\"sum:\", sum)\u000A');codeLines.push('    for i, num :\u003D range nums {\u000A        if num \u003D\u003D 3 {\u000A            fmt.Println(\"index:\", i)\u000A        }\u000A    }\u000A');codeLines.push('    kvs :\u003D map[string]string{\"a\": \"apple\", \"b\": \"banana\"}\u000A    for k, v :\u003D range kvs {\u000A        fmt.Printf(\"%s -\u003E %s\\n\", k, v)\u000A    }\u000A');codeLines.push('    for k :\u003D range kvs {\u000A        fmt.Println(\"key:\", k)\u000A    }\u000A');codeLines.push('    for i, c :\u003D range \"go\" {\u000A        fmt.Println(i, c)\u000A    }\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    nums :\u003D []int{2, 3, 4}\u000A    sum :\u003D 0\u000A    for _, num :\u003D range nums {\u000A        sum +\u003D num\u000A    }\u000A    fmt.Println(\"součet:\", sum)\u000A');codeLines.push('    for i, num :\u003D range nums {\u000A        if num \u003D\u003D 3 {\u000A            fmt.Println(\"index:\", i)\u000A        }\u000A    }\u000A');codeLines.push('    kvs :\u003D map[string]string{\"a\": \"ananas\", \"b\": \"banán\"}\u000A    for k, v :\u003D range kvs {\u000A        fmt.Printf(\"%s -\u003E %s\\n\", k, v)\u000A    }\u000A');codeLines.push('    for k :\u003D range kvs {\u000A        fmt.Println(\"klíč:\", k)\u000A    }\u000A');codeLines.push('    for i, c :\u003D range \"go\" {\u000A        fmt.Println(i, c)\u000A    }\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

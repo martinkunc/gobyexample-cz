@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Panika (panic)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'trideni-s-funkcemi';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'odlozene-vykonani-defer';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="panika-panic">
+      <h2><a href="./">Go podle Příkladů</a>: Panika (panic)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Význam klíčového slova <code>panic</code> je že se stalo něco neočekávaně
+špatného. Většinou ho používáme pro rychlé selhání během chyb
+které by se během normálního běhu neměly stát a nebo které
+nejsme připraveni elegantně ošetřit.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/bKfF5gj3Pxv"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Na této stránce použijeme panic pro kontrolu nečekaných
+chyb. Tohle je jediný program na stránce, který je
+navržen pro selhání na paniku.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nb">panic</span><span class="p">(</span><span class="s">&quot;problém&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Běžné použití paniky je k přerušení, pokud funkce vrátí chybovou
+hodnotu kterou nevíme jak (nebo nechceme) ošetřit.
+Zde je příklad vyvolání <code>panic</code>
+když dostaneme neočekávanou chybu během vytváření nového
+souboru.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;/tmp/file&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Spuštění tohoto programu způsobí že spadne na paniku,
+vypíše chybu a stacktrace gorutiny, a skončí s
+ne-nulovým stavem.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>panic.go
+<span class="go">panic: problém</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="go">goroutine 1 [running]:</span>
+<span class="go">main.main()</span>
+<span class="go">    /.../panic.go:12 +0x47</span>
+<span class="go">...</span>
+<span class="go">exit status 2</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Všimněte si, že zatímco v některých jazycích které
+používají výjimky pro ošetřování mnoha chyb, v Go je
+idiomatické použití návratových hodnot vracejících chybu
+všude kde je to možné.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="odlozene-vykonani-defer">Odložené vykonání defer</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"os\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    panic(\"problém\")\u000A');codeLines.push('    _, err :\u003D os.Create(\"/tmp/file\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

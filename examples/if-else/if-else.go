@@ -1,5 +1,5 @@
-// Branching with `if` and `else` in Go is
-// straight-forward.
+// Větvení s příkazy `if` (jestliže) a `else` (jinak) je
+// v Go přímočaré
 
 package main
 
@@ -7,29 +7,29 @@ import "fmt"
 
 func main() {
 
-	// Here's a basic example.
+	// Tady je základní příklad
 	if 7%2 == 0 {
-		fmt.Println("7 is even")
+		fmt.Println("7 je sudá")
 	} else {
-		fmt.Println("7 is odd")
+		fmt.Println("7 je lichá")
 	}
 
-	// You can have an `if` statement without an else.
+	// Můžeme napsat `if` bez `else`
 	if 8%4 == 0 {
-		fmt.Println("8 is divisible by 4")
+		fmt.Println("8 je dělitelná 4")
 	}
 
-	// A statement can precede conditionals; any variables
-	// declared in this statement are available in all
-	// branches.
+	// Podmínky může předcházet příkaz; proměnné
+	// deklarované v tomto příkazu jsou dostupné ve všech
+	// větvích
 	if num := 9; num < 0 {
-		fmt.Println(num, "is negative")
+		fmt.Println(num, "je záporná")
 	} else if num < 10 {
-		fmt.Println(num, "has 1 digit")
+		fmt.Println(num, "obsahuje 1 číslici")
 	} else {
-		fmt.Println(num, "has multiple digits")
+		fmt.Println(num, "obsahuje víc číslic")
 	}
 }
 
-// Note that you don't need parentheses around conditions
-// in Go, but that the braces are required.
+// Povšimněte si, že v Go nejsou okolo podmínky nutné
+// závorky, naproti tomu složené závorky jsou povinné.

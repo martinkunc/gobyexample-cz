@@ -2,34 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Go by Example: JSON</title>
+    <title>Go podle Příkladů: JSON</title>
     <link rel=stylesheet href="site.css">
   </head>
   <script>
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'regular-expressions';
+              window.location.href = 'regularni-vyrazy';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'xml';
+              window.location.href = 'time';
           }
           
       }
   </script>
   <body>
     <div class="example" id="json">
-      <h2><a href="./">Go by Example</a>: JSON</h2>
+      <h2><a href="./">Go podle Příkladů</a>: JSON</h2>
       
       <table>
         
         <tr>
           <td class="docs">
-            <p>Go offers built-in support for JSON encoding and
-decoding, including to and from built-in and custom
-data types.</p>
+            <p>Go nabízí zabudovanou podporu pro JSON kódování
+a dekódování, včetně do a ze zabudovaných i
+uživatelských datových tyů.</p>
 
           </td>
           <td class="code empty leading">
@@ -43,7 +43,7 @@ data types.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/ROikmz5tRhZ"><img title="Run code" src="play.png" class="run" /></a><img title="Copy code" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/-i45GguCIU3"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -56,11 +56,9 @@ data types.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;encoding/json&quot;</span>
-<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
-<span class="w">    </span><span class="s">&quot;os&quot;</span>
-<span class="p">)</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;encoding/json&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
 </pre></div>
 
           </td>
@@ -68,8 +66,8 @@ data types.</p>
         
         <tr>
           <td class="docs">
-            <p>We&rsquo;ll use these two structs to demonstrate encoding and
-decoding of custom types below.</p>
+            <p>Tyto dvě struktury použijeme k demonstrování kódování a
+dekódování uživatelských datových typů níže.</p>
 
           </td>
           <td class="code leading">
@@ -78,20 +76,7 @@ decoding of custom types below.</p>
 <span class="w">    </span><span class="nx">Page</span><span class="w">   </span><span class="kt">int</span>
 <span class="w">    </span><span class="nx">Fruits</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
 <span class="p">}</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Only exported fields will be encoded/decoded in JSON.
-Fields must start with capital letters to be exported.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">response2</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">response2</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Page</span><span class="w">   </span><span class="kt">int</span><span class="w">      </span><span class="s">`json:&quot;page&quot;`</span>
 <span class="w">    </span><span class="nx">Fruits</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;fruits&quot;`</span>
 <span class="p">}</span>
@@ -114,9 +99,9 @@ Fields must start with capital letters to be exported.</p>
         
         <tr>
           <td class="docs">
-            <p>First we&rsquo;ll look at encoding basic data types to
-JSON strings. Here are some examples for atomic
-values.</p>
+            <p>Nejprve se podíváme na kódování základních datových typů
+do řetězců JSON. Zde jsou nějaké příklady pro atomické
+hodnoty.</p>
 
           </td>
           <td class="code leading">
@@ -169,8 +154,8 @@ values.</p>
         
         <tr>
           <td class="docs">
-            <p>And here are some for slices and maps, which encode
-to JSON arrays and objects as you&rsquo;d expect.</p>
+            <p>A zde jsou nějaké příklady pro výřezy a mapy, které se
+kódují do JSON polí a objektů, jak byste asi čekali.</p>
 
           </td>
           <td class="code leading">
@@ -199,10 +184,10 @@ to JSON arrays and objects as you&rsquo;d expect.</p>
         
         <tr>
           <td class="docs">
-            <p>The JSON package can automatically encode your
-custom data types. It will only include exported
-fields in the encoded output and will by default
-use those names as the JSON keys.</p>
+            <p>Balíček JSON umí automaticky kódovat i vaše
+uživatelské datové typy. Do kódovaného výstupu
+se zahrnou jen exportované prvky a ve výchozím
+stavu se použijí jejich názvy jako JSON klíče.</p>
 
           </td>
           <td class="code leading">
@@ -219,10 +204,10 @@ use those names as the JSON keys.</p>
         
         <tr>
           <td class="docs">
-            <p>You can use tags on struct field declarations
-to customize the encoded JSON key names. Check the
-definition of <code>response2</code> above to see an example
-of such tags.</p>
+            <p>Na deklaraci prvků struktur můžete použít značky (tagy)
+pro přizpůsobení názvů zakódovaných JSON klíčů. Podívejte
+se na definici struktury <code>response2</code> výše pro příklad
+takových značek.</p>
 
           </td>
           <td class="code leading">
@@ -239,9 +224,9 @@ of such tags.</p>
         
         <tr>
           <td class="docs">
-            <p>Now let&rsquo;s look at decoding JSON data into Go
-values. Here&rsquo;s an example for a generic data
-structure.</p>
+            <p>Teď se pojďme podívat na dekódování JSON dat do Go
+hodnot. Zde je příklad pro obecnou datovou
+strukturu.</p>
 
           </td>
           <td class="code leading">
@@ -254,10 +239,10 @@ structure.</p>
         
         <tr>
           <td class="docs">
-            <p>We need to provide a variable where the JSON
-package can put the decoded data. This
-<code>map[string]interface{}</code> will hold a map of strings
-to arbitrary data types.</p>
+            <p>Musíme poskytnout nějakou proměnnou kam bude
+balíček JSON vkládat dekódovaná data. Typ
+<code>map[string]interface{}</code> bude obsahovat mapu řetězců
+na libovolný datový typ.</p>
 
           </td>
           <td class="code leading">
@@ -270,8 +255,8 @@ to arbitrary data types.</p>
         
         <tr>
           <td class="docs">
-            <p>Here&rsquo;s the actual decoding, and a check for
-associated errors.</p>
+            <p>Tady je vlastní dekódování a kontrola s tím spojených
+chyb.</p>
 
           </td>
           <td class="code leading">
@@ -287,10 +272,10 @@ associated errors.</p>
         
         <tr>
           <td class="docs">
-            <p>In order to use the values in the decoded map,
-we&rsquo;ll need to convert them to their appropriate type.
-For example here we convert the value in <code>num</code> to
-the expected <code>float64</code> type.</p>
+            <p>Abychom mohli hodnoty v dekódované mapě použít,
+budeme je muset zkonvertovat do vhodného typu.
+Například zde konvertujeme hodnotu v <code>num</code> do
+očekávaného typu <code>float64</code>.</p>
 
           </td>
           <td class="code leading">
@@ -304,8 +289,8 @@ the expected <code>float64</code> type.</p>
         
         <tr>
           <td class="docs">
-            <p>Accessing nested data requires a series of
-conversions.</p>
+            <p>Přístup ke vnořeným datům vyžaduje sérii
+konverzí.</p>
 
           </td>
           <td class="code leading">
@@ -320,11 +305,10 @@ conversions.</p>
         
         <tr>
           <td class="docs">
-            <p>We can also decode JSON into custom data types.
-This has the advantages of adding additional
-type-safety to our programs and eliminating the
-need for type assertions when accessing the decoded
-data.</p>
+            <p>Také můžeme dekódovat JSON do uživatelských datových typů.
+Výhoda je větší typová bezpečnost v našich programech a
+odstranění potřeby typových vynucení při přístupu k dekódovaným
+datům.</p>
 
           </td>
           <td class="code leading">
@@ -341,11 +325,11 @@ data.</p>
         
         <tr>
           <td class="docs">
-            <p>In the examples above we always used bytes and
-strings as intermediates between the data and
-JSON representation on standard out. We can also
-stream JSON encodings directly to <code>os.Writer</code>s like
-<code>os.Stdout</code> or even HTTP response bodies.</p>
+            <p>V příkladech výše jsme vždy používali bajty a řetězce
+jako meziprodukty mezi daty a JSON reprezentací na
+standardním výstupu. Také můžeme streamovat JSON
+kódování přímo do <code>os.Writer</code>u. Například do
+<code>os.Stdout</code> a nebo dokonce do těla HTTP odpovědi.</p>
 
           </td>
           <td class="code">
@@ -391,10 +375,10 @@ stream JSON encodings directly to <code>os.Writer</code>s like
         
         <tr>
           <td class="docs">
-            <p>We&rsquo;ve covered the basic of JSON in Go here, but check
-out the <a href="http://blog.golang.org/2011/01/json-and-go.html">JSON and Go</a>
-blog post and <a href="http://golang.org/pkg/encoding/json/">JSON package docs</a>
-for more.</p>
+            <p>Probrali jsme zde základy JSONu v Go, ale pro
+více informací se můžete podívat na blog post
+<a href="http://blog.golang.org/2011/01/json-and-go.html">JSON and Go</a>
+a <a href="http://golang.org/pkg/encoding/json/">dokumentaci balíčku JSON</a>.</p>
 
           </td>
           <td class="code empty">
@@ -407,16 +391,16 @@ for more.</p>
       
       
       <p class="next">
-        Next example: <a href="xml">XML</a>.
+        Další příklad: <a href="time">Time</a>.
       </p>
       
       <p class="footer">
-        by <a href="https://markmcgranaghan.com">Mark McGranaghan</a> | <a href="https://github.com/mmcgrana/gobyexample/blob/master/examples/json">source</a> | <a href="https://github.com/mmcgrana/gobyexample#license">license</a>
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
       </p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"encoding/json\"\u000A    \"fmt\"\u000A    \"os\"\u000A)\u000A');codeLines.push('type response1 struct {\u000A    Page   int\u000A    Fruits []string\u000A}\u000A');codeLines.push('type response2 struct {\u000A    Page   int      `json:\"page\"`\u000A    Fruits []string `json:\"fruits\"`\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    bolB, _ :\u003D json.Marshal(true)\u000A    fmt.Println(string(bolB))\u000A');codeLines.push('    intB, _ :\u003D json.Marshal(1)\u000A    fmt.Println(string(intB))\u000A');codeLines.push('    fltB, _ :\u003D json.Marshal(2.34)\u000A    fmt.Println(string(fltB))\u000A');codeLines.push('    strB, _ :\u003D json.Marshal(\"gopher\")\u000A    fmt.Println(string(strB))\u000A');codeLines.push('    slcD :\u003D []string{\"apple\", \"peach\", \"pear\"}\u000A    slcB, _ :\u003D json.Marshal(slcD)\u000A    fmt.Println(string(slcB))\u000A');codeLines.push('    mapD :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    mapB, _ :\u003D json.Marshal(mapD)\u000A    fmt.Println(string(mapB))\u000A');codeLines.push('    res1D :\u003D \u0026response1{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res1B, _ :\u003D json.Marshal(res1D)\u000A    fmt.Println(string(res1B))\u000A');codeLines.push('    res2D :\u003D \u0026response2{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res2B, _ :\u003D json.Marshal(res2D)\u000A    fmt.Println(string(res2B))\u000A');codeLines.push('    byt :\u003D []byte(`{\"num\":6.13,\"strs\":[\"a\",\"b\"]}`)\u000A');codeLines.push('    var dat map[string]interface{}\u000A');codeLines.push('    if err :\u003D json.Unmarshal(byt, \u0026dat); err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(dat)\u000A');codeLines.push('    num :\u003D dat[\"num\"].(float64)\u000A    fmt.Println(num)\u000A');codeLines.push('    strs :\u003D dat[\"strs\"].([]interface{})\u000A    str1 :\u003D strs[0].(string)\u000A    fmt.Println(str1)\u000A');codeLines.push('    str :\u003D `{\"page\": 1, \"fruits\": [\"apple\", \"peach\"]}`\u000A    res :\u003D response2{}\u000A    json.Unmarshal([]byte(str), \u0026res)\u000A    fmt.Println(res)\u000A    fmt.Println(res.Fruits[0])\u000A');codeLines.push('    enc :\u003D json.NewEncoder(os.Stdout)\u000A    d :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    enc.Encode(d)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"encoding/json\"\u000Aimport \"fmt\"\u000Aimport \"os\"\u000A');codeLines.push('type response1 struct {\u000A    Page   int\u000A    Fruits []string\u000A}\u000Atype response2 struct {\u000A    Page   int      `json:\"page\"`\u000A    Fruits []string `json:\"fruits\"`\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    bolB, _ :\u003D json.Marshal(true)\u000A    fmt.Println(string(bolB))\u000A');codeLines.push('    intB, _ :\u003D json.Marshal(1)\u000A    fmt.Println(string(intB))\u000A');codeLines.push('    fltB, _ :\u003D json.Marshal(2.34)\u000A    fmt.Println(string(fltB))\u000A');codeLines.push('    strB, _ :\u003D json.Marshal(\"gopher\")\u000A    fmt.Println(string(strB))\u000A');codeLines.push('    slcD :\u003D []string{\"apple\", \"peach\", \"pear\"}\u000A    slcB, _ :\u003D json.Marshal(slcD)\u000A    fmt.Println(string(slcB))\u000A');codeLines.push('    mapD :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    mapB, _ :\u003D json.Marshal(mapD)\u000A    fmt.Println(string(mapB))\u000A');codeLines.push('    res1D :\u003D \u0026response1{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res1B, _ :\u003D json.Marshal(res1D)\u000A    fmt.Println(string(res1B))\u000A');codeLines.push('    res2D :\u003D \u0026response2{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res2B, _ :\u003D json.Marshal(res2D)\u000A    fmt.Println(string(res2B))\u000A');codeLines.push('    byt :\u003D []byte(`{\"num\":6.13,\"strs\":[\"a\",\"b\"]}`)\u000A');codeLines.push('    var dat map[string]interface{}\u000A');codeLines.push('    if err :\u003D json.Unmarshal(byt, \u0026dat); err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(dat)\u000A');codeLines.push('    num :\u003D dat[\"num\"].(float64)\u000A    fmt.Println(num)\u000A');codeLines.push('    strs :\u003D dat[\"strs\"].([]interface{})\u000A    str1 :\u003D strs[0].(string)\u000A    fmt.Println(str1)\u000A');codeLines.push('    str :\u003D `{\"page\": 1, \"fruits\": [\"apple\", \"peach\"]}`\u000A    res :\u003D response2{}\u000A    json.Unmarshal([]byte(str), \u0026res)\u000A    fmt.Println(res)\u000A    fmt.Println(res.Fruits[0])\u000A');codeLines.push('    enc :\u003D json.NewEncoder(os.Stdout)\u000A    d :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    enc.Encode(d)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

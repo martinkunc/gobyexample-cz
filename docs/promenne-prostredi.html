@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Proměnné prostředí</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'podprikazy-prikazove-radky';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'http-klienti';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="promenne-prostredi">
+      <h2><a href="./">Go podle Příkladů</a>: Proměnné prostředí</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><a href="http://en.wikipedia.org/wiki/Environment_variable">Proměnné prostředí</a>
+jsou univerzální mechanismus pro <a href="http://www.12factor.net/config">předávání informací o konfiguraci
+Unixovým programům</a>.
+Pojďme se podívat jak nastavit, získat a vypsat proměnné prostředí.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/7n9V-SxrGqz"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;strings&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro nastavení dvojice klíč/hodnota, použijte <code>os.Setenv</code>. Pro
+získání hodnoty pro klíč, použijte <code>os.Getenv</code>. Ta vrátí
+prázdný řetězec pokud nebude klíč v prostředí existovat.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">os</span><span class="p">.</span><span class="nx">Setenv</span><span class="p">(</span><span class="s">&quot;FOO&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;FOO:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;FOO&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;BAR:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;BAR&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Použijte <code>os.Environ</code> pro vypsání všech dvojic key/value v
+prostředí. Toto vrátí výřez řetězců ve formě <code>KLÍČ=hodnota</code>.
+Můžeš na ně použít <code>strings.Split</code> pro získání
+klíče a hodnoty. Tady vypíšeme všechny klíče.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Environ</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">pair</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;=&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Spuštění tohoto programu ukazuje že jsme načetli
+hodnotu pro <code>FOO</code> kterou jsme nastavili v programu, ale
+že <code>BAR</code> je prázdné.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>environment-variables.go
+<span class="go">FOO: 1</span>
+<span class="go">BAR: </span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Seznam klíčů v prostředí bude záležet na
+konkrétním stroji.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="go">TERM_PROGRAM</span>
+<span class="go">PATH</span>
+<span class="go">SHELL</span>
+<span class="go">...</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Když nejdřív nastavíme v prostředí <code>BAR</code>, spuštění
+programu poté hodnotu načte.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span><span class="nv">BAR</span><span class="o">=</span><span class="m">2</span><span class="w"> </span>go<span class="w"> </span>run<span class="w"> </span>environment-variables.go
+<span class="go">FOO: 1</span>
+<span class="go">BAR: 2</span>
+<span class="go">...</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="http-klienti">HTTP Klienti</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"os\"\u000Aimport \"strings\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    os.Setenv(\"FOO\", \"1\")\u000A    fmt.Println(\"FOO:\", os.Getenv(\"FOO\"))\u000A    fmt.Println(\"BAR:\", os.Getenv(\"BAR\"))\u000A');codeLines.push('    fmt.Println()\u000A    for _, e :\u003D range os.Environ() {\u000A        pair :\u003D strings.Split(e, \"\u003D\")\u000A        fmt.Println(pair[0])\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

@@ -1,10 +1,10 @@
-# We receive the values `"one"` and then `"two"` as
-# expected.
+# Přijmeme hodnoty `"jedna"` a pak `"dvě"` jak jsme
+# očekávali.
 $ time go run select.go 
-received one
-received two
+přijato jedna
+přijato dvě
 
-# Note that the total execution time is only ~2 seconds
-# since both the 1 and 2 second `Sleeps` execute
-# concurrently.
+# Všimněte si, že celkový čas běhu je jenom ~2 sekundy
+# protože obě 1 i 2 sekundové `Sleep` se provede
+# souběžně.
 real	0m2.245s

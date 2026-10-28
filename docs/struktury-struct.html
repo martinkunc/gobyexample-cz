@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Struktury (struct)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'ukazatele-pointers';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'metody';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="struktury-struct">
+      <h2><a href="./">Go podle Příkladů</a>: Struktury (struct)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Struktury</em> v Go jsou kolekcemi prvků s typem.
+Jsou užitečné pro vytváření skupin dat a utváření
+záznamů.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/VbmHYXJljEd"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tato struktura <code>osoba</code> má položky <code>jmeno</code> a <code>vek</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">osoba</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">vek</span><span class="w">   </span><span class="kt">int</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tento zápis vytvoří novou strukturu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">osoba</span><span class="p">{</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Během inicializace struktury je možné pojmenovat
+položky.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Alice&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Vynechané položky budou mít nulovou hodnotu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Fred&quot;</span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>S prefixem <code>&amp;</code> bude vrácený ukazatel na strukturu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Ann&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>K položkám struktur se přistupuje pomocí tečky.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Sean&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">jmeno</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Také je možné používat tečku na ukazatel na
+strukturu - ukazatelé jsou automaticky
+dereferencovány.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">sp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">s</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Struktury je možné měnit.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">51</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>structs.go
+<span class="go">{Bob 20}</span>
+<span class="go">{Alice 30}</span>
+<span class="go">{Fred 0}</span>
+<span class="go">&amp;{Ann 40}</span>
+<span class="go">Sean</span>
+<span class="go">50</span>
+<span class="go">51</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="metody">Metody</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('type osoba struct {\u000A    jmeno string\u000A    vek   int\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    fmt.Println(osoba{\"Bob\", 20})\u000A');codeLines.push('    fmt.Println(osoba{jmeno: \"Alice\", vek: 30})\u000A');codeLines.push('    fmt.Println(osoba{jmeno: \"Fred\"})\u000A');codeLines.push('    fmt.Println(\u0026osoba{jmeno: \"Ann\", vek: 40})\u000A');codeLines.push('    s :\u003D osoba{jmeno: \"Sean\", vek: 50}\u000A    fmt.Println(s.jmeno)\u000A');codeLines.push('    sp :\u003D \u0026s\u000A    fmt.Println(sp.vek)\u000A');codeLines.push('    sp.vek \u003D 51\u000A    fmt.Println(sp.vek)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Kanály</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'gorutiny';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'kanaly-s-vyrovnavaci-pameti';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="kanaly">
+      <h2><a href="./">Go podle Příkladů</a>: Kanály</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Kanály</em> jsou potrubí které propojuje souběžné
+gorutiny. Do kanálů můžete posílat hodnoty z jedné
+gorutiny a přijímat tyto hodnoty v jiné gorutině.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/8CTv7LMNEV7"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nový kanál vytvoříte s pomocí
+<code>make(chan typ-hodnot)</code>. Kanály mají typy podle
+hodnot, jaké doručují.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">messages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Hodnotu do kanálu <em>pošlete</em> pomocí zápisu
+<code>kanál &lt;-</code>. Zde posíláme z nové gorutiny hodnotu
+<code>&quot;ping&quot;</code>do kanálu <code>messages</code> který jsme vytvořili
+výše.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">messages</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;ping&quot;</span><span class="w"> </span><span class="p">}()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Zápis <code>&lt;-kanál</code> <em>přijímá</em> hodnotu z kanálu.
+Zde dostaneme zprávu <code>&quot;ping&quot;</code> kterou jsme poslali
+výše a vypíšeme ji.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">msg</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">messages</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Když náš program zapneme zpráva <code>&quot;ping&quot;</code> je úspěšně
+předaná z jedné gorutiny do jiné pomocí našeho kanálu.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>channels.go<span class="w"> </span>
+<span class="go">ping</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Běžné poslání a přijímání blokuje, dokud oba
+odesílající i příjemce nejsou připravení. Toto chování
+způsobila že jsme čekali na konci našeho programu na
+zprávu<code>&quot;ping&quot;</code> bez nutnosti použít nějakou jinou
+synchronizaci.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="kanaly-s-vyrovnavaci-pameti">Kanály s vyrovnávací pamětí</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    messages :\u003D make(chan string)\u000A');codeLines.push('    go func() { messages \u003C- \"ping\" }()\u000A');codeLines.push('    msg :\u003D \u003C-messages\u000A    fmt.Println(msg)\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>
