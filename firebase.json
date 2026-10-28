@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "gobyexample-cz",
-    "public": "build/firebase",
+    "public": "docs",
     "cleanUrls": true,
     "trailingSlash": false,
     "headers": [

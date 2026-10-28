@@ -15,8 +15,9 @@ tools/format
 verbose && echo "Measuring line lengths..."
 tools/measure
 
-# SITE_DIR is the final location where we want generated content to be
-SITE_DIR="public"
+# SITE_DIR is the final location where we want generated content to be.
+# GitHub Pages serves it from docs/ on master.
+SITE_DIR="docs"
 
 # GENERATE_DIR is where the content will be generated initially
 GENERATE_DIR="$(mktemp -d)"

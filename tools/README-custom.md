@@ -29,6 +29,12 @@ Deploy (after `tools/build` has regenerated `docs/`):
 
     tools/deploy
 
-`tools/deploy` stages `docs/` into `build/firebase`, adding `.html` to the
-extension-less example pages; `cleanUrls` in `firebase.json` keeps serving them
-at their original URLs (e.g. `/arrays`).
+`tools/deploy` deploys `docs/` as-is; `cleanUrls` in `firebase.json` serves the
+generated `*.html` example pages at their extension-less URLs (e.g. `/arrays`).
+
+# GitHub Pages
+The site is also published at https://martinkunc.github.io/gobyexample-cz/
+from the `/docs` folder of `master`. Example pages are generated as `*.html`
+(GitHub Pages picks the content type from the extension) and linked without
+it; Pages resolves `/arrays` to `arrays.html`. To publish, run `tools/build`
+and merge the regenerated `docs/` to `master`.

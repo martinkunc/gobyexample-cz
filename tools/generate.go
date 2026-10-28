@@ -88,7 +88,7 @@ func cachedPygmentize(lex string, src string) string {
 		return string(cacheBytes)
 	}
 
-	argn := append([]string{"-m", "pygments", "-a", "\"main\""}, arg...)
+	argn := append([]string{"-m", "pygments"}, arg...)
 	fmt.Printf("running: bin %s %v %s, arg ", pythonBin, argn, src)
 	renderBytes := pipe(pythonBin, argn, src)
 	// Newer versions of Pygments add silly empty spans.
@@ -311,7 +311,9 @@ func renderExamples(examples []*Example) {
 	_, err := exampleTmpl.Parse(mustReadFile("templates/example.tmpl"))
 	check(err)
 	for _, example := range examples {
-		exampleF, err := os.Create(siteDir + "/" + example.ID)
+		// Written as .html so static hosts (GitHub Pages) serve it as HTML;
+		// links stay extension-less and resolve to the .html file.
+		exampleF, err := os.Create(siteDir + "/" + example.ID + ".html")
 		check(err)
 		exampleTmpl.Execute(exampleF, example)
 	}
