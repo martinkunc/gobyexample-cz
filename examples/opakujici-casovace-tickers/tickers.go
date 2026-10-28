@@ -1,4 +1,4 @@
-// [Časovače](casovace=timers) jsou pro situace kdy chcete
+// [Časovače](casovace-timers) jsou pro situace kdy chcete
 // něco udělat jednou v budoucnu - opakující časovače
 // _tickers_ jsou pro situace kdy chcete něco provádět
 // opakovaně v pravidelném interalu.
