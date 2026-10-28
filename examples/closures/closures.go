@@ -1,5 +1,5 @@
-// Go podporuje [_anonymni funkce_](http://en.wikipedia.org/wiki/Anonymous_function),
-// které mohou výtvářet <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)"><em>uzávěry</em></a>.
+// Go podporuje [_anonymni funkce_](https://en.wikipedia.org/wiki/Anonymous_function),
+// které mohou výtvářet <a href="https://en.wikipedia.org/wiki/Closure_(computer_science)"><em>uzávěry</em></a>.
 // Anonymní funkce jsou užitečné když chcete
 // definovat funkci uvnitř funkce bez nutnosti ji
 // pojmenovávat.

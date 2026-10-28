@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'sha1-hashes';
+              window.location.href = 'sha256-hashes';
           }
           
       }
@@ -42,7 +42,7 @@ Tady je jak parsovat URL v Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/rkDy6wxeKeS"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/b78iKvHkIrt"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -55,9 +55,11 @@ Tady je jak parsovat URL v Go.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;net&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;net/url&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/url&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -223,7 +225,7 @@ všechny různé části které jsme extrahovali.</p>
       
       
       <p class="next">
-        Další příklad: <a href="sha1-hashes">SHA1 Hashe</a>.
+        Další příklad: <a href="sha256-hashes">SHA256 Hashe</a>.
       </p>
       
       <p class="footer">
@@ -232,7 +234,7 @@ všechny různé části které jsme extrahovali.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"net\"\u000Aimport \"net/url\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    s :\u003D \"postgres://user:pass@host.com:5432/path?k\u003Dv#f\"\u000A');codeLines.push('    u, err :\u003D url.Parse(s)\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A');codeLines.push('    fmt.Println(u.Scheme)\u000A');codeLines.push('    fmt.Println(u.User)\u000A    fmt.Println(u.User.Username())\u000A    p, _ :\u003D u.User.Password()\u000A    fmt.Println(p)\u000A');codeLines.push('    fmt.Println(u.Host)\u000A    host, port, _ :\u003D net.SplitHostPort(u.Host)\u000A    fmt.Println(host)\u000A    fmt.Println(port)\u000A');codeLines.push('    fmt.Println(u.Path)\u000A    fmt.Println(u.Fragment)\u000A');codeLines.push('    fmt.Println(u.RawQuery)\u000A    m, _ :\u003D url.ParseQuery(u.RawQuery)\u000A    fmt.Println(m)\u000A    fmt.Println(m[\"k\"][0])\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"net\"\u000A    \"net/url\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    s :\u003D \"postgres://user:pass@host.com:5432/path?k\u003Dv#f\"\u000A');codeLines.push('    u, err :\u003D url.Parse(s)\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A');codeLines.push('    fmt.Println(u.Scheme)\u000A');codeLines.push('    fmt.Println(u.User)\u000A    fmt.Println(u.User.Username())\u000A    p, _ :\u003D u.User.Password()\u000A    fmt.Println(p)\u000A');codeLines.push('    fmt.Println(u.Host)\u000A    host, port, _ :\u003D net.SplitHostPort(u.Host)\u000A    fmt.Println(host)\u000A    fmt.Println(port)\u000A');codeLines.push('    fmt.Println(u.Path)\u000A    fmt.Println(u.Fragment)\u000A');codeLines.push('    fmt.Println(u.RawQuery)\u000A    m, _ :\u003D url.ParseQuery(u.RawQuery)\u000A    fmt.Println(m)\u000A    fmt.Println(m[\"k\"][0])\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

@@ -9,7 +9,7 @@
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'json';
+              window.location.href = 'xml';
           }
           
           
@@ -42,7 +42,7 @@ zde jsou nějaké příklady.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/ObXSiLvA6ai"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/_MZSQ2O51GQ"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -55,8 +55,10 @@ zde jsou nějaké příklady.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -266,7 +268,7 @@ epoše v Unixu.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000A');codeLines.push('func main() {\u000A    p :\u003D fmt.Println\u000A');codeLines.push('    now :\u003D time.Now()\u000A    p(now)\u000A');codeLines.push('    then :\u003D time.Date(\u000A        2009, 11, 17, 20, 34, 58, 651387237, time.UTC)\u000A    p(then)\u000A');codeLines.push('    p(then.Year())\u000A    p(then.Month())\u000A    p(then.Day())\u000A    p(then.Hour())\u000A    p(then.Minute())\u000A    p(then.Second())\u000A    p(then.Nanosecond())\u000A    p(then.Location())\u000A');codeLines.push('    p(then.Weekday())\u000A');codeLines.push('    p(then.Before(now))\u000A    p(then.After(now))\u000A    p(then.Equal(now))\u000A');codeLines.push('    diff :\u003D now.Sub(then)\u000A    p(diff)\u000A');codeLines.push('    p(diff.Hours())\u000A    p(diff.Minutes())\u000A    p(diff.Seconds())\u000A    p(diff.Nanoseconds())\u000A');codeLines.push('    p(then.Add(diff))\u000A    p(then.Add(-diff))\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A    p :\u003D fmt.Println\u000A');codeLines.push('    now :\u003D time.Now()\u000A    p(now)\u000A');codeLines.push('    then :\u003D time.Date(\u000A        2009, 11, 17, 20, 34, 58, 651387237, time.UTC)\u000A    p(then)\u000A');codeLines.push('    p(then.Year())\u000A    p(then.Month())\u000A    p(then.Day())\u000A    p(then.Hour())\u000A    p(then.Minute())\u000A    p(then.Second())\u000A    p(then.Nanosecond())\u000A    p(then.Location())\u000A');codeLines.push('    p(then.Weekday())\u000A');codeLines.push('    p(then.Before(now))\u000A    p(then.After(now))\u000A    p(then.Equal(now))\u000A');codeLines.push('    diff :\u003D now.Sub(then)\u000A    p(diff)\u000A');codeLines.push('    p(diff.Hours())\u000A    p(diff.Minutes())\u000A    p(diff.Seconds())\u000A    p(diff.Nanoseconds())\u000A');codeLines.push('    p(then.Add(diff))\u000A    p(then.Add(-diff))\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

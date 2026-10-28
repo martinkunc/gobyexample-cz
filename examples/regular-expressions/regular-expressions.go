@@ -1,11 +1,13 @@
-// Go nabízí zabudovanou podporu pro [regulární výrazy](http://en.wikipedia.org/wiki/Regular_expression).
+// Go nabízí zabudovanou podporu pro [regulární výrazy](https://en.wikipedia.org/wiki/Regular_expression).
 // Tady je několik příkladů běžných úkolů které se vztahují k regulárním výrazům v Go
 
 package main
 
-import "bytes"
-import "fmt"
-import "regexp"
+import (
+	"bytes"
+	"fmt"
+	"regexp"
+)
 
 func main() {
 
@@ -27,7 +29,7 @@ func main() {
 
 	// Tohle také najde první odpovídající shodu, ale vrátí
 	// počáteční a koncové indexy pro shodu místo shodného textu.
-	fmt.Println(r.FindStringIndex("peach punch"))
+	fmt.Println("idx:", r.FindStringIndex("peach punch"))
 
 	// Varianty `Submatch` poskytují dvě informace,
 	// jak shodu celého vzorku tak i skupiny
@@ -40,13 +42,13 @@ func main() {
 	fmt.Println(r.FindStringSubmatchIndex("peach punch"))
 
 	// Varianty `All` těchto funkcí platí pro všechny
-	// schody ve vstupu, ne jenom k první. Například
+	// shody ve vstupu, ne jenom k první. Například
 	// pro nalezení všech shod pro regexp.
 	fmt.Println(r.FindAllString("peach punch pinch", -1))
 
 	// Varianty s `All` jsou také dostupné i pro další
 	// funkce které jsme viděli výše.
-	fmt.Println(r.FindAllStringSubmatchIndex(
+	fmt.Println("all:", r.FindAllStringSubmatchIndex(
 		"peach punch pinch", -1))
 
 	// Předáním kladného čísla v druhém argumentu u těchto
@@ -59,12 +61,13 @@ func main() {
 	// funkce `String`.
 	fmt.Println(r.Match([]byte("peach")))
 
-	// Když vytváříme konstanty s regulárními výrazy
-	// můžeme použít kromě `Compile` i `MustCompile`.
-	// Čisté `Compile` nebude fungovat u konstant
-	// protože má 2 návratové hodnoty.
+	// Když vytváříme globální proměnné s regulárními
+	// výrazy, můžeme použít místo `Compile` variantu
+	// `MustCompile`. `MustCompile` místo vrácení chyby
+	// vyvolá paniku, díky čemuž je bezpečnější pro
+	// použití u globálních proměnných.
 	r = regexp.MustCompile("p([a-z]+)ch")
-	fmt.Println(r)
+	fmt.Println("regexp:", r)
 
 	// Balíček `regexp` také může být použitý k nahrazování
 	// podmnožin řetězců jinými hodnotami.

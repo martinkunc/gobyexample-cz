@@ -1,26 +1,30 @@
 // V Go je přirozené komunikovat chyby pomocí
 // explicitních, oddělených návratových hodnot. To je
-// v kontrastu k výjimkám používaných v jazycích jako Java
-// a Ruby a přetíženým samostatným hodnotám výsledku/chyby
-// někdy používané v C. Go přístup usnadňuje zjištění zda
-// funkce vrací chyby a jejich ošetření stejnými
-// jazykovými prostředky jako pro úkoly které se
-// netýkají chyb.
+// v kontrastu k výjimkám používaným v jazycích jako Java,
+// Python a Ruby a přetíženým samostatným hodnotám
+// výsledku/chyby někdy používaným v C. Go přístup
+// usnadňuje zjištění, zda funkce vrací chyby, a jejich
+// ošetření stejnými jazykovými prostředky jako pro úkoly,
+// které se netýkají chyb.
+//
+// Pro další podrobnosti se podívejte na dokumentaci
+// [balíčku errors](https://pkg.go.dev/errors)
+// a [tento blog post](https://go.dev/blog/go1.13-errors).
 
 package main
 
-import "errors"
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 // Podle konvence, chyby jsou poslední vrácenou hodnotou
 // a mají typ `error`, což je zabudovaný interface.
-func f1(arg int) (int, error) {
+func f(arg int) (int, error) {
 	if arg == 42 {
-
 		// `errors.New` vytváří základní hodnotu `error`
 		// se zadanou chybovou hláškou.
 		return -1, errors.New("nemohu pracovat se 42")
-
 	}
 
 	// Hodnota `nil` na pozici chyby naznačuje že nedošlo
@@ -28,59 +32,59 @@ func f1(arg int) (int, error) {
 	return arg + 3, nil
 }
 
-// Je možné použít vlastní typy jako `error`, když k nim
-// implementujeme metodu `Error()`. Zde je varianta
-// příkladu nahoře která používá vlastní typ pro
-// konkrétní určení chyby argumentu.
-type argError struct {
-	arg  int
-	prob string
-}
+// Sentinelová chyba (sentinel error) je předem
+// deklarovaná proměnná, která označuje konkrétní
+// chybový stav.
+var ErrDoselCaj = errors.New("čaj došel")
+var ErrProud = errors.New("nelze uvařit vodu")
 
-func (e *argError) Error() string {
-	return fmt.Sprintf("%d - %s", e.arg, e.prob)
-}
+func uvarCaj(arg int) error {
+	if arg == 2 {
+		return ErrDoselCaj
+	} else if arg == 4 {
 
-func f2(arg int) (int, error) {
-	if arg == 42 {
-
-		// V tomto případě používáme zápis `&argError` pro
-		// novou strukturu, a dodáváme ji hodnoty pro
-		// dva prvky struktury `arg` a `prob`.
-		return -1, &argError{arg,
-			"s tímto nemohu pracovat"}
+		// Chyby můžeme obalovat chybami vyšší úrovně
+		// a přidat tak kontext. Nejjednodušší způsob je
+		// sloveso `%w` ve `fmt.Errorf`. Obalené chyby
+		// vytvářejí logický řetězec (A obaluje B, které
+		// obaluje C, atd.), na který se lze dotazovat
+		// funkcemi jako `errors.Is` a `errors.AsType`.
+		return fmt.Errorf("vaření čaje: %w", ErrProud)
 	}
-	return arg + 3, nil
+	return nil
 }
 
 func main() {
+	for _, i := range []int{7, 42} {
 
-	// Tyto dva cykly testují každou z našich funkcí
-	// vracejících chyby.
-	// Zapamatujte si, že použití kontroly chyb uvnitř
-	// řádku je běžný idiom v Go.
-	for _, i := range []int{7, 42} {
-		if r, e := f1(i); e != nil {
-			fmt.Println("f1 selhala:", e)
+		// Použití kontroly chyb přímo na řádku s `if`
+		// je běžný idiom v Go.
+		if r, e := f(i); e != nil {
+			fmt.Println("f selhala:", e)
 		} else {
-			fmt.Println("f1 fungovala:", r)
-		}
-	}
-	for _, i := range []int{7, 42} {
-		if r, e := f2(i); e != nil {
-			fmt.Println("f2 selhala:", e)
-		} else {
-			fmt.Println("f2 fungovala:", r)
+			fmt.Println("f fungovala:", r)
 		}
 	}
 
-	// Pokud budete potřebovat v programu přistoupit k
-	// datům ve vlastní chybě, budete muset získat
-	// instanci vlastního typu chyby pomocí typového
-	// vynucení (type assertion).
-	_, e := f2(42)
-	if ae, ok := e.(*argError); ok {
-		fmt.Println(ae.arg)
-		fmt.Println(ae.prob)
+	for i := range 5 {
+		if err := uvarCaj(i); err != nil {
+
+			// `errors.Is` kontroluje, zda daná chyba (nebo
+			// jakákoli chyba v jejím řetězci) odpovídá
+			// konkrétní hodnotě chyby. To je užitečné
+			// hlavně u obalených nebo vnořených chyb, kde
+			// tak můžete v řetězci chyb rozpoznat konkrétní
+			// typy chyb nebo sentinelové chyby.
+			if errors.Is(err, ErrDoselCaj) {
+				fmt.Println("Měli bychom koupit nový čaj!")
+			} else if errors.Is(err, ErrProud) {
+				fmt.Println("Teď je tma.")
+			} else {
+				fmt.Printf("neznámá chyba: %s\n", err)
+			}
+			continue
+		}
+
+		fmt.Println("Čaj je hotový!")
 	}
 }

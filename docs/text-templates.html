@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Textové šablony</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'string-formatting';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'regular-expressions';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="text-templates">
+      <h2><a href="./">Go podle Příkladů</a>: Textové šablony</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go nabízí zabudovanou podporu pro vytváření dynamického
+obsahu nebo zobrazování přizpůsobeného výstupu
+uživateli pomocí balíčku <code>text/template</code>. Sesterský
+balíček <code>html/template</code> poskytuje stejné API, ale má
+navíc bezpečnostní funkce a měl by se používat pro
+generování HTML.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/55e_KC6SqKp"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;text/template&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Můžeme vytvořit novou šablonu a naparsovat její tělo
+z řetězce.
+Šablony jsou směsí statického textu a &ldquo;akcí&rdquo;
+uzavřených v <code>{{...}}</code>, které slouží k dynamickému
+vkládání obsahu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">template</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;t1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">t1</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">t1</span><span class="p">.</span><span class="nx">Parse</span><span class="p">(</span><span class="s">&quot;Hodnota je {{.}}\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Případně můžeme použít funkci <code>template.Must</code>, která
+vyvolá paniku, pokud <code>Parse</code> vrátí chybu. To se hodí
+hlavně pro šablony inicializované v globálním
+rozsahu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">template</span><span class="p">.</span><span class="nx">Must</span><span class="p">(</span><span class="nx">t1</span><span class="p">.</span><span class="nx">Parse</span><span class="p">(</span><span class="s">&quot;Hodnota: {{.}}\n&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>&ldquo;Vykonáním&rdquo; šablony vygenerujeme její text
+s konkrétními hodnotami pro její akce. Akce <code>{{.}}</code>
+je nahrazena hodnotou předanou jako parametr
+do <code>Execute</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t1</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;nějaký text&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">t1</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">t1</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;Go&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;Rust&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;C++&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;C#&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pomocná funkce, kterou použijeme níže.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">Create</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">template</span><span class="p">.</span><span class="nx">Template</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">template</span><span class="p">.</span><span class="nx">Must</span><span class="p">(</span><span class="nx">template</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">name</span><span class="p">).</span><span class="nx">Parse</span><span class="p">(</span><span class="nx">t</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pokud jsou data struktura, můžeme pro přístup k jejím
+položkám použít akci <code>{{.FieldName}}</code>. Položky by
+měly být exportované, aby byly při vykonávání
+šablony dostupné.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;t2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Jméno: {{.Name}}\n&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t2</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Name</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="p">}{</span><span class="s">&quot;Jan Novák&quot;</span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Totéž platí pro mapy; u map nejsou žádná omezení na
+velikost písmen v názvech klíčů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t2</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Mickey Mouse&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>if/else umožňuje v šablonách podmíněné vykonávání.
+Hodnota se považuje za nepravdivou, pokud je to
+výchozí hodnota typu, jako 0, prázdný řetězec,
+nil ukazatel, atd.
+Tento příklad ukazuje další vlastnost šablon:
+použití <code>-</code> v akcích pro oříznutí bílých znaků.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;t3&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;{{if . -}} ano {{else -}} ne {{end}}\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">t3</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;neprázdný&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">t3</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Bloky range nám umožňují procházet výřezy, pole, mapy
+nebo kanály. Uvnitř bloku range je <code>{{.}}</code> nastaveno
+na aktuální prvek iterace.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t4</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;t4&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;Range: {{range .}}{{.}} {{end}}\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">t4</span><span class="p">.</span><span class="nx">Execute</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span>
+<span class="w">        </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">            </span><span class="s">&quot;Go&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;Rust&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;C++&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;C#&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>text-templates.go
+<span class="go">Hodnota: nějaký text</span>
+<span class="go">Hodnota: 5</span>
+<span class="go">Hodnota: [Go Rust C++ C#]</span>
+<span class="go">Jméno: Jan Novák</span>
+<span class="go">Jméno: Mickey Mouse</span>
+<span class="go">ano </span>
+<span class="go">ne </span>
+<span class="go">Range: Go Rust C++ C# </span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="regular-expressions">Regulární výrazy</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"os\"\u000A    \"text/template\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    t1 :\u003D template.New(\"t1\")\u000A    t1, err :\u003D t1.Parse(\"Hodnota je {{.}}\\n\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A');codeLines.push('    t1 \u003D template.Must(t1.Parse(\"Hodnota: {{.}}\\n\"))\u000A');codeLines.push('    t1.Execute(os.Stdout, \"nějaký text\")\u000A    t1.Execute(os.Stdout, 5)\u000A    t1.Execute(os.Stdout, []string{\u000A        \"Go\",\u000A        \"Rust\",\u000A        \"C++\",\u000A        \"C#\",\u000A    })\u000A');codeLines.push('    Create :\u003D func(name, t string) *template.Template {\u000A        return template.Must(template.New(name).Parse(t))\u000A    }\u000A');codeLines.push('    t2 :\u003D Create(\"t2\", \"Jméno: {{.Name}}\\n\")\u000A');codeLines.push('    t2.Execute(os.Stdout, struct {\u000A        Name string\u000A    }{\"Jan Novák\"})\u000A');codeLines.push('    t2.Execute(os.Stdout, map[string]string{\u000A        \"Name\": \"Mickey Mouse\",\u000A    })\u000A');codeLines.push('    t3 :\u003D Create(\"t3\",\u000A        \"{{if . -}} ano {{else -}} ne {{end}}\\n\")\u000A    t3.Execute(os.Stdout, \"neprázdný\")\u000A    t3.Execute(os.Stdout, \"\")\u000A');codeLines.push('    t4 :\u003D Create(\"t4\",\u000A        \"Range: {{range .}}{{.}} {{end}}\\n\")\u000A    t4.Execute(os.Stdout,\u000A        []string{\u000A            \"Go\",\u000A            \"Rust\",\u000A            \"C++\",\u000A            \"C#\",\u000A        })\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

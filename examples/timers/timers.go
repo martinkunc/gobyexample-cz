@@ -7,8 +7,10 @@
 
 package main
 
-import "time"
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
@@ -39,4 +41,9 @@ func main() {
 	if stop2 {
 		fmt.Println("Timer 2 byl zastaven")
 	}
+
+	// Dáme časovači `timer2` dost času, aby se spustil,
+	// pokud by se spustit měl, abychom ukázali, že je
+	// opravdu zastavený.
+	time.Sleep(2 * time.Second)
 }

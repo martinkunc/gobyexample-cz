@@ -1,6 +1,11 @@
 # Spuštění tohoto programu způsobí že spadne na paniku,
 # vypíše chybu a stacktrace gorutiny, a skončí s
 # ne-nulovým stavem.
+
+# Když v `main` nastane první panika, program skončí, aniž
+# by se dostal ke zbytku kódu. Pokud chcete vidět, jak se
+# program pokusí vytvořit dočasný soubor, první paniku
+# zakomentujte.
 $ go run panic.go
 panic: problém
 

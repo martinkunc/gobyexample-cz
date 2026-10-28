@@ -47,4 +47,13 @@ func main() {
 	// [synchronizace](channel-synchronization)
 	// kterou jsme viděli dříve.
 	<-done
+
+	// Čtení ze zavřeného kanálu proběhne okamžitě a vrátí
+	// nulovou hodnotu typu, který kanál přenáší.
+	// Volitelná druhá návratová hodnota je `true`, pokud
+	// přijatá hodnota byla do kanálu doručena úspěšným
+	// odesláním, nebo `false`, pokud jde o nulovou hodnotu
+	// vrácenou proto, že je kanál zavřený a prázdný.
+	_, ok := <-jobs
+	fmt.Println("přijal další práce:", ok)
 }

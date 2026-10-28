@@ -27,7 +27,7 @@
         
         <tr>
           <td class="docs">
-            <p>Go balíček <code>sort</code> implementuje třídění pro zabudované
+            <p>Go balíček <code>slices</code> implementuje třídění pro zabudované
 a uživatelsky definované typy. Nejdřív se podíváme na
 třídění zabudovaných typů.</p>
 
@@ -43,7 +43,7 @@ třídění zabudovaných typů.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/MYd5STO-DES"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/Gysls5G-oeq"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -56,8 +56,10 @@ třídění zabudovaných typů.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;sort&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;slices&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -77,17 +79,16 @@ třídění zabudovaných typů.</p>
         
         <tr>
           <td class="docs">
-            <p>Mmetody balíčku sort jsou specifické pro zabudované typy;
-zde je příklad pro řetězce. Všimněte si že třídění je
-na místě (in-place), takže mění předaný výřez a nevrací
-nový.</p>
+            <p>Třídicí funkce jsou generické a fungují pro jakýkoli
+<em>uspořádaný</em> zabudovaný typ. Seznam uspořádaných
+typů najdete v <a href="https://pkg.go.dev/cmp#Ordered">cmp.Ordered</a>.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">strs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">sort</span><span class="p">.</span><span class="nx">Strings</span><span class="p">(</span><span class="nx">strs</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Retězce:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">strs</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">slices</span><span class="p">.</span><span class="nx">Sort</span><span class="p">(</span><span class="nx">strs</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Řetězce:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">strs</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -101,7 +102,7 @@ nový.</p>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">ints</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">sort</span><span class="p">.</span><span class="nx">Ints</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">slices</span><span class="p">.</span><span class="nx">Sort</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Inty:   &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ints</span><span class="p">)</span>
 </pre></div>
 
@@ -110,14 +111,14 @@ nový.</p>
         
         <tr>
           <td class="docs">
-            <p>Taky můžeme použít <code>sort</code> pro kontrolu jestli je výřez
-už v setříděném pořadí.</p>
+            <p>Balíček <code>slices</code> můžeme také použít pro kontrolu,
+jestli je výřez už v setříděném pořadí.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sort</span><span class="p">.</span><span class="nx">IntsAreSorted</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Setřízený: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slices</span><span class="p">.</span><span class="nx">IsSorted</span><span class="p">(</span><span class="nx">ints</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Setříděný: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -130,16 +131,14 @@ už v setříděném pořadí.</p>
         
         <tr>
           <td class="docs">
-            <p>Náš program po spuštění vypíše setřízené výřezy řetězců
-a celých čísel a jako výsledek testu <code>AreSorted</code> <code>true</code>.</p>
-
+            
           </td>
           <td class="code">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>sorting.go
-<span class="go">Retězce: [a b c]</span>
+<span class="go">Řetězce: [a b c]</span>
 <span class="go">Inty:    [2 4 7]</span>
-<span class="go">Setřízený:  true</span>
+<span class="go">Setříděný:  true</span>
 </pre></div>
 
           </td>
@@ -158,7 +157,7 @@ a celých čísel a jako výsledek testu <code>AreSorted</code> <code>true</code
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"sort\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    strs :\u003D []string{\"c\", \"a\", \"b\"}\u000A    sort.Strings(strs)\u000A    fmt.Println(\"Retězce:\", strs)\u000A');codeLines.push('    ints :\u003D []int{7, 2, 4}\u000A    sort.Ints(ints)\u000A    fmt.Println(\"Inty:   \", ints)\u000A');codeLines.push('    s :\u003D sort.IntsAreSorted(ints)\u000A    fmt.Println(\"Setřízený: \", s)\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"slices\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    strs :\u003D []string{\"c\", \"a\", \"b\"}\u000A    slices.Sort(strs)\u000A    fmt.Println(\"Řetězce:\", strs)\u000A');codeLines.push('    ints :\u003D []int{7, 2, 4}\u000A    slices.Sort(ints)\u000A    fmt.Println(\"Inty:   \", ints)\u000A');codeLines.push('    s :\u003D slices.IsSorted(ints)\u000A    fmt.Println(\"Setříděný: \", s)\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

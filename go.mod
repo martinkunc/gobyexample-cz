@@ -1,5 +1,5 @@
 module github.com/martinkunc/gobyexample-cz
 
-go 1.20
+go 1.27.1
 
 require github.com/russross/blackfriday v1.6.0

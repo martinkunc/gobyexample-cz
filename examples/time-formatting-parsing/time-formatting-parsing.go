@@ -3,8 +3,10 @@
 
 package main
 
-import "fmt"
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 	p := fmt.Println
@@ -16,9 +18,7 @@ func main() {
 	p(t.Format(time.RFC3339))
 
 	// Parsování času používá stejné hodnoty rozložení jako `Format`.
-	t1, e := time.Parse(
-		time.RFC3339,
-		"2012-11-01T22:08:41+00:00")
+	t1, _ := time.Parse(time.RFC3339, "2012-11-01T22:08:41+00:00")
 	p(t1)
 
 	// `Format` i `Parse` používají na příkladech založená rozložení.
@@ -32,7 +32,7 @@ func main() {
 	p(t.Format("Mon Jan _2 15:04:05 2006"))
 	p(t.Format("2006-01-02T15:04:05.999999-07:00"))
 	form := "3 04 PM"
-	t2, e := time.Parse(form, "8 41 PM")
+	t2, _ := time.Parse(form, "8 41 PM")
 	p(t2)
 
 	// Pro čistě číselnou reprezentaci také můžeš použít
@@ -44,7 +44,6 @@ func main() {
 
 	// `Parse` vrátí chybu při poškozeném vstupu
 	// vysvětlující problém s parsováním.
-	ansic := "Mon Jan _2 15:04:05 2006"
-	_, e = time.Parse(ansic, "8:41PM")
-	p(e)
+	_, err := time.Parse("Mon Jan _2 15:04:05 2006", "8:41PM")
+	p(err)
 }

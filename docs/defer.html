@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'collection-functions';
+              window.location.href = 'recover';
           }
           
       }
@@ -44,7 +44,7 @@ jazycích použilo např. <code>ensure</code> a <code>finally</code>.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/tcc-GVb2HWU"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/d2VZlyJQDA-"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -57,8 +57,11 @@ jazycích použilo např. <code>ensure</code> a <code>finally</code>.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;path/filepath&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -90,7 +93,8 @@ volající funkce (<code>main</code>), potom co skončilo
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">f</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">createFile</span><span class="p">(</span><span class="s">&quot;/tmp/defer.txt&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">path</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">TempDir</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;defer.txt&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">f</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">createFile</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
 <span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">closeFile</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
 <span class="p">}</span>
@@ -127,6 +131,7 @@ volající funkce (<code>main</code>), potom co skončilo
           <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">os</span><span class="p">.</span><span class="nx">File</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;zápis&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintln</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </pre></div>
 
           </td>
@@ -134,11 +139,15 @@ volající funkce (<code>main</code>), potom co skončilo
         
         <tr>
           <td class="docs">
-            
+            <p>Při zavírání souboru je důležité kontrolovat chyby,
+a to i v odložené funkci.</p>
+
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="p">}</span>
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">closeFile</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">os</span><span class="p">.</span><span class="nx">File</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;zavírání&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
 </pre></div>
 
           </td>
@@ -150,9 +159,9 @@ volající funkce (<code>main</code>), potom co skončilo
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">closeFile</span><span class="p">(</span><span class="nx">f</span><span class="w"> </span><span class="o">*</span><span class="nx">os</span><span class="p">.</span><span class="nx">File</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;zavírání&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -184,7 +193,7 @@ co je do něho zapsáno.</p>
       
       
       <p class="next">
-        Další příklad: <a href="collection-functions">Funkce pro práci s kolekcemi</a>.
+        Další příklad: <a href="recover">Zotavení (recover)</a>.
       </p>
       
       <p class="footer">
@@ -193,7 +202,7 @@ co je do něho zapsáno.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"os\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    f :\u003D createFile(\"/tmp/defer.txt\")\u000A    defer closeFile(f)\u000A    writeFile(f)\u000A}\u000A');codeLines.push('func createFile(p string) *os.File {\u000A    fmt.Println(\"vytváření\")\u000A    f, err :\u003D os.Create(p)\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    return f\u000A}\u000A');codeLines.push('func writeFile(f *os.File) {\u000A    fmt.Println(\"zápis\")\u000A    fmt.Fprintln(f, \"data\")\u000A');codeLines.push('}\u000A');codeLines.push('func closeFile(f *os.File) {\u000A    fmt.Println(\"zavírání\")\u000A    f.Close()\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A    \"path/filepath\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    path :\u003D filepath.Join(os.TempDir(), \"defer.txt\")\u000A    f :\u003D createFile(path)\u000A    defer closeFile(f)\u000A    writeFile(f)\u000A}\u000A');codeLines.push('func createFile(p string) *os.File {\u000A    fmt.Println(\"vytváření\")\u000A    f, err :\u003D os.Create(p)\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    return f\u000A}\u000A');codeLines.push('func writeFile(f *os.File) {\u000A    fmt.Println(\"zápis\")\u000A    fmt.Fprintln(f, \"data\")\u000A}\u000A');codeLines.push('func closeFile(f *os.File) {\u000A    fmt.Println(\"zavírání\")\u000A    err :\u003D f.Close()\u000A');codeLines.push('    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

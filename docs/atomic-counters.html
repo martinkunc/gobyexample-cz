@@ -32,7 +32,7 @@ komunikace pomocí kanálů. To jsme viděli v příkladu se
 <a href="worker-pools">zásobníky pracovních rutin</a>. Ale existují ještě
 další možnosti pro správu stavu. Tady se podíváme
 na použití <em>atomických counterů</em> z balíčku <code>sync/atomic</code>
-které jsou používané zároveň několika go rutinami.</p>
+které jsou používané zároveň několika gorutinami.</p>
 
           </td>
           <td class="code empty leading">
@@ -46,7 +46,7 @@ které jsou používané zároveň několika go rutinami.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/cbIIazJAjd0"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/duuzEpSEq15"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -59,9 +59,11 @@ které jsou používané zároveň několika go rutinami.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;sync/atomic&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;sync&quot;</span>
+<span class="w">    </span><span class="s">&quot;sync/atomic&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -81,13 +83,13 @@ které jsou používané zároveň několika go rutinami.</p>
         
         <tr>
           <td class="docs">
-            <p>Použijeme bezznaménkový integer pro reprezentaci našeho vždy kladného
-counteru.</p>
+            <p>Použijeme atomický celočíselný typ pro reprezentaci
+našeho (vždy kladného) counteru.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">ops</span><span class="w"> </span><span class="kt">uint64</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">ops</span><span class="w"> </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">Uint64</span>
 </pre></div>
 
           </td>
@@ -95,15 +97,13 @@ counteru.</p>
         
         <tr>
           <td class="docs">
-            <p>Pro simulaci souběžně probíhajících změn nastartujeme 50
-goroutin. Každá z nich zvýší counter jednou za milisekundu.</p>
+            <p>WaitGroup nám pomůže počkat, až všechny gorutiny
+dokončí svou práci.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">50</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">wg</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
 </pre></div>
 
           </td>
@@ -111,14 +111,15 @@ goroutin. Každá z nich zvýší counter jednou za milisekundu.</p>
         
         <tr>
           <td class="docs">
-            <p>Pro atomické zvýšení counteru použijeme
-<code>AddUint64</code> a předáme ji adresu v paměti
-našeho counteru <code>ops</code> s použitím  <code>&amp;</code> syntaxe.</p>
+            <p>Nastartujeme 50 gorutin, z nichž každá zvýší
+counter přesně 1000 krát.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">                </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">AddUint64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ops</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="p">{</span>
 </pre></div>
 
           </td>
@@ -126,14 +127,14 @@ našeho counteru <code>ops</code> s použitím  <code>&amp;</code> syntaxe.</p>
         
         <tr>
           <td class="docs">
-            <p>Trochu počkej mezi zvýšeními.</p>
+            <p>Pro atomické zvýšení counteru použijeme <code>Add</code>.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">                </span><span class="nx">ops</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}()</span>
+<span class="w">        </span><span class="p">})</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -142,12 +143,12 @@ našeho counteru <code>ops</code> s použitím  <code>&amp;</code> syntaxe.</p>
         
         <tr>
           <td class="docs">
-            <p>Počkej vteřinu aby se nahromadily nějaké operace.</p>
+            <p>Počkáme, až budou všechny gorutiny hotové.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
 </pre></div>
 
           </td>
@@ -155,18 +156,14 @@ našeho counteru <code>ops</code> s použitím  <code>&amp;</code> syntaxe.</p>
         
         <tr>
           <td class="docs">
-            <p>Abychom bezpečne získali hodnotu counteru zatímco
-je stále měněn ostatními gorutinami, extrahujeme
-kopii jeho aktuální hodnoty do <code>opsFinal</code> s použitím
-<code>LoadUint64</code>. Stejně jako výše potřebujeme dát funkci
-adresu v paměti <code>&amp;ops</code> ze které by se měla hodnota
-načíst</p>
+            <p>Tady už do <code>ops</code> žádná gorutina nezapisuje, ale
+pomocí <code>Load</code> je bezpečné atomicky číst hodnotu
+i ve chvíli, kdy ji jiné gorutiny (atomicky) mění.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">opsFinal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">LoadUint64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">ops</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;ops:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">opsFinal</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;ops:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ops</span><span class="p">.</span><span class="nx">Load</span><span class="p">())</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -179,14 +176,18 @@ načíst</p>
         
         <tr>
           <td class="docs">
-            <p>Spuštění programu ukazuje že jsme provedli okolo
-40,000 operací.</p>
+            <p>Očekáváme přesně 50 000 operací. Kdybychom použili
+neatomický integer a zvyšovali ho pomocí <code>ops++</code>,
+pravděpodobně bychom dostali jiné číslo, měnící se
+mezi jednotlivými spuštěními, protože by se gorutiny
+navzájem ovlivňovaly. Navíc bychom při spuštění
+s příznakem <code>-race</code> dostali chyby souběhu (data race).</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>atomic-counters.go
-<span class="go">ops: 41419</span>
+<span class="go">ops: 50000</span>
 </pre></div>
 
           </td>
@@ -217,7 +218,7 @@ nástrojem pro správu stavu.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000Aimport \"sync/atomic\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var ops uint64\u000A');codeLines.push('    for i :\u003D 0; i \u003C 50; i++ {\u000A        go func() {\u000A            for {\u000A');codeLines.push('                atomic.AddUint64(\u0026ops, 1)\u000A');codeLines.push('                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    time.Sleep(time.Second)\u000A');codeLines.push('    opsFinal :\u003D atomic.LoadUint64(\u0026ops)\u000A    fmt.Println(\"ops:\", opsFinal)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"sync\"\u000A    \"sync/atomic\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var ops atomic.Uint64\u000A');codeLines.push('    var wg sync.WaitGroup\u000A');codeLines.push('    for range 50 {\u000A        wg.Go(func() {\u000A            for range 1000 {\u000A');codeLines.push('                ops.Add(1)\u000A            }\u000A        })\u000A    }\u000A');codeLines.push('    wg.Wait()\u000A');codeLines.push('    fmt.Println(\"ops:\", ops.Load())\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

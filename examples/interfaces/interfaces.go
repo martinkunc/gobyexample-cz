@@ -3,8 +3,10 @@
 
 package main
 
-import "fmt"
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // Zde je základní interface pro geometrické útvary.
 type geometrie interface {
@@ -13,7 +15,7 @@ type geometrie interface {
 }
 
 // V našem příkladu implementujeme tento interface pro
-// typy `obdelnik` and `kruznice` types.
+// typy `obdelnik` a `kruznice`.
 type obdelnik struct {
 	sirka, vyska float64
 }
@@ -49,6 +51,15 @@ func zmer(g geometrie) {
 	fmt.Println(g.obvod())
 }
 
+// Někdy se hodí znát typ hodnoty interface za běhu.
+// Jednou z možností je *typová aserce* (type assertion),
+// jak je ukázáno zde; další možností je [typový `switch`](switch).
+func detekujKruznici(g geometrie) {
+	if c, ok := g.(kruznice); ok {
+		fmt.Println("kružnice s poloměrem", c.polomer)
+	}
+}
+
 func main() {
 	r := obdelnik{sirka: 3, vyska: 4}
 	c := kruznice{polomer: 5}
@@ -59,4 +70,7 @@ func main() {
 	// funkci `zmer`.
 	zmer(r)
 	zmer(c)
+
+	detekujKruznici(r)
+	detekujKruznici(c)
 }

@@ -1,7 +1,8 @@
 $ go run channel-synchronization.go      
 pracuji...hotovo                
 
-# Když byste odstranili řádek `<- done`,
-# program by skončil dokonce ještě dřív než by pracovní
-# gorutina nastartovala.
+# Když byste odstranili řádek `<- done`, program by
+# mohl skončit dřív, než pracovní gorutina dokončí svou
+# práci, a v některých případech dokonce ještě dřív, než
+# by vůbec nastartovala.
 

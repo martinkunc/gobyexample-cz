@@ -28,7 +28,8 @@ func main() {
 
 	// Zápis `:=` je zkratkou pro deklaraci a inicializaci
 	// proměnné, např. v tomto případě
-	// `var f string = "apple"`
+	// `var f string = "apple"`.
+	// Tento zápis je dostupný jen uvnitř funkcí.
 	f := "apple"
 	fmt.Println(f)
 }

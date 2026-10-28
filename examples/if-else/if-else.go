@@ -19,9 +19,15 @@ func main() {
 		fmt.Println("8 je dělitelná 4")
 	}
 
+	// Logické operátory jako `&&` a `||` se v podmínkách
+	// často hodí.
+	if 8%2 == 0 || 7%2 == 0 {
+		fmt.Println("8 nebo 7 je sudá")
+	}
+
 	// Podmínky může předcházet příkaz; proměnné
-	// deklarované v tomto příkazu jsou dostupné ve všech
-	// větvích
+	// deklarované v tomto příkazu jsou dostupné v aktuální
+	// a ve všech následujících větvích.
 	if num := 9; num < 0 {
 		fmt.Println(num, "je záporná")
 	} else if num < 10 {

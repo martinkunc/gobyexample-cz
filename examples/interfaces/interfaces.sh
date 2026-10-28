@@ -5,6 +5,7 @@ $ go run interfaces.go
 {5}
 78.53981633974483
 31.41592653589793
+kružnice s poloměrem 5
 
-# Pro detaily o Go interface, se podívejte na tento
-# [skvělý blog post](http://jordanorelli.tumblr.com/post/32665860244/how-to-use-interfaces-in-go).
+# Pokud chcete pochopit, jak interface v Go fungují pod
+# kapotou, podívejte se na tento [blog post](https://research.swtch.com/interfaces).

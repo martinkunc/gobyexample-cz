@@ -9,12 +9,12 @@
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'recursion';
+              window.location.href = 'range-over-built-in-types';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'structs';
+              window.location.href = 'strings-and-runes';
           }
           
       }
@@ -27,7 +27,7 @@
         
         <tr>
           <td class="docs">
-            <p>Go podporuje <em><a href="http://en.wikipedia.org/wiki/Pointer_(computer_programming)">ukazatele</a></em>,
+            <p>Go podporuje <em><a href="https://en.wikipedia.org/wiki/Pointer_(computer_programming)">ukazatele</a></em>,
 díky nim je možné předávat si v programu odkazy na
 hodnoty a záznamy.</p>
 
@@ -43,7 +43,7 @@ hodnoty a záznamy.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/hlEipMZzaio"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/gbrhwB3iZw1"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -146,12 +146,29 @@ např. ukazatel na <code>i</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Pointers can be printed too.</p>
+            <p>Ukazatele je možné také vypsat.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;ukazatel:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">i</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nový ukazatel na hodnotu je možné vytvořit
+zabudovanou funkcí <code>new</code>.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;ukazatel:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">i</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">new</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;hodnota na *p:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="nx">p</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">nulujukaz</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;hodnota na *p:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="nx">p</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -176,6 +193,8 @@ na adresu v paměti</p>
 <span class="go">nulujhodn: 1</span>
 <span class="go">nulujukaz: 0</span>
 <span class="go">ukazatel: 0x414020</span>
+<span class="go">hodnota na *p: 42</span>
+<span class="go">hodnota na *p: 0</span>
 </pre></div>
 
           </td>
@@ -185,7 +204,7 @@ na adresu v paměti</p>
       
       
       <p class="next">
-        Další příklad: <a href="structs">Struktury (struct)</a>.
+        Další příklad: <a href="strings-and-runes">Řetězce a runy</a>.
       </p>
       
       <p class="footer">
@@ -194,7 +213,7 @@ na adresu v paměti</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func nulujhodn(ival int) {\u000A    ival \u003D 0\u000A}\u000A');codeLines.push('func nulujukaz(iptr *int) {\u000A    *iptr \u003D 0\u000A}\u000A');codeLines.push('func main() {\u000A    i :\u003D 1\u000A    fmt.Println(\"počáteční:\", i)\u000A');codeLines.push('    nulujhodn(i)\u000A    fmt.Println(\"nulujhodn:\", i)\u000A');codeLines.push('    nulujukaz(\u0026i)\u000A    fmt.Println(\"nulujukaz:\", i)\u000A');codeLines.push('    fmt.Println(\"ukazatel:\", \u0026i)\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func nulujhodn(ival int) {\u000A    ival \u003D 0\u000A}\u000A');codeLines.push('func nulujukaz(iptr *int) {\u000A    *iptr \u003D 0\u000A}\u000A');codeLines.push('func main() {\u000A    i :\u003D 1\u000A    fmt.Println(\"počáteční:\", i)\u000A');codeLines.push('    nulujhodn(i)\u000A    fmt.Println(\"nulujhodn:\", i)\u000A');codeLines.push('    nulujukaz(\u0026i)\u000A    fmt.Println(\"nulujukaz:\", i)\u000A');codeLines.push('    fmt.Println(\"ukazatel:\", \u0026i)\u000A');codeLines.push('    p :\u003D new(42)\u000A    fmt.Println(\"hodnota na *p:\", *p)\u000A    nulujukaz(p)\u000A    fmt.Println(\"hodnota na *p:\", *p)\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

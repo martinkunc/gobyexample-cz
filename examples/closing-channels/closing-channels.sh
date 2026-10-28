@@ -7,6 +7,7 @@ přijal práci 1
 přijal práci 2
 přijal práci 3
 přijal všechny práce
+přijal další práce: false
 
 # Myšlenka zavírání kanálů nás přirozene vede k
 # našemu dalšímu příkladu: iterování kanálů pomocí

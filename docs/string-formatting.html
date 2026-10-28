@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'regular-expressions';
+              window.location.href = 'text-templates';
           }
           
       }
@@ -43,7 +43,7 @@ běžných úkolů pro formátování řetězců.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/SeFj97MHbb_x"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/EdXJoUiAwm8"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -56,8 +56,10 @@ běžných úkolů pro formátování řetězců.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -93,13 +95,13 @@ běžných úkolů pro formátování řetězců.</p>
           <td class="docs">
             <p>Go nabízí několik &ldquo;verbs&rdquo; (sloves) navržených pro
 formátování obecných Go hodnot. Například tohle vytiskne
-instanci naši struktury <code>point</code>.</p>
+instanci naší struktury <code>point</code>.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">point</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;struct1: %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -113,7 +115,7 @@ také názvy prvků struktury.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%+v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;struct2: %+v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -128,7 +130,7 @@ který by danou hodnotu vytvořil.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%#v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;struct3: %#v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -141,7 +143,7 @@ který by danou hodnotu vytvořil.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%T\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;type: %T\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -154,7 +156,7 @@ který by danou hodnotu vytvořil.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%t\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;bool: %t\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -168,7 +170,7 @@ Použij <code>%d</code> pro standardní formátování v desítkové soustavě.<
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">123</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;int: %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">123</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -181,7 +183,7 @@ Použij <code>%d</code> pro standardní formátování v desítkové soustavě.<
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%b\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;bin: %b\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">14</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -194,7 +196,7 @@ Použij <code>%d</code> pro standardní formátování v desítkové soustavě.<
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%c\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">33</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;char: %c\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">33</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -207,7 +209,7 @@ Použij <code>%d</code> pro standardní formátování v desítkové soustavě.<
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%x\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">456</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;hex: %x\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">456</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -221,7 +223,7 @@ floaty. Pro základní desetinné formátování použijte <code>%f</code>.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%f\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">78.9</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;float1: %f\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">78.9</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -235,8 +237,8 @@ verzi) vědeckého zápisu.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%e\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">123400000.0</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%E\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">123400000.0</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;float2: %e\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">123400000.0</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;float3: %E\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">123400000.0</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -249,7 +251,7 @@ verzi) vědeckého zápisu.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\&quot;string\&quot;&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;str1: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\&quot;string\&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -263,7 +265,7 @@ použijte <code>%q</code>.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%q\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\&quot;string\&quot;&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;str2: %q\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;\&quot;string\&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -278,7 +280,7 @@ pro jeden vstupní bajt.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%x\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hex this&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;str3: %x\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hex this&quot;</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -291,7 +293,7 @@ pro jeden vstupní bajt.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%p\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">p</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;pointer: %p\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">p</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -308,7 +310,7 @@ zarovnaný doprava a zleva doplněný mezerami.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;|%6d|%6d|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">345</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;width1: |%6d|%6d|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="mi">345</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -317,14 +319,14 @@ zarovnaný doprava a zleva doplněný mezerami.</p>
         <tr>
           <td class="docs">
             <p>Také můžete specifikovat šířku vypisovaných floatů,
-ačkoliv obvzkle také budete chtít omezit
+ačkoliv obvykle také budete chtít omezit
 desetinnou přesnost pomocí syntaxe se
 zápisem šířka.přesnost</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;|%6.2f|%6.2f|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span><span class="w"> </span><span class="mf">3.45</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;width2: |%6.2f|%6.2f|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span><span class="w"> </span><span class="mf">3.45</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -337,7 +339,7 @@ zápisem šířka.přesnost</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;|%-6.2f|%-6.2f|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span><span class="w"> </span><span class="mf">3.45</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;width3: |%-6.2f|%-6.2f|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span><span class="w"> </span><span class="mf">3.45</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -347,12 +349,12 @@ zápisem šířka.přesnost</p>
           <td class="docs">
             <p>Také možná budete chtít ovládat šířku při formátování
 řetězců, obzvlášť pro dosažení jejích zarovnání v
-tavulkovém výstupu. Pro základní pravé zarovnání na šířku.</p>
+tabulkovém výstupu. Pro základní pravé zarovnání na šířku.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;|%6s|%6s|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;width4: |%6s|%6s|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -360,12 +362,12 @@ tavulkovém výstupu. Pro základní pravé zarovnání na šířku.</p>
         
         <tr>
           <td class="docs">
-            <p>Pro levé zarovnání použitje příznak  <code>-</code> stejně jako u čísel.</p>
+            <p>Pro levé zarovnání použijte příznak <code>-</code> stejně jako u čísel.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;|%-6s|%-6s|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;width5: |%-6s|%-6s|\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -373,14 +375,14 @@ tavulkovém výstupu. Pro základní pravé zarovnání na šířku.</p>
         
         <tr>
           <td class="docs">
-            <p>Zatím jsme viděli <code>Printf</code>, který vupisuje
+            <p>Zatím jsme viděli <code>Printf</code>, který vypisuje
 formátovaný řetězec na <code>os.Stdout</code>. <code>Sprintf</code> formátuje
-a vrací řezězec bež toho aby ho někam vypisoval..</p>
+a vrací řetězec, aniž by ho někam vypisoval.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;a %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;sprintf: a %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;string&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
 </pre></div>
 
@@ -395,7 +397,7 @@ jiných <code>io.Writers</code> než jen <code>os.Stdout</code>.</p>
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;an %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;error&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;io: an %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;error&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -413,29 +415,29 @@ jiných <code>io.Writers</code> než jen <code>os.Stdout</code>.</p>
           <td class="code">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>string-formatting.go
-<span class="go">{1 2}</span>
-<span class="go">{x:1 y:2}</span>
-<span class="go">main.point{x:1, y:2}</span>
-<span class="go">main.point</span>
-<span class="go">true</span>
-<span class="go">123</span>
-<span class="go">1110</span>
-<span class="go">!</span>
-<span class="go">1c8</span>
-<span class="go">78.900000</span>
-<span class="go">1.234000e+08</span>
-<span class="go">1.234000E+08</span>
-<span class="go">&quot;string&quot;</span>
-<span class="go">&quot;\&quot;string\&quot;&quot;</span>
-<span class="go">6865782074686973</span>
-<span class="go">0x42135100</span>
-<span class="go">|    12|   345|</span>
-<span class="go">|  1.20|  3.45|</span>
-<span class="go">|1.20  |3.45  |</span>
-<span class="go">|   foo|     b|</span>
-<span class="go">|foo   |b     |</span>
-<span class="go">a string</span>
-<span class="go">an error</span>
+<span class="go">struct1: {1 2}</span>
+<span class="go">struct2: {x:1 y:2}</span>
+<span class="go">struct3: main.point{x:1, y:2}</span>
+<span class="go">type: main.point</span>
+<span class="go">bool: true</span>
+<span class="go">int: 123</span>
+<span class="go">bin: 1110</span>
+<span class="go">char: !</span>
+<span class="go">hex: 1c8</span>
+<span class="go">float1: 78.900000</span>
+<span class="go">float2: 1.234000e+08</span>
+<span class="go">float3: 1.234000E+08</span>
+<span class="go">str1: &quot;string&quot;</span>
+<span class="go">str2: &quot;\&quot;string\&quot;&quot;</span>
+<span class="go">str3: 6865782074686973</span>
+<span class="go">pointer: 0xc0000ba000</span>
+<span class="go">width1: |    12|   345|</span>
+<span class="go">width2: |  1.20|  3.45|</span>
+<span class="go">width3: |1.20  |3.45  |</span>
+<span class="go">width4: |   foo|     b|</span>
+<span class="go">width5: |foo   |b     |</span>
+<span class="go">sprintf: a string</span>
+<span class="go">io: an error</span>
 </pre></div>
 
           </td>
@@ -445,7 +447,7 @@ jiných <code>io.Writers</code> než jen <code>os.Stdout</code>.</p>
       
       
       <p class="next">
-        Další příklad: <a href="regular-expressions">Regulární výrazy</a>.
+        Další příklad: <a href="text-templates">Textové šablony</a>.
       </p>
       
       <p class="footer">
@@ -454,7 +456,7 @@ jiných <code>io.Writers</code> než jen <code>os.Stdout</code>.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"os\"\u000A');codeLines.push('type point struct {\u000A    x, y int\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    p :\u003D point{1, 2}\u000A    fmt.Printf(\"%v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"%+v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"%#v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"%T\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"%t\\n\", true)\u000A');codeLines.push('    fmt.Printf(\"%d\\n\", 123)\u000A');codeLines.push('    fmt.Printf(\"%b\\n\", 14)\u000A');codeLines.push('    fmt.Printf(\"%c\\n\", 33)\u000A');codeLines.push('    fmt.Printf(\"%x\\n\", 456)\u000A');codeLines.push('    fmt.Printf(\"%f\\n\", 78.9)\u000A');codeLines.push('    fmt.Printf(\"%e\\n\", 123400000.0)\u000A    fmt.Printf(\"%E\\n\", 123400000.0)\u000A');codeLines.push('    fmt.Printf(\"%s\\n\", \"\\\"string\\\"\")\u000A');codeLines.push('    fmt.Printf(\"%q\\n\", \"\\\"string\\\"\")\u000A');codeLines.push('    fmt.Printf(\"%x\\n\", \"hex this\")\u000A');codeLines.push('    fmt.Printf(\"%p\\n\", \u0026p)\u000A');codeLines.push('    fmt.Printf(\"|%6d|%6d|\\n\", 12, 345)\u000A');codeLines.push('    fmt.Printf(\"|%6.2f|%6.2f|\\n\", 1.2, 3.45)\u000A');codeLines.push('    fmt.Printf(\"|%-6.2f|%-6.2f|\\n\", 1.2, 3.45)\u000A');codeLines.push('    fmt.Printf(\"|%6s|%6s|\\n\", \"foo\", \"b\")\u000A');codeLines.push('    fmt.Printf(\"|%-6s|%-6s|\\n\", \"foo\", \"b\")\u000A');codeLines.push('    s :\u003D fmt.Sprintf(\"a %s\", \"string\")\u000A    fmt.Println(s)\u000A');codeLines.push('    fmt.Fprintf(os.Stderr, \"an %s\\n\", \"error\")\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A)\u000A');codeLines.push('type point struct {\u000A    x, y int\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    p :\u003D point{1, 2}\u000A    fmt.Printf(\"struct1: %v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"struct2: %+v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"struct3: %#v\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"type: %T\\n\", p)\u000A');codeLines.push('    fmt.Printf(\"bool: %t\\n\", true)\u000A');codeLines.push('    fmt.Printf(\"int: %d\\n\", 123)\u000A');codeLines.push('    fmt.Printf(\"bin: %b\\n\", 14)\u000A');codeLines.push('    fmt.Printf(\"char: %c\\n\", 33)\u000A');codeLines.push('    fmt.Printf(\"hex: %x\\n\", 456)\u000A');codeLines.push('    fmt.Printf(\"float1: %f\\n\", 78.9)\u000A');codeLines.push('    fmt.Printf(\"float2: %e\\n\", 123400000.0)\u000A    fmt.Printf(\"float3: %E\\n\", 123400000.0)\u000A');codeLines.push('    fmt.Printf(\"str1: %s\\n\", \"\\\"string\\\"\")\u000A');codeLines.push('    fmt.Printf(\"str2: %q\\n\", \"\\\"string\\\"\")\u000A');codeLines.push('    fmt.Printf(\"str3: %x\\n\", \"hex this\")\u000A');codeLines.push('    fmt.Printf(\"pointer: %p\\n\", \u0026p)\u000A');codeLines.push('    fmt.Printf(\"width1: |%6d|%6d|\\n\", 12, 345)\u000A');codeLines.push('    fmt.Printf(\"width2: |%6.2f|%6.2f|\\n\", 1.2, 3.45)\u000A');codeLines.push('    fmt.Printf(\"width3: |%-6.2f|%-6.2f|\\n\", 1.2, 3.45)\u000A');codeLines.push('    fmt.Printf(\"width4: |%6s|%6s|\\n\", \"foo\", \"b\")\u000A');codeLines.push('    fmt.Printf(\"width5: |%-6s|%-6s|\\n\", \"foo\", \"b\")\u000A');codeLines.push('    s :\u003D fmt.Sprintf(\"sprintf: a %s\", \"string\")\u000A    fmt.Println(s)\u000A');codeLines.push('    fmt.Fprintf(os.Stderr, \"io: an %s\\n\", \"error\")\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

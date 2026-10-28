@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -17,12 +16,20 @@ func check(err error) {
 }
 
 func readLines(path string) []string {
-	srcBytes, err := ioutil.ReadFile(path)
+	srcBytes, err := os.ReadFile(path)
 	check(err)
 	return strings.Split(string(srcBytes), "\n")
 }
 
-var commentPat = regexp.MustCompile("\\s*\\/\\/")
+func isDir(path string) bool {
+	fileStat, _ := os.Stat(path)
+	return fileStat.IsDir()
+}
+
+// Maximum allowed line length before reporting a formatting issue.
+const maxLineLength = 68
+
+var commentPattern = regexp.MustCompile("\\s*\\/\\/")
 
 func main() {
 	sourcePaths, err := filepath.Glob("./examples/*/*")
@@ -30,15 +37,17 @@ func main() {
 	foundLongFile := false
 	for _, sourcePath := range sourcePaths {
 		foundLongLine := false
-		lines := readLines(sourcePath)
-		for i, line := range lines {
-			// Convert tabs to spaces before measuring, so we get an accurate measure
-			// of how long the output will end up being.
-			line := strings.Replace(line, "\t", "    ", -1)
-			if !foundLongLine && !commentPat.MatchString(line) && (utf8.RuneCountInString(line) > 58) {
-				fmt.Printf("measure: %s:%d\n", sourcePath, i+1)
-				foundLongLine = true
-				foundLongFile = true
+		if !isDir(sourcePath) {
+			lines := readLines(sourcePath)
+			for i, line := range lines {
+				// Convert tabs to spaces before measuring, so we get an accurate measure
+				// of how long the output will end up being.
+				line := strings.Replace(line, "\t", "    ", -1)
+				if !foundLongLine && !commentPattern.MatchString(line) && (utf8.RuneCountInString(line) > maxLineLength) {
+					fmt.Printf("measure: %s:%d (rune count = %d)\n", sourcePath, i+1, utf8.RuneCountInString(line))
+					foundLongLine = true
+					foundLongFile = true
+				}
 			}
 		}
 	}

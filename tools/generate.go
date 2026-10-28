@@ -34,6 +34,11 @@ func check(err error) {
 	}
 }
 
+func isDir(path string) bool {
+	fileStat, _ := os.Stat(path)
+	return fileStat.IsDir()
+}
+
 func ensureDir(dir string) {
 	err := os.MkdirAll(dir, 0755)
 	check(err)
@@ -266,6 +271,10 @@ func parseExamples() []*Example {
 		example.Segs = make([][]*Seg, 0)
 		sourcePaths := mustGlob("examples/" + exampleID + "/*")
 		for _, sourcePath := range sourcePaths {
+			// Skip data directories, e.g. embed-directive/folder.
+			if isDir(sourcePath) {
+				continue
+			}
 			if strings.HasSuffix(sourcePath, ".hash") {
 				example.GoCodeHash, example.URLHash = parseHashFile(sourcePath)
 			} else {

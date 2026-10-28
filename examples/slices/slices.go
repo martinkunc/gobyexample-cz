@@ -1,21 +1,33 @@
-// _Výřezy_, v angličtině Slices, jsou klíčovým datovým
+// _Výřezy_, v angličtině Slices, jsou důležitým datovým
 // typem v Go, poskytujícím sekvencím bohatší rozhraní
 // než polím.
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 func main() {
 
 	// Na rozdíl od polí, typ výřezů je jen typ jejich
 	// prvků (ne počet prvků).
-	// Pro vytvoření prázdného výřezu nulové délky,
+	// Neinicializovaný výřez je roven nil a má
+	// délku 0.
+	var s []string
+	fmt.Println("neinic:", s, s == nil, len(s) == 0)
+
+	// Pro vytvoření výřezu nenulové délky
 	// použijte zabudovanou funkci `make`. Tady vytváříme
 	// výřez `string`ů délky `3` (automaticky
 	// inicializovaný na nulové hodnoty).
-	s := make([]string, 3)
-	fmt.Println("prázdné:", s)
+	// Ve výchozím stavu je kapacita nového výřezu rovna
+	// jeho délce; pokud předem víme, že výřez bude růst,
+	// můžeme kapacitu předat explicitně jako další
+	// parametr funkce `make`.
+	s = make([]string, 3)
+	fmt.Println("prázdné:", s, "délka:", len(s), "kap.:", cap(s))
 
 	// Můžeme nastavovat a získávat hodnoty jako u polí
 	s[0] = "a"
@@ -31,7 +43,7 @@ func main() {
 	// několik dalších, díky nimž jsou bohatší než pole.
 	// Jednou je zabudovaný `append`, který vrací výřez
 	// obsahující jednu nebo více nových hodnot.
-	// Všimněte si, že musíme přimnout návratovou hodnotu
+	// Všimněte si, že musíme přijmout návratovou hodnotu
 	// `append`u, protože můžeme dostat novou hodnotu
 	// výřezu.
 	s = append(s, "d")
@@ -65,14 +77,21 @@ func main() {
 	t := []string{"g", "h", "i"}
 	fmt.Println("dekl:", t)
 
+	// Balíček `slices` obsahuje řadu užitečných pomocných
+	// funkcí pro práci s výřezy.
+	t2 := []string{"g", "h", "i"}
+	if slices.Equal(t, t2) {
+		fmt.Println("t == t2")
+	}
+
 	// Výřezy se mohou skládat do vícerozměrných datových
 	// struktur. Délky vnitřních výřezů se mohou měnit,
 	// na rozdíl od více-rozměrných polí.
 	twoD := make([][]int, 3)
-	for i := 0; i < 3; i++ {
+	for i := range 3 {
 		innerLen := i + 1
 		twoD[i] = make([]int, innerLen)
-		for j := 0; j < innerLen; j++ {
+		for j := range innerLen {
 			twoD[i][j] = i + j
 		}
 	}

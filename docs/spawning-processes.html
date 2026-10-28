@@ -9,7 +9,7 @@
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'http-servers';
+              window.location.href = 'context';
           }
           
           
@@ -27,12 +27,8 @@
         
         <tr>
           <td class="docs">
-            <p>Někdy naše Go programu potřebují zplodit jiné, ne-Go
-procesy. Například, syntaktické podbarvení na téhle
-stránce je <a href="https://github.com/mmcgrana/gobyexample/blob/master/tools/generate.go">implementovaný</a>
-pomocí spouštění <a href="http://pygments.org/"><code>pygmentize</code></a>
-podprocesu z Go programu. Pojďme se podívat na pár
-příkladů spouštění podprocesů v Go.</p>
+            <p>Někdy naše Go programy potřebují spustit jiné
+procesy.</p>
 
           </td>
           <td class="code empty leading">
@@ -46,7 +42,7 @@ příkladů spouštění podprocesů v Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/so6HRuqGe-7"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/PC_k52tEuIx"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -59,9 +55,12 @@ příkladů spouštění podprocesů v Go.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;io/ioutil&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os/exec&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;errors&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;io&quot;</span>
+<span class="w">    </span><span class="s">&quot;os/exec&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -97,10 +96,10 @@ objekt pro reprezentaci tohoto externího procesu.</p>
         
         <tr>
           <td class="docs">
-            <p><code>.Output</code> je další z pomocných funkcí které ošetřují
-běžný případ běhu příkazu s čekáním na jeho ukončení,
-a sběrem jeho výstupu. Pokud nedošlo k žádným chybám,
-bude <code>dateOut</code> obsahovat bajty s informací o datumu.</p>
+            <p>Metoda <code>Output</code> spustí příkaz, počká na jeho
+ukončení a posbírá jeho standardní výstup.
+Pokud nedošlo k žádným chybám, bude <code>dateOut</code>
+obsahovat bajty s informací o datu.</p>
 
           </td>
           <td class="code leading">
@@ -118,7 +117,34 @@ bude <code>dateOut</code> obsahovat bajty s informací o datumu.</p>
         
         <tr>
           <td class="docs">
-            <p>Dál se podíváme na trochu kompikovanější případ
+            <p><code>Output</code> a další metody <code>Command</code> vrátí
+<code>*exec.Error</code>, pokud byl při spouštění příkazu
+problém (např. špatná cesta), a <code>*exec.ExitError</code>,
+pokud se příkaz spustil, ale skončil s nenulovým
+návratovým kódem.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">exec</span><span class="p">.</span><span class="nx">Command</span><span class="p">(</span><span class="s">&quot;date&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-x&quot;</span><span class="p">).</span><span class="nx">Output</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">e</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">AsType</span><span class="p">[</span><span class="o">*</span><span class="nx">exec</span><span class="p">.</span><span class="nx">Error</span><span class="p">](</span><span class="nx">err</span><span class="p">);</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;spuštění selhalo:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">e</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">AsType</span><span class="p">[</span><span class="o">*</span><span class="nx">exec</span><span class="p">.</span><span class="nx">ExitError</span><span class="p">](</span><span class="nx">err</span><span class="p">);</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">exitCode</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">ExitCode</span><span class="p">()</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;návratový kód příkazu =&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">exitCode</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Dál se podíváme na trochu komplikovanější případ
 kde propojíme pomocí pipe data do externího procesu
 na jeho <code>stdin</code> a posbíráme výsledky z jeho <code>stdout</code>.</p>
 
@@ -146,7 +172,7 @@ tohoto procesu.</p>
 <span class="w">    </span><span class="nx">grepCmd</span><span class="p">.</span><span class="nx">Start</span><span class="p">()</span>
 <span class="w">    </span><span class="nx">grepIn</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;hello grep\ngoodbye grep&quot;</span><span class="p">))</span>
 <span class="w">    </span><span class="nx">grepIn</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
-<span class="w">    </span><span class="nx">grepBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">grepOut</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">grepBytes</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadAll</span><span class="p">(</span><span class="nx">grepOut</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">grepCmd</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
 </pre></div>
 
@@ -210,7 +236,7 @@ jako bychom je spustili přímo z příkazové řádky.</p>
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>spawning-processes.go<span class="w"> </span>
 <span class="go">&gt; date</span>
-<span class="go">Wed Oct 10 09:53:11 PDT 2012</span>
+<span class="go">Thu 05 May 2022 10:10:12 PM PDT</span>
 </pre></div>
 
           </td>
@@ -218,11 +244,14 @@ jako bychom je spustili přímo z příkazové řádky.</p>
         
         <tr>
           <td class="docs">
-            
+            <p>date nemá volbu <code>-x</code>, takže skončí s chybovou
+hláškou a nenulovým návratovým kódem.</p>
+
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="go">&gt; grep hello</span>
+          <div class="highlight"><pre><span class="go">návratový kód příkazu = 1</span>
+<span class="go">&gt; grep hello</span>
 <span class="go">hello grep</span>
 </pre></div>
 
@@ -257,7 +286,7 @@ jako bychom je spustili přímo z příkazové řádky.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"io/ioutil\"\u000Aimport \"os/exec\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    dateCmd :\u003D exec.Command(\"date\")\u000A');codeLines.push('    dateOut, err :\u003D dateCmd.Output()\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(\"\u003E date\")\u000A    fmt.Println(string(dateOut))\u000A');codeLines.push('    grepCmd :\u003D exec.Command(\"grep\", \"hello\")\u000A');codeLines.push('    grepIn, _ :\u003D grepCmd.StdinPipe()\u000A    grepOut, _ :\u003D grepCmd.StdoutPipe()\u000A    grepCmd.Start()\u000A    grepIn.Write([]byte(\"hello grep\\ngoodbye grep\"))\u000A    grepIn.Close()\u000A    grepBytes, _ :\u003D ioutil.ReadAll(grepOut)\u000A    grepCmd.Wait()\u000A');codeLines.push('    fmt.Println(\"\u003E grep hello\")\u000A    fmt.Println(string(grepBytes))\u000A');codeLines.push('    lsCmd :\u003D exec.Command(\"bash\", \"-c\", \"ls -a -l -h\")\u000A    lsOut, err :\u003D lsCmd.Output()\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(\"\u003E ls -a -l -h\")\u000A    fmt.Println(string(lsOut))\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"errors\"\u000A    \"fmt\"\u000A    \"io\"\u000A    \"os/exec\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    dateCmd :\u003D exec.Command(\"date\")\u000A');codeLines.push('    dateOut, err :\u003D dateCmd.Output()\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(\"\u003E date\")\u000A    fmt.Println(string(dateOut))\u000A');codeLines.push('    _, err \u003D exec.Command(\"date\", \"-x\").Output()\u000A    if err !\u003D nil {\u000A        if e, ok :\u003D errors.AsType[*exec.Error](err); ok {\u000A            fmt.Println(\"spuštění selhalo:\", e)\u000A        } else if e, ok :\u003D errors.AsType[*exec.ExitError](err); ok {\u000A            exitCode :\u003D e.ExitCode()\u000A            fmt.Println(\"návratový kód příkazu \u003D\", exitCode)\u000A        } else {\u000A            panic(err)\u000A        }\u000A    }\u000A');codeLines.push('    grepCmd :\u003D exec.Command(\"grep\", \"hello\")\u000A');codeLines.push('    grepIn, _ :\u003D grepCmd.StdinPipe()\u000A    grepOut, _ :\u003D grepCmd.StdoutPipe()\u000A    grepCmd.Start()\u000A    grepIn.Write([]byte(\"hello grep\\ngoodbye grep\"))\u000A    grepIn.Close()\u000A    grepBytes, _ :\u003D io.ReadAll(grepOut)\u000A    grepCmd.Wait()\u000A');codeLines.push('    fmt.Println(\"\u003E grep hello\")\u000A    fmt.Println(string(grepBytes))\u000A');codeLines.push('    lsCmd :\u003D exec.Command(\"bash\", \"-c\", \"ls -a -l -h\")\u000A    lsOut, err :\u003D lsCmd.Output()\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(\"\u003E ls -a -l -h\")\u000A    fmt.Println(string(lsOut))\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

@@ -5,13 +5,15 @@
 // nahradit aktuální Go proces jiným (možné ne-Go).
 // procesem. Abychom to udělali použijeme Go
 // implementaci klasické funkce
-// <a href="http://en.wikipedia.org/wiki/Exec_(operating_system)"><code>exec</code></a>.
+// <a href="https://en.wikipedia.org/wiki/Exec_(operating_system)"><code>exec</code></a>.
 
 package main
 
-import "syscall"
-import "os"
-import "os/exec"
+import (
+	"os"
+	"os/exec"
+	"syscall"
+)
 
 func main() {
 
@@ -24,7 +26,7 @@ func main() {
 		panic(lookErr)
 	}
 
-	// `Exec` vyžaduje argumentz ve formě výřezu (a ne jako jeden
+	// `Exec` vyžaduje argumenty ve formě výřezu (a ne jako jeden
 	// velký řetězec). Zkusíme dát `ls` pár běžných argumentů.
 	// Všimněte si, že první argument by měl být název
 	// programu.

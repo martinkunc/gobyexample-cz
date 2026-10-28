@@ -5,8 +5,10 @@
 package main
 
 // Zabudovaný balíček `strconv` poskytuje parsování čísel.
-import "strconv"
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func main() {
 

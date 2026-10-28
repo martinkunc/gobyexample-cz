@@ -2,9 +2,12 @@ $ go run for.go
 1
 2
 3
-7
-8
-9
+0
+1
+2
+range 0
+range 1
+range 2
 smyčka
 1
 3

@@ -5,14 +5,19 @@
 
 package main
 
-import "time"
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
-	// V našem příkladě předpokládejme že provádímě
-	// externí volání které vrací svůj výsledek na kanálu
-	// `c1` po 2s.
+	// V našem příkladě předpokládejme, že provádíme
+	// externí volání, které vrací svůj výsledek na kanálu
+	// `c1` po 2s. Všimněte si, že kanál má vyrovnávací
+	// paměť, takže odeslání v gorutině neblokuje. Je to
+	// běžný vzor, jak zabránit únikům gorutin v případě,
+	// že z kanálu nikdo nikdy nečte.
 	c1 := make(chan string, 1)
 	go func() {
 		time.Sleep(2 * time.Second)
@@ -20,7 +25,7 @@ func main() {
 	}()
 
 	// Zde je `select` implementující timeout.
-	// `res := <-c1` čeká na výsledek a `<-Time.After`
+	// `res := <-c1` čeká na výsledek a `<-time.After`
 	// očekává obdrženou hodnotu po timeoutu 1s.
 	// A protože `select` pokračuje s první přijatou
 	// hodnotou která je připravena, vybere si větev

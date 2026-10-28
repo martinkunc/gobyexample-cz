@@ -1,12 +1,14 @@
-// [_Parametry příkazové řádky_](http://en.wikipedia.org/wiki/Command-line_interface#Arguments)
+// [_Parametry příkazové řádky_](https://en.wikipedia.org/wiki/Command-line_interface#Arguments)
 // jsou běžný způsob jak parametrizovat spouštění programů.
 // Například, `go run hello.go` používá argumenty `run` a
 // `hello.go` na program `go`.
 
 package main
 
-import "os"
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
 

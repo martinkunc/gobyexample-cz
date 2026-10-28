@@ -1,4 +1,4 @@
-// Go podporuje <em><a href="http://en.wikipedia.org/wiki/Pointer_(computer_programming)">ukazatele</a></em>,
+// Go podporuje <em><a href="https://en.wikipedia.org/wiki/Pointer_(computer_programming)">ukazatele</a></em>,
 // díky nim je možné předávat si v programu odkazy na
 // hodnoty a záznamy.
 
@@ -38,6 +38,13 @@ func main() {
 	nulujukaz(&i)
 	fmt.Println("nulujukaz:", i)
 
-	// Pointers can be printed too.
+	// Ukazatele je možné také vypsat.
 	fmt.Println("ukazatel:", &i)
+
+	// Nový ukazatel na hodnotu je možné vytvořit
+	// zabudovanou funkcí `new`.
+	p := new(42)
+	fmt.Println("hodnota na *p:", *p)
+	nulujukaz(p)
+	fmt.Println("hodnota na *p:", *p)
 }

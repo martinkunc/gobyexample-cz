@@ -6,8 +6,10 @@
 
 package main
 
-import "fmt"
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // Tohle je funkce která bude čekat na gorutinu. Kanál
 // `done` bude použitý k oznámení druhé gorutině že

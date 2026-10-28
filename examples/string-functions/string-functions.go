@@ -4,8 +4,10 @@
 
 package main
 
-import s "strings"
-import "fmt"
+import (
+	"fmt"
+	s "strings"
+)
 
 // Poskytneme `fmt.Println` alias na kratší jméno protože ji budeme
 // níže používat často.
@@ -17,8 +19,8 @@ func main() {
 	// `strings`. Protože jsou to funkce v balíčku a ne
 	// metody na samotném objektu string,
 	// musíme náš řetězec předat funkci jako první parametr.
-	// Víc funkcí z balíčku strings můžeš najít
-	// v dokumentaci balíčku [`strings`](http://golang.org/pkg/strings/).
+	// Víc funkcí najdete v dokumentaci balíčku
+	// [`strings`](https://pkg.go.dev/strings).
 	p("Contains:  ", s.Contains("test", "es"))
 	p("Count:     ", s.Count("test", "t"))
 	p("HasPrefix: ", s.HasPrefix("test", "te"))
@@ -31,18 +33,4 @@ func main() {
 	p("Split:     ", s.Split("a-b-c-d-e", "-"))
 	p("ToLower:   ", s.ToLower("TEST"))
 	p("ToUpper:   ", s.ToUpper("test"))
-	p()
-
-	// Není to součástí `strings`, ale stojí za to se zde zmínit o
-	// mechanismech jak se získává délka řetězce v bajtech
-	// a získání bajtu na daném indexu.
-	p("Len: ", len("hello"))
-	p("Char:", "hello"[1])
 }
-
-// Povšimněte si, že `len` a indexování výše pracuje na úrovni bajtů.
-// Go používá řetězce zakódované v UTF-8, takže často je to užitečné
-// jenom takhle. Když budeš pracovat s potencionálně více-bajtovými
-// znaky, pravděpodobně budeš chtít použít operace které umí pracovat
-// s kódováními. Viz [strings, bytes, runes and characters in Go](https://blog.golang.org/strings)
-// pro více informací.

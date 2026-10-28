@@ -3,8 +3,10 @@
 
 package main
 
-import "fmt"
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // `const` deklaruje konstantní hodnotu.
 const s string = "konstanta"
@@ -12,8 +14,8 @@ const s string = "konstanta"
 func main() {
 	fmt.Println(s)
 
-	// Příkaz `const` jde použít kdekoliv kde je možné
-	// použít příkaz `var`
+	// Příkaz `const` se může objevit také uvnitř
+	// těla funkce.
 	const n = 500000000
 
 	// Konstantní výrazy mohou provádět aritmetiku s

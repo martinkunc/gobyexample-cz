@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: SHA256 Hashe</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'url-parsing';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'base64-encoding';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="sha256-hashes">
+      <h2><a href="./">Go podle Příkladů</a>: SHA256 Hashe</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><a href="https://en.wikipedia.org/wiki/SHA-2"><em>SHA256 hash funkce</em></a> jsou
+často používané pro výpočet krátkých identit pro binární
+nebo textové bloby. Například TLS/SSL certifikáty používají
+SHA256 pro výpočet podpisu certifikátu. Tady je jak vypočítat
+SHA256 hashe v Go.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/XP5AIHcYrvA"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go implementuje několik hash funkcí v různých balíčcích
+<code>crypto/*</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;crypto/sha256&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;sha256 this string&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tady začínáme s novým hashem.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sha256</span><span class="p">.</span><span class="nx">New</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Write</code> očekává bajty. Pokud máte řetězec <code>s</code>,
+použijte <code>[]byte(s)</code> pro vynucení převodu do bajtů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">h</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Toto získá finalizovaný výsledek hashe jako výřez
+bajtů. Parametr funkce <code>Sum</code> může být použitý pro přidání
+k existujícímu výřezu bajtů: to obvykle není potřeba.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">bs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">Sum</span><span class="p">(</span><span class="kc">nil</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%x\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">bs</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Spuštění programu vypočítá hash a vypíše ho ve
+lidsky čitelném hexa formátu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>sha256-hashes.go
+<span class="go">sha256 this string</span>
+<span class="go">1af1dfa857bf1d8814fe1af8983c18080019922e557f15a8a...</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>S použitím podobného vzoru můžete vypočítat jiné hashe
+podobné tomu výše. Například pro výpočet SHA512 hashe
+importujte <code>crypto/sha512</code> a použijte <code>sha512.New()</code>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Poznamenejte si, že pokud budete potřebovat kryptograficky
+bezpečné hashe, měli byste opatrně prozkoumat
+<a href="https://en.wikipedia.org/wiki/Cryptographic_hash_function">sílu hash funkcí</a>!</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="base64-encoding">Kódování base64</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"crypto/sha256\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('func main() {\u000A    s :\u003D \"sha256 this string\"\u000A');codeLines.push('    h :\u003D sha256.New()\u000A');codeLines.push('    h.Write([]byte(s))\u000A');codeLines.push('    bs :\u003D h.Sum(nil)\u000A');codeLines.push('    fmt.Println(s)\u000A    fmt.Printf(\"%x\\n\", bs)\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

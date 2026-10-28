@@ -8,17 +8,23 @@ switch: Switch
 arrays: Pole
 slices: Výřezy (slice)
 maps: Mapy
-range: Range
 functions: Funkce
 multiple-return-values: Return s více návratovými hodnotami
 variadic-functions: Variadické funkce
 closures: Uzávěry (closure)
 recursion: Rekurze
+range-over-built-in-types: Range přes zabudované typy
 pointers: Ukazatelé (pointers)
+strings-and-runes: Řetězce a runy
 structs: Struktury (struct)
 methods: Metody
 interfaces: Interface
+enums: Výčtové typy (enums)
+struct-embedding: Vkládání struktur (embedding)
+generics: Generika (generics)
+range-over-iterators: Range přes iterátory
 errors: Chyby (errors)
+custom-errors: Vlastní chyby
 goroutines: Gorutiny
 channels: Kanály
 channel-buffering: Kanály s vyrovnávací pamětí
@@ -41,29 +47,38 @@ sorting: Třídění
 sorting-by-functions: Třídění s funkcemi
 panic: Panika (panic)
 defer: Odložené vykonání defer
-collection-functions: Funkce pro práci s kolekcemi
+recover: Zotavení (recover)
 string-functions: Funkce pro práci s řetězci
 string-formatting: Formátování řetězců
+text-templates: Textové šablony
 regular-expressions: Regulární výrazy
 json: JSON
+xml: XML
 time: Time
 epoch: Epocha
 time-formatting-parsing: Parsování a formátování času
 random-numbers: Náhodná čísla
 number-parsing: Parsování čísel
 url-parsing: Parsování URL
-sha1-hashes: SHA1 Hashe
+sha256-hashes: SHA256 Hashe
 base64-encoding: Kódování base64
 reading-files: Čtení souborů
 writing-files: Zápis do souborů
 line-filters: Řádkové filtry
 file-paths: Cesty k souborům
+directories: Adresáře
+temporary-files-and-directories: Dočasné soubory a adresáře
+embed-directive: Direktiva embed
+testing-and-benchmarking: Testování a benchmarky
 command-line-arguments: Parametry příkazové řádky
 command-line-flags: Příznaky na příkazové řádce
 command-line-subcommands: Podpříkazy příkazové řádky
 environment-variables: Proměnné prostředí
-http-clients: HTTP Klienti
-http-servers: HTTP Servery
+logging: Logování
+http-client: HTTP Klient
+http-server: HTTP Server
+tcp-server: TCP Server
+context: Kontext (context)
 spawning-processes: Vytváření podprocesů
 execing-processes: Spouštění procesů
 signals: Signály

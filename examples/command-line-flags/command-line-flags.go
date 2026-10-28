@@ -1,4 +1,4 @@
-// [_Příznaky na příkazové řádce_](http://en.wikipedia.org/wiki/Command-line_interface#Command-line_option)
+// [_Příznaky na příkazové řádce_](https://en.wikipedia.org/wiki/Command-line_interface#Command-line_option)
 // jsou běžným způsobem pro nastavení voleb pro příkazovou řádku
 // programů. Například, u `wc -l` volba `-l` je příznak
 // příkazové řádky (command-line flag).
@@ -9,8 +9,10 @@ package main
 // parsování příznaků z příkazové řádky. Použijeme
 // tento balíček pro implementaci našeho příkladu
 // programu pro příkazovou řádku.
-import "flag"
-import "fmt"
+import (
+	"flag"
+	"fmt"
+)
 
 func main() {
 
@@ -26,7 +28,7 @@ func main() {
 	// Toto deklaruje příznaky `numb` a `fork` s použitím
 	// podobného přístupu jako u příznaku `word`.
 	numbPtr := flag.Int("numb", 42, "an int")
-	boolPtr := flag.Bool("fork", false, "a bool")
+	forkPtr := flag.Bool("fork", false, "a bool")
 
 	// Také je možné deklarovat příznak který používá
 	// existující proměnnou deklarovanou jinde v
@@ -45,7 +47,7 @@ func main() {
 	// `*wordPtr` k získání vlastních hodnot voleb.
 	fmt.Println("word:", *wordPtr)
 	fmt.Println("numb:", *numbPtr)
-	fmt.Println("fork:", *boolPtr)
+	fmt.Println("fork:", *forkPtr)
 	fmt.Println("svar:", svar)
 	fmt.Println("tail:", flag.Args())
 }

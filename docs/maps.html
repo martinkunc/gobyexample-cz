@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'range';
+              window.location.href = 'functions';
           }
           
       }
@@ -27,7 +27,7 @@
         
         <tr>
           <td class="docs">
-            <p><em>Mapy</em> jsou <a href="http://en.wikipedia.org/wiki/Associative_array">asociativní datové typy</a>
+            <p><em>Mapy</em> jsou <a href="https://en.wikipedia.org/wiki/Associative_array">asociativní datové typy</a>
 zabudované do Go. (Někdy v jiných programovacích
 jazycích se jim také říká <em>hashe</em> nebo <em>slovníky</em>).</p>
 
@@ -43,7 +43,7 @@ jazycích se jim také říká <em>hashe</em> nebo <em>slovníky</em>).</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/gsGn-Uszjgc"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/2VMshyj5Z-k"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -56,7 +56,10 @@ jazycích se jim také říká <em>hashe</em> nebo <em>slovníky</em>).</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;maps&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -128,7 +131,23 @@ její dvojice klíč/hodnota.</p>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">v1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">m</span><span class="p">[</span><span class="s">&quot;k1&quot;</span><span class="p">]</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;v1: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">v1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;v1:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">v1</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pokud klíč neexistuje, vrátí se
+<a href="https://go.dev/ref/spec#The_zero_value">nulová hodnota</a>
+typu hodnoty.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">v3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">m</span><span class="p">[</span><span class="s">&quot;k3&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;v3:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">v3</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -165,6 +184,21 @@ klíč hodnota z mapy.</p>
         
         <tr>
           <td class="docs">
+            <p>Pro odstranění <em>všech</em> dvojic klíč/hodnota z mapy
+použijte zabudovanou funkci <code>clear</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">clear</span><span class="p">(</span><span class="nx">m</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;mapa:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">m</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
             <p>Volitelná druhá návratová hodnota během získávání
 hodnoty z mapy určuje jestli byl klíč v mapě
 nalezen. Může být použita pro rozlišení mezi
@@ -190,10 +224,27 @@ hodnotu, tak ji ignorujeme s použitím
 na stejném řádku s takovouhle syntaxí:</p>
 
           </td>
-          <td class="code">
+          <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&quot;foo&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;mapa:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíček <code>maps</code> obsahuje řadu užitečných pomocných
+funkcí pro práci s mapami.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">n2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&quot;foo&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">maps</span><span class="p">.</span><span class="nx">Equal</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span><span class="w"> </span><span class="nx">n2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;n == n2&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -212,13 +263,16 @@ když jsou vypsané funkcí <code>fmt.Println</code>.</p>
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>maps.go<span class="w"> </span>
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>maps.go
 <span class="go">mapa: map[k1:7 k2:13]</span>
-<span class="go">v1:  7</span>
+<span class="go">v1: 7</span>
+<span class="go">v3: 0</span>
 <span class="go">len: 2</span>
 <span class="go">mapa: map[k1:7]</span>
+<span class="go">mapa: map[]</span>
 <span class="go">nalezen: false</span>
 <span class="go">mapa: map[bar:2 foo:1]</span>
+<span class="go">n == n2</span>
 </pre></div>
 
           </td>
@@ -228,7 +282,7 @@ když jsou vypsané funkcí <code>fmt.Println</code>.</p>
       
       
       <p class="next">
-        Další příklad: <a href="range">Range</a>.
+        Další příklad: <a href="functions">Funkce</a>.
       </p>
       
       <p class="footer">
@@ -237,7 +291,7 @@ když jsou vypsané funkcí <code>fmt.Println</code>.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    m :\u003D make(map[string]int)\u000A');codeLines.push('    m[\"k1\"] \u003D 7\u000A    m[\"k2\"] \u003D 13\u000A');codeLines.push('    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    v1 :\u003D m[\"k1\"]\u000A    fmt.Println(\"v1: \", v1)\u000A');codeLines.push('    fmt.Println(\"len:\", len(m))\u000A');codeLines.push('    delete(m, \"k2\")\u000A    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    _, nal :\u003D m[\"k2\"]\u000A    fmt.Println(\"nalezen:\", nal)\u000A');codeLines.push('    n :\u003D map[string]int{\"foo\": 1, \"bar\": 2}\u000A    fmt.Println(\"mapa:\", n)\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"maps\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    m :\u003D make(map[string]int)\u000A');codeLines.push('    m[\"k1\"] \u003D 7\u000A    m[\"k2\"] \u003D 13\u000A');codeLines.push('    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    v1 :\u003D m[\"k1\"]\u000A    fmt.Println(\"v1:\", v1)\u000A');codeLines.push('    v3 :\u003D m[\"k3\"]\u000A    fmt.Println(\"v3:\", v3)\u000A');codeLines.push('    fmt.Println(\"len:\", len(m))\u000A');codeLines.push('    delete(m, \"k2\")\u000A    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    clear(m)\u000A    fmt.Println(\"mapa:\", m)\u000A');codeLines.push('    _, nal :\u003D m[\"k2\"]\u000A    fmt.Println(\"nalezen:\", nal)\u000A');codeLines.push('    n :\u003D map[string]int{\"foo\": 1, \"bar\": 2}\u000A    fmt.Println(\"mapa:\", n)\u000A');codeLines.push('    n2 :\u003D map[string]int{\"foo\": 1, \"bar\": 2}\u000A    if maps.Equal(n, n2) {\u000A        fmt.Println(\"n \u003D\u003D n2\")\u000A    }\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

@@ -1,11 +1,11 @@
+# Některá z vygenerovaných čísel mohou být při
+# spuštění příkladu jiná.
 $ go run random-numbers.go
-81,87
-0.6645600532184904
-7.123187485356329,8.434115364335547
-0,28
-5,87
-5,87
+68,56
+0.8090228139659177
+5.840125017402497,6.937056298890035
+94,49
+94,49
 
-
-# Pro další náhodná množství která dokáže Go generovat
-# se podívej na dokumentaci balíčku [`math/rand`](http://golang.org/pkg/math/rand/).
+# Pro další náhodné hodnoty, které dokáže Go generovat,
+# se podívejte na dokumentaci balíčku [`math/rand/v2`](https://pkg.go.dev/math/rand/v2).

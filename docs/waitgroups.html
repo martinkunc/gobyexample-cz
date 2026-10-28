@@ -42,7 +42,7 @@
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/ykX_u7gN3bI"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/AxkJRWvkEqT"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -67,14 +67,12 @@
         
         <tr>
           <td class="docs">
-            <p>Toto je funkce která poběží v každé gorutině
-Všimněte si že WaitGroup musí být předána funkcím jako
-ukazatel.</p>
+            <p>Toto je funkce, která poběží v každé gorutině.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">worker</span><span class="p">(</span><span class="nx">id</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">wg</span><span class="w"> </span><span class="o">*</span><span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">worker</span><span class="p">(</span><span class="nx">id</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Worker %d startuje\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">)</span>
 </pre></div>
 
@@ -90,19 +88,6 @@ ukazatel.</p>
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Worker %d končí\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">)</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Oznamujeme do WaitGroup že tato rutina je hotova.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Done</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -125,7 +110,8 @@ ukazatel.</p>
           <td class="docs">
             <p>Tato čekací skupina (WaitGroup) je použita pro
 čekání na ukončení všech gorutin zde
-nastartovaných</p>
+nastartovaných. Pozn.: pokud WaitGroup explicitně
+předáváte do funkcí, mělo by to být <em>jako ukazatel</em>.</p>
 
           </td>
           <td class="code leading">
@@ -138,15 +124,15 @@ nastartovaných</p>
         
         <tr>
           <td class="docs">
-            <p>Nastartujeme několik gorutin a pro každou zvýšíme
-počítadlo ve WaitGroup.</p>
+            <p>Nastartujeme několik gorutin pomocí <code>WaitGroup.Go</code>.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="nx">worker</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">wg</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">worker</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">        </span><span class="p">})</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -155,15 +141,30 @@ počítadlo ve WaitGroup.</p>
         
         <tr>
           <td class="docs">
-            <p>Blokujeme dokud počítadlo ve WaitGroup nespadne
-zpět na 0; Tj že všechny rutiny oznámily že jsou
-hotové.</p>
+            <p>Blokujeme, dokud nejsou hotové všechny gorutiny
+nastartované pomocí <code>wg</code>. Gorutina je hotová, když
+se funkce, kterou volá, vrátí.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Všimněte si, že tento přístup nenabízí přímočarý
+způsob, jak předat chyby z pracovních rutin. Pro
+pokročilejší případy použití zvažte
+<a href="https://pkg.go.dev/golang.org/x/sync/errgroup">balíček errgroup</a>.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
-<span class="p">}</span>
+          <div class="highlight"><pre><span class="p">}</span>
 </pre></div>
 
           </td>
@@ -220,7 +221,7 @@ jiné při každém spuštění.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"sync\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func worker(id int, wg *sync.WaitGroup) {\u000A    fmt.Printf(\"Worker %d startuje\\n\", id)\u000A');codeLines.push('    time.Sleep(time.Second)\u000A    fmt.Printf(\"Worker %d končí\\n\", id)\u000A');codeLines.push('    wg.Done()\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var wg sync.WaitGroup\u000A');codeLines.push('    for i :\u003D 1; i \u003C\u003D 5; i++ {\u000A        wg.Add(1)\u000A        go worker(i, \u0026wg)\u000A    }\u000A');codeLines.push('    wg.Wait()\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"sync\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func worker(id int) {\u000A    fmt.Printf(\"Worker %d startuje\\n\", id)\u000A');codeLines.push('    time.Sleep(time.Second)\u000A    fmt.Printf(\"Worker %d končí\\n\", id)\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var wg sync.WaitGroup\u000A');codeLines.push('    for i :\u003D 1; i \u003C\u003D 5; i++ {\u000A        wg.Go(func() {\u000A            worker(i)\u000A        })\u000A    }\u000A');codeLines.push('    wg.Wait()\u000A');codeLines.push('}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

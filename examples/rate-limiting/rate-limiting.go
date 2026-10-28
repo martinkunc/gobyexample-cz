@@ -1,4 +1,4 @@
-// <em>[Omezování rychlosti (Rate limiting)](http://cs.wikipedia.org/wiki/Rate_limiting)</em>
+// [_Omezování rychlosti (rate limiting)_](https://cs.wikipedia.org/wiki/Rate_limiting)
 // je důležitý mechanismus pro kontrolu využívání zdrojů
 // a udržování kvality služeb. Go elegantně podporuje
 // omezování rychlostí pomocí gorutin,
@@ -6,8 +6,10 @@
 
 package main
 
-import "time"
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
@@ -45,7 +47,7 @@ func main() {
 
 	// Naplníme kanál pro demonstraci dovolené velikosti
 	// dávky.
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		burstyLimiter <- time.Now()
 	}
 

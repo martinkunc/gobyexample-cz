@@ -44,7 +44,7 @@ nejsme připraveni elegantně ošetřit.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/bKfF5gj3Pxv"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/erjDchQqYhf"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -57,7 +57,10 @@ nejsme připraveni elegantně ošetřit.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;path/filepath&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -101,7 +104,8 @@ souboru.</p>
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;/tmp/file&quot;</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">path</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">TempDir</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;file&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
@@ -120,6 +124,20 @@ souboru.</p>
             <p>Spuštění tohoto programu způsobí že spadne na paniku,
 vypíše chybu a stacktrace gorutiny, a skončí s
 ne-nulovým stavem.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Když v <code>main</code> nastane první panika, program skončí, aniž
+by se dostal ke zbytku kódu. Pokud chcete vidět, jak se
+program pokusí vytvořit dočasný soubor, první paniku
+zakomentujte.</p>
 
           </td>
           <td class="code leading">
@@ -174,7 +192,7 @@ všude kde je to možné.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"os\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    panic(\"problém\")\u000A');codeLines.push('    _, err :\u003D os.Create(\"/tmp/file\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"os\"\u000A    \"path/filepath\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    panic(\"problém\")\u000A');codeLines.push('    path :\u003D filepath.Join(os.TempDir(), \"file\")\u000A    _, err :\u003D os.Create(path)\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

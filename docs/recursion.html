@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'pointers';
+              window.location.href = 'range-over-built-in-types';
           }
           
       }
@@ -28,8 +28,8 @@
         <tr>
           <td class="docs">
             <p>Go podporuje
-<a href="http://en.wikipedia.org/wiki/Recursion_(computer_science)"><em>rekurzivní funkce</em></a>.
-Tady je klasický příklad faktoriálu.</p>
+<a href="https://en.wikipedia.org/wiki/Recursion_(computer_science)"><em>rekurzivní funkce</em></a>.
+Tady je klasický příklad.</p>
 
           </td>
           <td class="code empty leading">
@@ -43,7 +43,7 @@ Tady je klasický příklad faktoriálu.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/xYXXr789r5x"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/wHSzlsfxM3Z"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -85,10 +85,67 @@ základního stavu <code>fact(0)</code>.</p>
           <td class="docs">
             
           </td>
-          <td class="code">
+          <td class="code leading">
             
           <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">fact</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Rekurzivní mohou být i anonymní funkce, ale to
+vyžaduje explicitně deklarovat proměnnou pomocí <code>var</code>,
+do které funkci uložíme, ještě před její definicí.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">fib</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fib</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">n</span>
+<span class="w">        </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Protože jsme <code>fib</code> předtím deklarovali v <code>main</code>,
+Go ví, kterou funkci má zde pomocí <code>fib</code> zavolat.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fib</span><span class="p">(</span><span class="nx">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">fib</span><span class="p">(</span><span class="nx">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">fib</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -107,6 +164,7 @@ základního stavu <code>fact(0)</code>.</p>
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>recursion.go<span class="w"> </span>
 <span class="go">5040</span>
+<span class="go">13</span>
 </pre></div>
 
           </td>
@@ -116,7 +174,7 @@ základního stavu <code>fact(0)</code>.</p>
       
       
       <p class="next">
-        Další příklad: <a href="pointers">Ukazatelé (pointers)</a>.
+        Další příklad: <a href="range-over-built-in-types">Range přes zabudované typy</a>.
       </p>
       
       <p class="footer">
@@ -125,7 +183,7 @@ základního stavu <code>fact(0)</code>.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func fact(n int) int {\u000A    if n \u003D\u003D 0 {\u000A        return 1\u000A    }\u000A    return n * fact(n-1)\u000A}\u000A');codeLines.push('func main() {\u000A    fmt.Println(fact(7))\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func fact(n int) int {\u000A    if n \u003D\u003D 0 {\u000A        return 1\u000A    }\u000A    return n * fact(n-1)\u000A}\u000A');codeLines.push('func main() {\u000A    fmt.Println(fact(7))\u000A');codeLines.push('    var fib func(n int) int\u000A');codeLines.push('    fib \u003D func(n int) int {\u000A        if n \u003C 2 {\u000A            return n\u000A        }\u000A');codeLines.push('        return fib(n-1) + fib(n-2)\u000A    }\u000A');codeLines.push('    fmt.Println(fib(7))\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

@@ -28,9 +28,9 @@
         <tr>
           <td class="docs">
             <p>V předchozím příkladu jsme viděli jak jednoduše spravovat
-stav counterů pomocí <a href="atomic-counters">atomických counterů</a>.
-Pro více komplikované stavy můžeme použít <em><a href="http://en.wikipedia.org/wiki/Mutual_exclusion">mutexy</a></em>
-pro bezpečný přístup k datům z několika goroutin.</p>
+stav counterů pomocí <a href="atomic-counters">atomických operací</a>.
+Pro více komplikované stavy můžeme použít <a href="https://en.wikipedia.org/wiki/Mutual_exclusion"><em>mutex</em></a>
+pro bezpečný přístup k datům z několika gorutin.</p>
 
           </td>
           <td class="code empty leading">
@@ -44,7 +44,7 @@ pro bezpečný přístup k datům z několika goroutin.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/DiJCEPSqTkT"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/cJOVWqIoubp"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -59,10 +59,7 @@ pro bezpečný přístup k datům z několika goroutin.</p>
             
           <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="s">&quot;fmt&quot;</span>
-<span class="w">    </span><span class="s">&quot;math/rand&quot;</span>
 <span class="w">    </span><span class="s">&quot;sync&quot;</span>
-<span class="w">    </span><span class="s">&quot;sync/atomic&quot;</span>
-<span class="w">    </span><span class="s">&quot;time&quot;</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -71,11 +68,65 @@ pro bezpečný přístup k datům z několika goroutin.</p>
         
         <tr>
           <td class="docs">
+            <p><code>Kontejner</code> obsahuje mapu counterů; protože ho chceme
+měnit souběžně z několika gorutin, přidáme <code>Mutex</code>
+pro synchronizaci přístupu.
+Všimněte si, že mutexy se nesmí kopírovat, takže pokud
+tuto strukturu předáváme dál, mělo by to být pomocí
+ukazatele.</p>
+
+          </td>
+          <td class="code leading">
             
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">Kontejner</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">mu</span><span class="w">       </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+<span class="w">    </span><span class="nx">countery</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Před přístupem ke <code>countery</code> zamkneme mutex; na konci
+funkce ho odemkneme pomocí příkazu <a href="defer">defer</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">k</span><span class="w"> </span><span class="o">*</span><span class="nx">Kontejner</span><span class="p">)</span><span class="w"> </span><span class="nx">zvys</span><span class="p">(</span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">k</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">k</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">k</span><span class="p">.</span><span class="nx">countery</span><span class="p">[</span><span class="nx">jmeno</span><span class="p">]</span><span class="o">++</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Všimněte si, že nulová hodnota mutexu je přímo
+použitelná, takže zde není potřeba žádná
+inicializace.</p>
+
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">k</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Kontejner</span><span class="p">{</span>
 </pre></div>
 
           </td>
@@ -83,94 +134,11 @@ pro bezpečný přístup k datům z několika goroutin.</p>
         
         <tr>
           <td class="docs">
-            <p>Pro náš příklad bude <code>stavem</code> mapa.</p>
-
+            
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">state</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="kt">int</span><span class="p">)</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Tento <code>mutex</code> bude ke <code>stavu</code> synchronizovat přístup.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">mutex</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span><span class="p">{}</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Budeme sledovat kolik čtecích a zapisovacích operací
-uděláme.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">readOps</span><span class="w"> </span><span class="kt">uint64</span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">writeOps</span><span class="w"> </span><span class="kt">uint64</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Zde nastartujeme 100 gorutin pro provádění opakovaných
-čtení ze stavu, jednou za milisekundu v každé gorutině.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="nx">r</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">total</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span>
-<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Pro každé čtení vybereme klíč pro přístup,
-pomocí <code>Lock()</code> zamkneme <code>mutex</code> k zajištění
-exkluzivního přístupu ke <code>stavu</code>, načteme
-hodnotu se zvoleným klíčem,
-pomocí <code>Unlock()</code> odemkneme mutex, a zvýšíme
-počet v <code>readOps</code>.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">                </span><span class="nx">key</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="w">                </span><span class="nx">mutex</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
-<span class="w">                </span><span class="nx">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">state</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
-<span class="w">                </span><span class="nx">mutex</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
-<span class="w">                </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">AddUint64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">readOps</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Trochu počkejme mezi čteními.</p>
-
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}()</span>
+          <div class="highlight"><pre><span class="w">        </span><span class="nx">countery</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&quot;a&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;b&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">},</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -179,24 +147,27 @@ počet v <code>readOps</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Také nastartujeme 10 gorutin pro simulaci zápisů
-s použitím stejného přístupu jako jsme použili u čtení.</p>
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">wg</span><span class="w"> </span><span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tato funkce v cyklu zvyšuje pojmenovaný counter.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="nx">w</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nx">key</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="w">                </span><span class="nx">val</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">rand</span><span class="p">.</span><span class="nx">Intn</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-<span class="w">                </span><span class="nx">mutex</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
-<span class="w">                </span><span class="nx">state</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">val</span>
-<span class="w">                </span><span class="nx">mutex</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
-<span class="w">                </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">AddUint64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">writeOps</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
-<span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}()</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">zvysuj</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">k</span><span class="p">.</span><span class="nx">zvys</span><span class="p">(</span><span class="nx">jmeno</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
 
@@ -205,13 +176,16 @@ s použitím stejného přístupu jako jsme použili u čtení.</p>
         
         <tr>
           <td class="docs">
-            <p>Nechejme 10 gorutin pracovat na <code>stavu</code> a
-<code>mutexu</code> po jednu vteřinu.</p>
+            <p>Spustíme několik gorutin souběžně; všimněte si,
+že všechny přistupují ke stejnému <code>Kontejner</code>u
+a dvě z nich ke stejnému counteru.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">zvysuj</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
 </pre></div>
 
           </td>
@@ -219,15 +193,13 @@ s použitím stejného přístupu jako jsme použili u čtení.</p>
         
         <tr>
           <td class="docs">
-            <p>Načti a vypiš výsledné počty operací.</p>
-
+            
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">readOpsFinal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">LoadUint64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">readOps</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;readOps:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">readOpsFinal</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">writeOpsFinal</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">atomic</span><span class="p">.</span><span class="nx">LoadUint64</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">writeOps</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;writeOps:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">writeOpsFinal</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">zvysuj</span><span class="p">(</span><span class="s">&quot;a&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
 </pre></div>
 
           </td>
@@ -235,14 +207,27 @@ s použitím stejného přístupu jako jsme použili u čtení.</p>
         
         <tr>
           <td class="docs">
-            <p>Se závěrečným zamknutím <code>stavu</code>, ukaž jak jsme skončili.</p>
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Go</span><span class="p">(</span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">zvysuj</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10000</span><span class="p">)</span>
+<span class="w">    </span><span class="p">})</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Počkáme, až gorutiny skončí.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">mutex</span><span class="p">.</span><span class="nx">Lock</span><span class="p">()</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;stav:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">state</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">mutex</span><span class="p">.</span><span class="nx">Unlock</span><span class="p">()</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">wg</span><span class="p">.</span><span class="nx">Wait</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">k</span><span class="p">.</span><span class="nx">countery</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -255,17 +240,14 @@ s použitím stejného přístupu jako jsme použili u čtení.</p>
         
         <tr>
           <td class="docs">
-            <p>Spuštění programu ukáže že jsme provedli celkem okolo
-90,000 operací proti našemu <code>stavu</code> synchronizovaného
-<code>mutexem</code>.</p>
+            <p>Spuštění programu ukáže, že se countery
+aktualizovaly podle očekávání.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>mutexes.go
-<span class="go">readOps: 83285</span>
-<span class="go">writeOps: 8320</span>
-<span class="go">stav: map[1:97 4:53 0:33 2:15 3:2]</span>
+<span class="go">map[a:20000 b:10000]</span>
 </pre></div>
 
           </td>
@@ -296,7 +278,7 @@ se správou stavu jenom s pomocí gorutin a kanálů.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"math/rand\"\u000A    \"sync\"\u000A    \"sync/atomic\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var state \u003D make(map[int]int)\u000A');codeLines.push('    var mutex \u003D \u0026sync.Mutex{}\u000A');codeLines.push('    var readOps uint64\u000A    var writeOps uint64\u000A');codeLines.push('    for r :\u003D 0; r \u003C 100; r++ {\u000A        go func() {\u000A            total :\u003D 0\u000A            for {\u000A');codeLines.push('                key :\u003D rand.Intn(5)\u000A                mutex.Lock()\u000A                total +\u003D state[key]\u000A                mutex.Unlock()\u000A                atomic.AddUint64(\u0026readOps, 1)\u000A');codeLines.push('                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    for w :\u003D 0; w \u003C 10; w++ {\u000A        go func() {\u000A            for {\u000A                key :\u003D rand.Intn(5)\u000A                val :\u003D rand.Intn(100)\u000A                mutex.Lock()\u000A                state[key] \u003D val\u000A                mutex.Unlock()\u000A                atomic.AddUint64(\u0026writeOps, 1)\u000A                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    time.Sleep(time.Second)\u000A');codeLines.push('    readOpsFinal :\u003D atomic.LoadUint64(\u0026readOps)\u000A    fmt.Println(\"readOps:\", readOpsFinal)\u000A    writeOpsFinal :\u003D atomic.LoadUint64(\u0026writeOps)\u000A    fmt.Println(\"writeOps:\", writeOpsFinal)\u000A');codeLines.push('    mutex.Lock()\u000A    fmt.Println(\"stav:\", state)\u000A    mutex.Unlock()\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"sync\"\u000A)\u000A');codeLines.push('type Kontejner struct {\u000A    mu       sync.Mutex\u000A    countery map[string]int\u000A}\u000A');codeLines.push('func (k *Kontejner) zvys(jmeno string) {\u000A');codeLines.push('    k.mu.Lock()\u000A    defer k.mu.Unlock()\u000A    k.countery[jmeno]++\u000A}\u000A');codeLines.push('func main() {\u000A    k :\u003D Kontejner{\u000A');codeLines.push('        countery: map[string]int{\"a\": 0, \"b\": 0},\u000A    }\u000A');codeLines.push('    var wg sync.WaitGroup\u000A');codeLines.push('    zvysuj :\u003D func(jmeno string, n int) {\u000A        for range n {\u000A            k.zvys(jmeno)\u000A        }\u000A    }\u000A');codeLines.push('    wg.Go(func() {\u000A        zvysuj(\"a\", 10000)\u000A    })\u000A');codeLines.push('    wg.Go(func() {\u000A        zvysuj(\"a\", 10000)\u000A    })\u000A');codeLines.push('    wg.Go(func() {\u000A        zvysuj(\"b\", 10000)\u000A    })\u000A');codeLines.push('    wg.Wait()\u000A    fmt.Println(k.countery)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

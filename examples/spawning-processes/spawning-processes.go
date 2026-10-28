@@ -1,15 +1,14 @@
-// Někdy naše Go programu potřebují zplodit jiné, ne-Go
-// procesy. Například, syntaktické podbarvení na téhle
-// stránce je [implementovaný](https://github.com/mmcgrana/gobyexample/blob/master/tools/generate.go)
-// pomocí spouštění [`pygmentize`](http://pygments.org/)
-// podprocesu z Go programu. Pojďme se podívat na pár
-// příkladů spouštění podprocesů v Go.
+// Někdy naše Go programy potřebují spustit jiné
+// procesy.
 
 package main
 
-import "fmt"
-import "io/ioutil"
-import "os/exec"
+import (
+	"errors"
+	"fmt"
+	"io"
+	"os/exec"
+)
 
 func main() {
 
@@ -19,10 +18,10 @@ func main() {
 	// objekt pro reprezentaci tohoto externího procesu.
 	dateCmd := exec.Command("date")
 
-	// `.Output` je další z pomocných funkcí které ošetřují
-	// běžný případ běhu příkazu s čekáním na jeho ukončení,
-	// a sběrem jeho výstupu. Pokud nedošlo k žádným chybám,
-	// bude `dateOut` obsahovat bajty s informací o datumu.
+	// Metoda `Output` spustí příkaz, počká na jeho
+	// ukončení a posbírá jeho standardní výstup.
+	// Pokud nedošlo k žádným chybám, bude `dateOut`
+	// obsahovat bajty s informací o datu.
 	dateOut, err := dateCmd.Output()
 	if err != nil {
 		panic(err)
@@ -30,7 +29,24 @@ func main() {
 	fmt.Println("> date")
 	fmt.Println(string(dateOut))
 
-	// Dál se podíváme na trochu kompikovanější případ
+	// `Output` a další metody `Command` vrátí
+	// `*exec.Error`, pokud byl při spouštění příkazu
+	// problém (např. špatná cesta), a `*exec.ExitError`,
+	// pokud se příkaz spustil, ale skončil s nenulovým
+	// návratovým kódem.
+	_, err = exec.Command("date", "-x").Output()
+	if err != nil {
+		if e, ok := errors.AsType[*exec.Error](err); ok {
+			fmt.Println("spuštění selhalo:", e)
+		} else if e, ok := errors.AsType[*exec.ExitError](err); ok {
+			exitCode := e.ExitCode()
+			fmt.Println("návratový kód příkazu =", exitCode)
+		} else {
+			panic(err)
+		}
+	}
+
+	// Dál se podíváme na trochu komplikovanější případ
 	// kde propojíme pomocí pipe data do externího procesu
 	// na jeho `stdin` a posbíráme výsledky z jeho `stdout`.
 	grepCmd := exec.Command("grep", "hello")
@@ -44,7 +60,7 @@ func main() {
 	grepCmd.Start()
 	grepIn.Write([]byte("hello grep\ngoodbye grep"))
 	grepIn.Close()
-	grepBytes, _ := ioutil.ReadAll(grepOut)
+	grepBytes, _ := io.ReadAll(grepOut)
 	grepCmd.Wait()
 
 	// V našem příkladu výše jsme vynechali kontroly chyb, ale

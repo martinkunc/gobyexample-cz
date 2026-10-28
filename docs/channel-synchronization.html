@@ -45,7 +45,7 @@ budete preferovat použití <a href="waitgroups">WaitGroup</a>.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/Cfasiu6-Kd9"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/PG4rMR1VexU"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -58,8 +58,10 @@ budete preferovat použití <a href="waitgroups">WaitGroup</a>.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -158,9 +160,10 @@ oznámení od pracovní rutiny.</p>
         
         <tr>
           <td class="docs">
-            <p>Když byste odstranili řádek <code>&lt;- done</code>,
-program by skončil dokonce ještě dřív než by pracovní
-gorutina nastartovala.</p>
+            <p>Když byste odstranili řádek <code>&lt;- done</code>, program by
+mohl skončit dřív, než pracovní gorutina dokončí svou
+práci, a v některých případech dokonce ještě dřív, než
+by vůbec nastartovala.</p>
 
           </td>
           <td class="code empty">
@@ -182,7 +185,7 @@ gorutina nastartovala.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000A');codeLines.push('func worker(done chan bool) {\u000A    fmt.Print(\"pracuji...\")\u000A    time.Sleep(time.Second)\u000A    fmt.Println(\"hotovo\")\u000A');codeLines.push('    done \u003C- true\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    done :\u003D make(chan bool, 1)\u000A    go worker(done)\u000A');codeLines.push('    \u003C-done\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func worker(done chan bool) {\u000A    fmt.Print(\"pracuji...\")\u000A    time.Sleep(time.Second)\u000A    fmt.Println(\"hotovo\")\u000A');codeLines.push('    done \u003C- true\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    done :\u003D make(chan bool, 1)\u000A    go worker(done)\u000A');codeLines.push('    \u003C-done\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

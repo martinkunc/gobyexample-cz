@@ -34,7 +34,7 @@ běžícího Go procesu. Někdy prostě chceme kompletně
 nahradit aktuální Go proces jiným (možné ne-Go).
 procesem. Abychom to udělali použijeme Go
 implementaci klasické funkce
-<a href="http://en.wikipedia.org/wiki/Exec_(operating_system)"><code>exec</code></a>.</p>
+<a href="https://en.wikipedia.org/wiki/Exec_(operating_system)"><code>exec</code></a>.</p>
 
           </td>
           <td class="code empty leading">
@@ -48,7 +48,7 @@ implementaci klasické funkce
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/DTpWbOoTIgP"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/x_Z6QRTvf-C"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -61,9 +61,11 @@ implementaci klasické funkce
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;syscall&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os/exec&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;os/exec&quot;</span>
+<span class="w">    </span><span class="s">&quot;syscall&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -102,7 +104,7 @@ použijeme <code>exec.LookPath</code> pro jejího nalezení (pravděpodobně
         
         <tr>
           <td class="docs">
-            <p><code>Exec</code> vyžaduje argumentz ve formě výřezu (a ne jako jeden
+            <p><code>Exec</code> vyžaduje argumenty ve formě výřezu (a ne jako jeden
 velký řetězec). Zkusíme dát <code>ls</code> pár běžných argumentů.
 Všimněte si, že první argument by měl být název
 programu.</p>
@@ -198,7 +200,7 @@ pokrývá většinu případů použití <code>fork</code>u.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"syscall\"\u000Aimport \"os\"\u000Aimport \"os/exec\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    binary, lookErr :\u003D exec.LookPath(\"ls\")\u000A    if lookErr !\u003D nil {\u000A        panic(lookErr)\u000A    }\u000A');codeLines.push('    args :\u003D []string{\"ls\", \"-a\", \"-l\", \"-h\"}\u000A');codeLines.push('    env :\u003D os.Environ()\u000A');codeLines.push('    execErr :\u003D syscall.Exec(binary, args, env)\u000A    if execErr !\u003D nil {\u000A        panic(execErr)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"os\"\u000A    \"os/exec\"\u000A    \"syscall\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    binary, lookErr :\u003D exec.LookPath(\"ls\")\u000A    if lookErr !\u003D nil {\u000A        panic(lookErr)\u000A    }\u000A');codeLines.push('    args :\u003D []string{\"ls\", \"-a\", \"-l\", \"-h\"}\u000A');codeLines.push('    env :\u003D os.Environ()\u000A');codeLines.push('    execErr :\u003D syscall.Exec(binary, args, env)\u000A    if execErr !\u003D nil {\u000A        panic(execErr)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

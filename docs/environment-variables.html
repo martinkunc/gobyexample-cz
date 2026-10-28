@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'http-clients';
+              window.location.href = 'logging';
           }
           
       }
@@ -27,8 +27,8 @@
         
         <tr>
           <td class="docs">
-            <p><a href="http://en.wikipedia.org/wiki/Environment_variable">Proměnné prostředí</a>
-jsou univerzální mechanismus pro <a href="http://www.12factor.net/config">předávání informací o konfiguraci
+            <p><a href="https://en.wikipedia.org/wiki/Environment_variable">Proměnné prostředí</a>
+jsou univerzální mechanismus pro <a href="https://www.12factor.net/config">předávání informací o konfiguraci
 Unixovým programům</a>.
 Pojďme se podívat jak nastavit, získat a vypsat proměnné prostředí.</p>
 
@@ -44,7 +44,7 @@ Pojďme se podívat jak nastavit, získat a vypsat proměnné prostředí.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/7n9V-SxrGqz"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/OQavPv6J9ii"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -57,9 +57,11 @@ Pojďme se podívat jak nastavit, získat a vypsat proměnné prostředí.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;strings&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;strings&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -98,7 +100,7 @@ prázdný řetězec pokud nebude klíč v prostředí existovat.</p>
           <td class="docs">
             <p>Použijte <code>os.Environ</code> pro vypsání všech dvojic key/value v
 prostředí. Toto vrátí výřez řetězců ve formě <code>KLÍČ=hodnota</code>.
-Můžeš na ně použít <code>strings.Split</code> pro získání
+Můžete na ně použít <code>strings.SplitN</code> pro získání
 klíče a hodnoty. Tady vypíšeme všechny klíče.</p>
 
           </td>
@@ -106,7 +108,7 @@ klíče a hodnoty. Tady vypíšeme všechny klíče.</p>
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Environ</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">pair</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Split</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;=&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">pair</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">SplitN</span><span class="p">(</span><span class="nx">e</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;=&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
 <span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -148,6 +150,7 @@ konkrétním stroji.</p>
 <span class="go">PATH</span>
 <span class="go">SHELL</span>
 <span class="go">...</span>
+<span class="go">FOO</span>
 </pre></div>
 
           </td>
@@ -174,7 +177,7 @@ programu poté hodnotu načte.</p>
       
       
       <p class="next">
-        Další příklad: <a href="http-clients">HTTP Klienti</a>.
+        Další příklad: <a href="logging">Logování</a>.
       </p>
       
       <p class="footer">
@@ -183,7 +186,7 @@ programu poté hodnotu načte.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"os\"\u000Aimport \"strings\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    os.Setenv(\"FOO\", \"1\")\u000A    fmt.Println(\"FOO:\", os.Getenv(\"FOO\"))\u000A    fmt.Println(\"BAR:\", os.Getenv(\"BAR\"))\u000A');codeLines.push('    fmt.Println()\u000A    for _, e :\u003D range os.Environ() {\u000A        pair :\u003D strings.Split(e, \"\u003D\")\u000A        fmt.Println(pair[0])\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A    \"strings\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    os.Setenv(\"FOO\", \"1\")\u000A    fmt.Println(\"FOO:\", os.Getenv(\"FOO\"))\u000A    fmt.Println(\"BAR:\", os.Getenv(\"BAR\"))\u000A');codeLines.push('    fmt.Println()\u000A    for _, e :\u003D range os.Environ() {\u000A        pair :\u003D strings.SplitN(e, \"\u003D\", 2)\u000A        fmt.Println(pair[0])\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

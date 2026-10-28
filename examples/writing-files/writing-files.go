@@ -6,8 +6,8 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 func check(e error) {
@@ -18,15 +18,17 @@ func check(e error) {
 
 func main() {
 
-	// Pro začátek tady je jako vypsat řetězec, nebo prostě
+	// Pro začátek tady je jak vypsat řetězec (nebo prostě
 	// bajty) do souboru.
 	d1 := []byte("ahoj\ngo\n")
-	err := ioutil.WriteFile("/tmp/dat1", d1, 0644)
+	path1 := filepath.Join(os.TempDir(), "dat1")
+	err := os.WriteFile(path1, d1, 0644)
 	check(err)
 
 	// Tento trochu méně sofistikovaný zápis otevře soubor
 	// pro zápis.
-	f, err := os.Create("/tmp/dat2")
+	path2 := filepath.Join(os.TempDir(), "dat2")
+	f, err := os.Create(path2)
 	check(err)
 
 	// V Go je idiomatické odložit `Close` hned po
@@ -43,6 +45,7 @@ func main() {
 
 	// Také existuje `WriteString`.
 	n3, err := f.WriteString("writes\n")
+	check(err)
 	fmt.Printf("zapsáno %d bajtů\n", n3)
 
 	// Pro vyprázdnění zápisů na stabilní úložiště
@@ -53,6 +56,7 @@ func main() {
 	//  Readerům které jsme viděli dříve.
 	w := bufio.NewWriter(f)
 	n4, err := w.WriteString("bufferováno\n")
+	check(err)
 	fmt.Printf("zapsáno %d bajtů\n", n4)
 
 	// Použijte `Flush` pro zajištění že všechny bufferované operace

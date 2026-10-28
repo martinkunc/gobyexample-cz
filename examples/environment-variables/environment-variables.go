@@ -1,13 +1,15 @@
-// [Proměnné prostředí](http://en.wikipedia.org/wiki/Environment_variable)
+// [Proměnné prostředí](https://en.wikipedia.org/wiki/Environment_variable)
 // jsou univerzální mechanismus pro [předávání informací o konfiguraci
-// Unixovým programům](http://www.12factor.net/config).
+// Unixovým programům](https://www.12factor.net/config).
 // Pojďme se podívat jak nastavit, získat a vypsat proměnné prostředí.
 
 package main
 
-import "os"
-import "strings"
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strings"
+)
 
 func main() {
 
@@ -20,11 +22,11 @@ func main() {
 
 	// Použijte `os.Environ` pro vypsání všech dvojic key/value v
 	// prostředí. Toto vrátí výřez řetězců ve formě `KLÍČ=hodnota`.
-	// Můžeš na ně použít `strings.Split` pro získání
+	// Můžete na ně použít `strings.SplitN` pro získání
 	// klíče a hodnoty. Tady vypíšeme všechny klíče.
 	fmt.Println()
 	for _, e := range os.Environ() {
-		pair := strings.Split(e, "=")
+		pair := strings.SplitN(e, "=", 2)
 		fmt.Println(pair[0])
 	}
 }

@@ -11,6 +11,7 @@ TERM_PROGRAM
 PATH
 SHELL
 ...
+FOO
 
 # Když nejdřív nastavíme v prostředí `BAR`, spuštění
 # programu poté hodnotu načte.

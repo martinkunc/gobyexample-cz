@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Logování</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'environment-variables';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'http-client';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="logging">
+      <h2><a href="./">Go podle Příkladů</a>: Logování</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Standardní knihovna Go poskytuje přímočaré nástroje
+pro výpis logů z Go programů: balíček
+<a href="https://pkg.go.dev/log">log</a> pro volně formátovaný
+výstup a balíček <a href="https://pkg.go.dev/log/slog">log/slog</a>
+pro strukturovaný výstup.</p>
+
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/UWzoIcqwjVw"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bytes&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;log&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="s">&quot;log/slog&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Prosté zavolání funkcí jako <code>Println</code> z balíčku
+<code>log</code> použije <em>standardní</em> logger, který je už
+předem nastavený pro rozumný výstup logů do
+<code>os.Stderr</code>. Další metody jako <code>Fatal*</code> nebo
+<code>Panic*</code> po zalogování program ukončí.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;standardní logger&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Loggery je možné nastavit pomocí <em>příznaků</em>
+(flags), které určují formát jejich výstupu.
+Ve výchozím stavu má standardní logger nastavené
+příznaky <code>log.Ldate</code> a <code>log.Ltime</code>, které jsou
+shrnuté v <code>log.LstdFlags</code>. Můžeme mu například
+změnit příznaky tak, aby vypisoval čas
+s přesností na mikrosekundy.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">SetFlags</span><span class="p">(</span><span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">Lmicroseconds</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;s mikrosekundami&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Podporuje také výpis názvu souboru a řádku,
+ze kterého je funkce <code>log</code> volána.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">SetFlags</span><span class="p">(</span><span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">Lshortfile</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;se souborem/řádkem&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Může se hodit vytvořit si vlastní logger a předávat
+ho dál. Při vytváření nového loggeru můžeme nastavit
+<em>prefix</em>, který odliší jeho výstup od ostatních
+loggerů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">mylog</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">mylog</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;z mylog&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Prefix můžeme nastavit i u existujících loggerů
+(včetně standardního) pomocí metody <code>SetPrefix</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">mylog</span><span class="p">.</span><span class="nx">SetPrefix</span><span class="p">(</span><span class="s">&quot;ohmy:&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">mylog</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;z mylog&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Loggery mohou mít vlastní výstupní cíle;
+funguje jakýkoli <code>io.Writer</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+<span class="w">    </span><span class="nx">buflog</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;buf:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Toto volání zapíše výstup logu do <code>buf</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">buflog</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;ahoj&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>A tohle ho skutečně zobrazí na standardním výstupu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;z buflog:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">buf</span><span class="p">.</span><span class="nx">String</span><span class="p">())</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíček <code>slog</code> poskytuje <em>strukturovaný</em> výstup
+logů. Například logování ve formátu JSON je
+přímočaré.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">jsonHandler</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slog</span><span class="p">.</span><span class="nx">NewJSONHandler</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">myslog</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slog</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">jsonHandler</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">myslog</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&quot;ahoj&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Kromě zprávy může výstup <code>slog</code> obsahovat
+libovolný počet dvojic klíč=hodnota.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">myslog</span><span class="p">.</span><span class="nx">Info</span><span class="p">(</span><span class="s">&quot;znovu ahoj&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;val&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;age&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Ukázkový výstup; vypsané datum a čas budou záviset na
+tom, kdy byl příklad spuštěn.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>logging.go
+<span class="go">2023/08/22 10:45:16 standardní logger</span>
+<span class="go">2023/08/22 10:45:16.904141 s mikrosekundami</span>
+<span class="go">2023/08/22 10:45:16 logging.go:39: se souborem/řádkem</span>
+<span class="go">my:2023/08/22 10:45:16 z mylog</span>
+<span class="go">ohmy:2023/08/22 10:45:16 z mylog</span>
+<span class="go">z buflog:buf:2023/08/22 10:45:16 ahoj</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tyto řádky jsou pro přehlednost na webu zalomené;
+ve skutečnosti se vypisují na jednom řádku.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="go">{&quot;time&quot;:&quot;2023-08-22T10:45:16.904166391-07:00&quot;,</span>
+<span class="go"> &quot;level&quot;:&quot;INFO&quot;,&quot;msg&quot;:&quot;ahoj&quot;}</span>
+<span class="go">{&quot;time&quot;:&quot;2023-08-22T10:45:16.904178985-07:00&quot;,</span>
+<span class="go">    &quot;level&quot;:&quot;INFO&quot;,&quot;msg&quot;:&quot;znovu ahoj&quot;,</span>
+<span class="go">    &quot;key&quot;:&quot;val&quot;,&quot;age&quot;:25}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="http-client">HTTP Klient</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"bytes\"\u000A    \"fmt\"\u000A    \"log\"\u000A    \"os\"\u000A');codeLines.push('    \"log/slog\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    log.Println(\"standardní logger\")\u000A');codeLines.push('    log.SetFlags(log.LstdFlags | log.Lmicroseconds)\u000A    log.Println(\"s mikrosekundami\")\u000A');codeLines.push('    log.SetFlags(log.LstdFlags | log.Lshortfile)\u000A    log.Println(\"se souborem/řádkem\")\u000A');codeLines.push('    mylog :\u003D log.New(os.Stdout, \"my:\", log.LstdFlags)\u000A    mylog.Println(\"z mylog\")\u000A');codeLines.push('    mylog.SetPrefix(\"ohmy:\")\u000A    mylog.Println(\"z mylog\")\u000A');codeLines.push('    var buf bytes.Buffer\u000A    buflog :\u003D log.New(\u0026buf, \"buf:\", log.LstdFlags)\u000A');codeLines.push('    buflog.Println(\"ahoj\")\u000A');codeLines.push('    fmt.Print(\"z buflog:\", buf.String())\u000A');codeLines.push('    jsonHandler :\u003D slog.NewJSONHandler(os.Stderr, nil)\u000A    myslog :\u003D slog.New(jsonHandler)\u000A    myslog.Info(\"ahoj\")\u000A');codeLines.push('    myslog.Info(\"znovu ahoj\", \"key\", \"val\", \"age\", 25)\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

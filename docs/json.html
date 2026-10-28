@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'time';
+              window.location.href = 'xml';
           }
           
       }
@@ -29,7 +29,7 @@
           <td class="docs">
             <p>Go nabízí zabudovanou podporu pro JSON kódování
 a dekódování, včetně do a ze zabudovaných i
-uživatelských datových tyů.</p>
+uživatelských datových typů.</p>
 
           </td>
           <td class="code empty leading">
@@ -43,7 +43,7 @@ uživatelských datových tyů.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/-i45GguCIU3"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/I0Z7UNoq1Kp"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -56,9 +56,12 @@ uživatelských datových tyů.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;encoding/json&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bytes&quot;</span>
+<span class="w">    </span><span class="s">&quot;encoding/json/v2&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;strings&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -76,7 +79,20 @@ dekódování uživatelských datových typů níže.</p>
 <span class="w">    </span><span class="nx">Page</span><span class="w">   </span><span class="kt">int</span>
 <span class="w">    </span><span class="nx">Fruits</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
 <span class="p">}</span>
-<span class="kd">type</span><span class="w"> </span><span class="nx">response2</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Do JSON se kódují/dekódují jen exportované prvky.
+Aby byly prvky exportované, musí začínat velkým písmenem.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">response2</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Page</span><span class="w">   </span><span class="kt">int</span><span class="w">      </span><span class="s">`json:&quot;page&quot;`</span>
 <span class="w">    </span><span class="nx">Fruits</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="s">`json:&quot;fruits&quot;`</span>
 <span class="p">}</span>
@@ -241,13 +257,13 @@ strukturu.</p>
           <td class="docs">
             <p>Musíme poskytnout nějakou proměnnou kam bude
 balíček JSON vkládat dekódovaná data. Typ
-<code>map[string]interface{}</code> bude obsahovat mapu řetězců
+<code>map[string]any</code> bude obsahovat mapu řetězců
 na libovolný datový typ.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">dat</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">dat</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span>
 </pre></div>
 
           </td>
@@ -256,7 +272,10 @@ na libovolný datový typ.</p>
         <tr>
           <td class="docs">
             <p>Tady je vlastní dekódování a kontrola s tím spojených
-chyb.</p>
+chyb.
+Pro stručnost v těchto příkladech chyby ignorujeme;
+ve skutečném kódu byste ale chyby měli vždy
+kontrolovat a reagovat na ně.</p>
 
           </td>
           <td class="code leading">
@@ -295,7 +314,7 @@ konverzí.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">strs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dat</span><span class="p">[</span><span class="s">&quot;strs&quot;</span><span class="p">].([]</span><span class="kd">interface</span><span class="p">{})</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">strs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">dat</span><span class="p">[</span><span class="s">&quot;strs&quot;</span><span class="p">].([]</span><span class="kt">any</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">str1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strs</span><span class="p">[</span><span class="mi">0</span><span class="p">].(</span><span class="kt">string</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">str1</span><span class="p">)</span>
 </pre></div>
@@ -315,7 +334,7 @@ datům.</p>
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">str</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">`{&quot;page&quot;: 1, &quot;fruits&quot;: [&quot;apple&quot;, &quot;peach&quot;]}`</span>
 <span class="w">    </span><span class="nx">res</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">response2</span><span class="p">{}</span>
-<span class="w">    </span><span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">str</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">res</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">str</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">res</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">Fruits</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
@@ -328,15 +347,33 @@ datům.</p>
             <p>V příkladech výše jsme vždy používali bajty a řetězce
 jako meziprodukty mezi daty a JSON reprezentací na
 standardním výstupu. Také můžeme streamovat JSON
-kódování přímo do <code>os.Writer</code>u. Například do
+kódování přímo do <code>io.Writer</code>u. Například do
 <code>os.Stdout</code> a nebo dokonce do těla HTTP odpovědi.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">d</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&quot;apple&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lettuce&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">}</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">buf</span><span class="w"> </span><span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">MarshalWrite</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">buf</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">buf</span><span class="p">.</span><span class="nx">String</span><span class="p">())</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Streamované čtení z <code>io.Reader</code>ů, jako je <code>os.Stdin</code>
+nebo tělo HTTP požadavku, se provádí pomocí
+<code>json.UnmarshalRead</code>.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">enc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">NewEncoder</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stdout</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">d</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">int</span><span class="p">{</span><span class="s">&quot;apple&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lettuce&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">enc</span><span class="p">.</span><span class="nx">Encode</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">res1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">response2</span><span class="p">{}</span>
+<span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">UnmarshalRead</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">str</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">res1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res1</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -368,6 +405,7 @@ kódování přímo do <code>os.Writer</code>u. Například do
 <span class="go">{1 [apple peach]}</span>
 <span class="go">apple</span>
 <span class="go">{&quot;apple&quot;:5,&quot;lettuce&quot;:7}</span>
+<span class="go">{1 [apple peach]}</span>
 </pre></div>
 
           </td>
@@ -377,8 +415,8 @@ kódování přímo do <code>os.Writer</code>u. Například do
           <td class="docs">
             <p>Probrali jsme zde základy JSONu v Go, ale pro
 více informací se můžete podívat na blog post
-<a href="http://blog.golang.org/2011/01/json-and-go.html">JSON and Go</a>
-a <a href="http://golang.org/pkg/encoding/json/">dokumentaci balíčku JSON</a>.</p>
+<a href="https://go.dev/blog/json">JSON and Go</a>
+a <a href="https://pkg.go.dev/encoding/json/v2">dokumentaci balíčku JSON</a>.</p>
 
           </td>
           <td class="code empty">
@@ -391,7 +429,7 @@ a <a href="http://golang.org/pkg/encoding/json/">dokumentaci balíčku JSON</a>.
       
       
       <p class="next">
-        Další příklad: <a href="time">Time</a>.
+        Další příklad: <a href="xml">XML</a>.
       </p>
       
       <p class="footer">
@@ -400,7 +438,7 @@ a <a href="http://golang.org/pkg/encoding/json/">dokumentaci balíčku JSON</a>.
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"encoding/json\"\u000Aimport \"fmt\"\u000Aimport \"os\"\u000A');codeLines.push('type response1 struct {\u000A    Page   int\u000A    Fruits []string\u000A}\u000Atype response2 struct {\u000A    Page   int      `json:\"page\"`\u000A    Fruits []string `json:\"fruits\"`\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    bolB, _ :\u003D json.Marshal(true)\u000A    fmt.Println(string(bolB))\u000A');codeLines.push('    intB, _ :\u003D json.Marshal(1)\u000A    fmt.Println(string(intB))\u000A');codeLines.push('    fltB, _ :\u003D json.Marshal(2.34)\u000A    fmt.Println(string(fltB))\u000A');codeLines.push('    strB, _ :\u003D json.Marshal(\"gopher\")\u000A    fmt.Println(string(strB))\u000A');codeLines.push('    slcD :\u003D []string{\"apple\", \"peach\", \"pear\"}\u000A    slcB, _ :\u003D json.Marshal(slcD)\u000A    fmt.Println(string(slcB))\u000A');codeLines.push('    mapD :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    mapB, _ :\u003D json.Marshal(mapD)\u000A    fmt.Println(string(mapB))\u000A');codeLines.push('    res1D :\u003D \u0026response1{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res1B, _ :\u003D json.Marshal(res1D)\u000A    fmt.Println(string(res1B))\u000A');codeLines.push('    res2D :\u003D \u0026response2{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res2B, _ :\u003D json.Marshal(res2D)\u000A    fmt.Println(string(res2B))\u000A');codeLines.push('    byt :\u003D []byte(`{\"num\":6.13,\"strs\":[\"a\",\"b\"]}`)\u000A');codeLines.push('    var dat map[string]interface{}\u000A');codeLines.push('    if err :\u003D json.Unmarshal(byt, \u0026dat); err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(dat)\u000A');codeLines.push('    num :\u003D dat[\"num\"].(float64)\u000A    fmt.Println(num)\u000A');codeLines.push('    strs :\u003D dat[\"strs\"].([]interface{})\u000A    str1 :\u003D strs[0].(string)\u000A    fmt.Println(str1)\u000A');codeLines.push('    str :\u003D `{\"page\": 1, \"fruits\": [\"apple\", \"peach\"]}`\u000A    res :\u003D response2{}\u000A    json.Unmarshal([]byte(str), \u0026res)\u000A    fmt.Println(res)\u000A    fmt.Println(res.Fruits[0])\u000A');codeLines.push('    enc :\u003D json.NewEncoder(os.Stdout)\u000A    d :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    enc.Encode(d)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"bytes\"\u000A    \"encoding/json/v2\"\u000A    \"fmt\"\u000A    \"strings\"\u000A)\u000A');codeLines.push('type response1 struct {\u000A    Page   int\u000A    Fruits []string\u000A}\u000A');codeLines.push('type response2 struct {\u000A    Page   int      `json:\"page\"`\u000A    Fruits []string `json:\"fruits\"`\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    bolB, _ :\u003D json.Marshal(true)\u000A    fmt.Println(string(bolB))\u000A');codeLines.push('    intB, _ :\u003D json.Marshal(1)\u000A    fmt.Println(string(intB))\u000A');codeLines.push('    fltB, _ :\u003D json.Marshal(2.34)\u000A    fmt.Println(string(fltB))\u000A');codeLines.push('    strB, _ :\u003D json.Marshal(\"gopher\")\u000A    fmt.Println(string(strB))\u000A');codeLines.push('    slcD :\u003D []string{\"apple\", \"peach\", \"pear\"}\u000A    slcB, _ :\u003D json.Marshal(slcD)\u000A    fmt.Println(string(slcB))\u000A');codeLines.push('    mapD :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    mapB, _ :\u003D json.Marshal(mapD)\u000A    fmt.Println(string(mapB))\u000A');codeLines.push('    res1D :\u003D \u0026response1{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res1B, _ :\u003D json.Marshal(res1D)\u000A    fmt.Println(string(res1B))\u000A');codeLines.push('    res2D :\u003D \u0026response2{\u000A        Page:   1,\u000A        Fruits: []string{\"apple\", \"peach\", \"pear\"}}\u000A    res2B, _ :\u003D json.Marshal(res2D)\u000A    fmt.Println(string(res2B))\u000A');codeLines.push('    byt :\u003D []byte(`{\"num\":6.13,\"strs\":[\"a\",\"b\"]}`)\u000A');codeLines.push('    var dat map[string]any\u000A');codeLines.push('    if err :\u003D json.Unmarshal(byt, \u0026dat); err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(dat)\u000A');codeLines.push('    num :\u003D dat[\"num\"].(float64)\u000A    fmt.Println(num)\u000A');codeLines.push('    strs :\u003D dat[\"strs\"].([]any)\u000A    str1 :\u003D strs[0].(string)\u000A    fmt.Println(str1)\u000A');codeLines.push('    str :\u003D `{\"page\": 1, \"fruits\": [\"apple\", \"peach\"]}`\u000A    res :\u003D response2{}\u000A    _ \u003D json.Unmarshal([]byte(str), \u0026res)\u000A    fmt.Println(res)\u000A    fmt.Println(res.Fruits[0])\u000A');codeLines.push('    d :\u003D map[string]int{\"apple\": 5, \"lettuce\": 7}\u000A    var buf bytes.Buffer\u000A    _ \u003D json.MarshalWrite(\u0026buf, d)\u000A    fmt.Println(buf.String())\u000A');codeLines.push('    res1 :\u003D response2{}\u000A    _ \u003D json.UnmarshalRead(strings.NewReader(str), \u0026res1)\u000A    fmt.Println(res1)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

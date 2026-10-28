@@ -4,8 +4,10 @@
 
 package main
 
-import "fmt"
-import "os"
+import (
+	"fmt"
+	"os"
+)
 
 type point struct {
 	x, y int
@@ -15,93 +17,93 @@ func main() {
 
 	// Go nabízí několik "verbs" (sloves) navržených pro
 	// formátování obecných Go hodnot. Například tohle vytiskne
-	// instanci naši struktury `point`.
+	// instanci naší struktury `point`.
 	p := point{1, 2}
-	fmt.Printf("%v\n", p)
+	fmt.Printf("struct1: %v\n", p)
 
 	// Pokud je hodnota struktura, varianta `%+v` bude obsahovat
 	// také názvy prvků struktury.
-	fmt.Printf("%+v\n", p)
+	fmt.Printf("struct2: %+v\n", p)
 
 	// Varianta `%#v` vypíše hodnotu reprezentovanou pomocí
 	// Go syntaxe, tj. například kus zdrojového kódu
 	// který by danou hodnotu vytvořil.
-	fmt.Printf("%#v\n", p)
+	fmt.Printf("struct3: %#v\n", p)
 
 	// Pro vypsání typu hodnoty, použijte `%T`.
-	fmt.Printf("%T\n", p)
+	fmt.Printf("type: %T\n", p)
 
 	// Formátování boolean proměnných je přímočaré.
-	fmt.Printf("%t\n", true)
+	fmt.Printf("bool: %t\n", true)
 
 	// Je hodně možností jak formátovat integery.
 	// Použij `%d` pro standardní formátování v desítkové soustavě.
-	fmt.Printf("%d\n", 123)
+	fmt.Printf("int: %d\n", 123)
 
 	// Toto vypíše binární reprezentaci.
-	fmt.Printf("%b\n", 14)
+	fmt.Printf("bin: %b\n", 14)
 
 	// Toto vypíše znak odpovídající danému integeru.
-	fmt.Printf("%c\n", 33)
+	fmt.Printf("char: %c\n", 33)
 
 	// `%x` poskytuje hodnotu v hexadecimálním kódu.
-	fmt.Printf("%x\n", 456)
+	fmt.Printf("hex: %x\n", 456)
 
 	// Máme také několik možností formátování pro
 	// floaty. Pro základní desetinné formátování použijte `%f`.
-	fmt.Printf("%f\n", 78.9)
+	fmt.Printf("float1: %f\n", 78.9)
 
 	// Slovesa `%e` a `%E` formátují floaty do (trochu odlišné
 	// verzi) vědeckého zápisu.
-	fmt.Printf("%e\n", 123400000.0)
-	fmt.Printf("%E\n", 123400000.0)
+	fmt.Printf("float2: %e\n", 123400000.0)
+	fmt.Printf("float3: %E\n", 123400000.0)
 
 	// Pro běžný tisk řetězců použijte `%s`.
-	fmt.Printf("%s\n", "\"string\"")
+	fmt.Printf("str1: %s\n", "\"string\"")
 
 	// Pro tisk řetězce obaleného uvozovkami jako v Go kódu,
 	// použijte `%q`.
-	fmt.Printf("%q\n", "\"string\"")
+	fmt.Printf("str2: %q\n", "\"string\"")
 
 	// Jako jsme viděli už dříve s integery, `%x` renderuje
 	// řetězec v 16-kové soustavě se dvěma výstupními znaky
 	// pro jeden vstupní bajt.
-	fmt.Printf("%x\n", "hex this")
+	fmt.Printf("str3: %x\n", "hex this")
 
 	// Pro výpis reprezentace ukazatele, použijte `%p`.
-	fmt.Printf("%p\n", &p)
+	fmt.Printf("pointer: %p\n", &p)
 
 	// Při formátování čísel často budete chtít ovládat
 	// šířku a přesnost výsledného čísla.
 	// Pro specifikaci délku integeru, použije číslo
 	// za slovesem `%`. Ve výchozím stavu bude výsledek
 	// zarovnaný doprava a zleva doplněný mezerami.
-	fmt.Printf("|%6d|%6d|\n", 12, 345)
+	fmt.Printf("width1: |%6d|%6d|\n", 12, 345)
 
 	// Také můžete specifikovat šířku vypisovaných floatů,
-	// ačkoliv obvzkle také budete chtít omezit
+	// ačkoliv obvykle také budete chtít omezit
 	// desetinnou přesnost pomocí syntaxe se
 	// zápisem šířka.přesnost
-	fmt.Printf("|%6.2f|%6.2f|\n", 1.2, 3.45)
+	fmt.Printf("width2: |%6.2f|%6.2f|\n", 1.2, 3.45)
 
 	// Pro levé zarovnání použij příznak `-`.
-	fmt.Printf("|%-6.2f|%-6.2f|\n", 1.2, 3.45)
+	fmt.Printf("width3: |%-6.2f|%-6.2f|\n", 1.2, 3.45)
 
 	// Také možná budete chtít ovládat šířku při formátování
 	// řetězců, obzvlášť pro dosažení jejích zarovnání v
-	// tavulkovém výstupu. Pro základní pravé zarovnání na šířku.
-	fmt.Printf("|%6s|%6s|\n", "foo", "b")
+	// tabulkovém výstupu. Pro základní pravé zarovnání na šířku.
+	fmt.Printf("width4: |%6s|%6s|\n", "foo", "b")
 
-	// Pro levé zarovnání použitje příznak  `-` stejně jako u čísel.
-	fmt.Printf("|%-6s|%-6s|\n", "foo", "b")
+	// Pro levé zarovnání použijte příznak `-` stejně jako u čísel.
+	fmt.Printf("width5: |%-6s|%-6s|\n", "foo", "b")
 
-	// Zatím jsme viděli `Printf`, který vupisuje
+	// Zatím jsme viděli `Printf`, který vypisuje
 	// formátovaný řetězec na `os.Stdout`. `Sprintf` formátuje
-	// a vrací řezězec bež toho aby ho někam vypisoval..
-	s := fmt.Sprintf("a %s", "string")
+	// a vrací řetězec, aniž by ho někam vypisoval.
+	s := fmt.Sprintf("sprintf: a %s", "string")
 	fmt.Println(s)
 
 	// Také můžete s pomocí `Fprintf` vypsat+formátovat i do
 	// jiných `io.Writers` než jen `os.Stdout`.
-	fmt.Fprintf(os.Stderr, "an %s\n", "error")
+	fmt.Fprintf(os.Stderr, "io: an %s\n", "error")
 }

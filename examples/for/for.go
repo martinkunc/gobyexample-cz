@@ -1,5 +1,5 @@
 // `for` je v Go jediná konstrukce pro cykly. Zde jsou
-// tři základní typy `for` cyklů.
+// některé základní typy `for` cyklů.
 
 package main
 
@@ -17,8 +17,14 @@ func main() {
 	// Klasický cyklus ve tvaru
 	// inicializace/podmínka/popodmínkový příkaz
 	// `for` cyklu.
-	for j := 7; j <= 9; j++ {
+	for j := 0; j < 3; j++ {
 		fmt.Println(j)
+	}
+
+	// Další způsob, jak provést základní iteraci „udělej
+	// tohle N krát“, je `range` přes celé číslo.
+	for i := range 3 {
+		fmt.Println("range", i)
 	}
 
 	// `for` bez podmínky bude cyklit opakovaně
@@ -32,7 +38,7 @@ func main() {
 
 	// Také můžete přeskočit na provádění další iterace
 	// cyklu použitím příkazu `continue`
-	for n := 0; n <= 5; n++ {
+	for n := range 6 {
 		if n%2 == 0 {
 			continue
 		}

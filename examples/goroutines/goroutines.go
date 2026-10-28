@@ -3,10 +3,13 @@
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func f(od string) {
-	for i := 0; i < 3; i++ {
+	for i := range 3 {
 		fmt.Println(od, ":", i)
 	}
 }
@@ -30,9 +33,8 @@ func main() {
 	}("jdeme")
 
 	// Naše dvě volání funkcí teď běží asynchronně v
-	// oddělených gorutinách, takže provádění propadne až
-	// sem. Tato funkce `Scanln` vyžaduje stlačení klávesy
-	// než program skončí.
-	fmt.Scanln()
+	// oddělených gorutinách. Počkáme, až skončí (pro
+	// spolehlivější přístup použijte [WaitGroup](waitgroups)).
+	time.Sleep(time.Second)
 	fmt.Println("hotovo")
 }

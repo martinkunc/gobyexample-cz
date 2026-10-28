@@ -1,84 +1,67 @@
 // V předchozím příkladu jsme viděli jak jednoduše spravovat
-// stav counterů pomocí [atomických counterů](atomic-counters).
-// Pro více komplikované stavy můžeme použít <em>[mutexy](http://en.wikipedia.org/wiki/Mutual_exclusion)</em>
-// pro bezpečný přístup k datům z několika goroutin.
+// stav counterů pomocí [atomických operací](atomic-counters).
+// Pro více komplikované stavy můžeme použít [_mutex_](https://en.wikipedia.org/wiki/Mutual_exclusion)
+// pro bezpečný přístup k datům z několika gorutin.
 
 package main
 
 import (
 	"fmt"
-	"math/rand"
 	"sync"
-	"sync/atomic"
-	"time"
 )
 
+// `Kontejner` obsahuje mapu counterů; protože ho chceme
+// měnit souběžně z několika gorutin, přidáme `Mutex`
+// pro synchronizaci přístupu.
+// Všimněte si, že mutexy se nesmí kopírovat, takže pokud
+// tuto strukturu předáváme dál, mělo by to být pomocí
+// ukazatele.
+type Kontejner struct {
+	mu       sync.Mutex
+	countery map[string]int
+}
+
+func (k *Kontejner) zvys(jmeno string) {
+	// Před přístupem ke `countery` zamkneme mutex; na konci
+	// funkce ho odemkneme pomocí příkazu [defer](defer).
+	k.mu.Lock()
+	defer k.mu.Unlock()
+	k.countery[jmeno]++
+}
+
 func main() {
-
-	// Pro náš příklad bude `stavem` mapa.
-	var state = make(map[int]int)
-
-	// Tento `mutex` bude ke `stavu` synchronizovat přístup.
-	var mutex = &sync.Mutex{}
-
-	// Budeme sledovat kolik čtecích a zapisovacích operací
-	// uděláme.
-	var readOps uint64
-	var writeOps uint64
-
-	// Zde nastartujeme 100 gorutin pro provádění opakovaných
-	// čtení ze stavu, jednou za milisekundu v každé gorutině.
-	for r := 0; r < 100; r++ {
-		go func() {
-			total := 0
-			for {
-
-				// Pro každé čtení vybereme klíč pro přístup,
-				// pomocí `Lock()` zamkneme `mutex` k zajištění
-				// exkluzivního přístupu ke `stavu`, načteme
-				// hodnotu se zvoleným klíčem,
-				// pomocí `Unlock()` odemkneme mutex, a zvýšíme
-				// počet v `readOps`.
-				key := rand.Intn(5)
-				mutex.Lock()
-				total += state[key]
-				mutex.Unlock()
-				atomic.AddUint64(&readOps, 1)
-
-				// Trochu počkejme mezi čteními.
-				time.Sleep(time.Millisecond)
-			}
-		}()
+	k := Kontejner{
+		// Všimněte si, že nulová hodnota mutexu je přímo
+		// použitelná, takže zde není potřeba žádná
+		// inicializace.
+		countery: map[string]int{"a": 0, "b": 0},
 	}
 
-	// Také nastartujeme 10 gorutin pro simulaci zápisů
-	// s použitím stejného přístupu jako jsme použili u čtení.
-	for w := 0; w < 10; w++ {
-		go func() {
-			for {
-				key := rand.Intn(5)
-				val := rand.Intn(100)
-				mutex.Lock()
-				state[key] = val
-				mutex.Unlock()
-				atomic.AddUint64(&writeOps, 1)
-				time.Sleep(time.Millisecond)
-			}
-		}()
+	var wg sync.WaitGroup
+
+	// Tato funkce v cyklu zvyšuje pojmenovaný counter.
+	zvysuj := func(jmeno string, n int) {
+		for range n {
+			k.zvys(jmeno)
+		}
 	}
 
-	// Nechejme 10 gorutin pracovat na `stavu` a
-	// `mutexu` po jednu vteřinu.
-	time.Sleep(time.Second)
+	// Spustíme několik gorutin souběžně; všimněte si,
+	// že všechny přistupují ke stejnému `Kontejner`u
+	// a dvě z nich ke stejnému counteru.
+	wg.Go(func() {
+		zvysuj("a", 10000)
+	})
 
-	// Načti a vypiš výsledné počty operací.
-	readOpsFinal := atomic.LoadUint64(&readOps)
-	fmt.Println("readOps:", readOpsFinal)
-	writeOpsFinal := atomic.LoadUint64(&writeOps)
-	fmt.Println("writeOps:", writeOpsFinal)
+	wg.Go(func() {
+		zvysuj("a", 10000)
+	})
 
-	// Se závěrečným zamknutím `stavu`, ukaž jak jsme skončili.
-	mutex.Lock()
-	fmt.Println("stav:", state)
-	mutex.Unlock()
+	wg.Go(func() {
+		zvysuj("b", 10000)
+	})
+
+	// Počkáme, až gorutiny skončí.
+	wg.Wait()
+	fmt.Println(k.countery)
 }

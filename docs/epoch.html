@@ -29,8 +29,8 @@
           <td class="docs">
             <p>Běžný požadavek v programech je získání počtu vteřin,
 milisekund, nebo nanosekund z
-<a href="http://en.wikipedia.org/wiki/Unix_time">Unixového času</a>.
-Tady je jako to udělat v Go.</p>
+<a href="https://en.wikipedia.org/wiki/Unix_time">Unixového času</a>.
+Tady je, jak to udělat v Go.</p>
 
           </td>
           <td class="code empty leading">
@@ -44,7 +44,7 @@ Tady je jako to udělat v Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/lGOpe5eNcGa"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/uHdYrgjeM5L"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -57,8 +57,10 @@ Tady je jako to udělat v Go.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -79,15 +81,13 @@ Tady je jako to udělat v Go.</p>
         <tr>
           <td class="docs">
             <p>Pro získání uplynulého času od Unix epochy v
-sekundách nebo nanosekundách Použij <code>time.Now</code>
-s <code>Unix</code> nebo <code>UnixNano</code>.</p>
+sekundách, milisekundách nebo nanosekundách použijte
+<code>time.Now</code> s <code>Unix</code>, <code>UnixMilli</code> nebo <code>UnixNano</code>.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">now</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
-<span class="w">    </span><span class="nx">secs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Unix</span><span class="p">()</span>
-<span class="w">    </span><span class="nx">nanos</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">UnixNano</span><span class="p">()</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">now</span><span class="p">)</span>
 </pre></div>
 
@@ -96,17 +96,13 @@ s <code>Unix</code> nebo <code>UnixNano</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Všimni si že neexistuje nic jako <code>UnixMillis</code>, takže
- pro získání milisekund od epochy budeš muset ručně
-vydělit nanosekundy.</p>
-
+            
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">millis</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">nanos</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1000000</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">secs</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">millis</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">nanos</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">Unix</span><span class="p">())</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">UnixMilli</span><span class="p">())</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">UnixNano</span><span class="p">())</span>
 </pre></div>
 
           </td>
@@ -114,14 +110,14 @@ vydělit nanosekundy.</p>
         
         <tr>
           <td class="docs">
-            <p>Také můžeš zkonvertovat integer sekund nebo nanosekund
-od epochy, to vrátí odpovídající <code>time</code>.</p>
+            <p>Také můžete zkonvertovat integer sekund nebo nanosekund
+od epochy na odpovídající <code>time</code>.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Unix</span><span class="p">(</span><span class="nx">secs</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Unix</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">nanos</span><span class="p">))</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Unix</span><span class="p">(</span><span class="nx">now</span><span class="p">.</span><span class="nx">Unix</span><span class="p">(),</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Unix</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">UnixNano</span><span class="p">()))</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -175,7 +171,7 @@ parsování a formátování času.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    now :\u003D time.Now()\u000A    secs :\u003D now.Unix()\u000A    nanos :\u003D now.UnixNano()\u000A    fmt.Println(now)\u000A');codeLines.push('    millis :\u003D nanos / 1000000\u000A    fmt.Println(secs)\u000A    fmt.Println(millis)\u000A    fmt.Println(nanos)\u000A');codeLines.push('    fmt.Println(time.Unix(secs, 0))\u000A    fmt.Println(time.Unix(0, nanos))\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    now :\u003D time.Now()\u000A    fmt.Println(now)\u000A');codeLines.push('    fmt.Println(now.Unix())\u000A    fmt.Println(now.UnixMilli())\u000A    fmt.Println(now.UnixNano())\u000A');codeLines.push('    fmt.Println(time.Unix(now.Unix(), 0))\u000A    fmt.Println(time.Unix(0, now.UnixNano()))\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

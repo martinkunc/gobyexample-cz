@@ -5,7 +5,10 @@
 
 package main
 
-import "os"
+import (
+	"os"
+	"path/filepath"
+)
 
 func main() {
 
@@ -19,7 +22,8 @@ func main() {
 	// Zde je příklad vyvolání `panic`
 	// když dostaneme neočekávanou chybu během vytváření nového
 	// souboru.
-	_, err := os.Create("/tmp/file")
+	path := filepath.Join(os.TempDir(), "file")
+	_, err := os.Create(path)
 	if err != nil {
 		panic(err)
 	}

@@ -1,13 +1,15 @@
 // Go poskytuje zabudovanou podporu pro [base64
-// kódování/dekódování](http://en.wikipedia.org/wiki/Base64).
+// kódování/dekódování](https://en.wikipedia.org/wiki/Base64).
 
 package main
 
 // Tato syntaxe importuje balíček `encoding/base64` se jménem
 // `b64` místo výchozího `base64`. Ušetří nám to níže nějaké
 // místo.
-import b64 "encoding/base64"
-import "fmt"
+import (
+	b64 "encoding/base64"
+	"fmt"
+)
 
 func main() {
 

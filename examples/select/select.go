@@ -4,8 +4,10 @@
 
 package main
 
-import "time"
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
@@ -28,7 +30,7 @@ func main() {
 
 	// Použijeme `select` k čekání na obě z těchto hodnot
 	// simultánně, a po přijetí ji vypíšeme.
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		select {
 		case msg1 := <-c1:
 			fmt.Println("přijato", msg1)

@@ -1,4 +1,4 @@
-// [_Variadické funkce_](http://en.wikipedia.org/wiki/Variadic_function)
+// [_Variadické funkce_](https://en.wikipedia.org/wiki/Variadic_function)
 // mohou být volané s libovolným počtem závěrečných
 // parametrů
 // Například, funkce `fmt.Println` je běžná variadická
@@ -13,6 +13,9 @@ import "fmt"
 func sum(cisla ...int) {
 	fmt.Print(cisla, " ")
 	soucet := 0
+	// Uvnitř funkce je typ `cisla` ekvivalentní
+	// s `[]int`. Můžeme zavolat `len(cisla)`,
+	// iterovat přes něj pomocí `range`, atd.
 	for _, cislo := range cisla {
 		soucet += cislo
 	}

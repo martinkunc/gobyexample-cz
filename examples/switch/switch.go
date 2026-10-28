@@ -2,8 +2,10 @@
 
 package main
 
-import "fmt"
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
@@ -44,7 +46,7 @@ func main() {
 	// Můžete jej použit pro zjištění  typu hodnoty
 	// interface.  V tomto příkladu, proměnná `t` bude mít
 	// typ podle své odpovídající klauzule
-	whatAmI := func(i interface{}) {
+	whatAmI := func(i any) {
 		switch t := i.(type) {
 		case bool:
 			fmt.Println("Jsem boolean")

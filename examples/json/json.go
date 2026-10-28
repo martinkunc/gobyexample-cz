@@ -1,12 +1,15 @@
 // Go nabízí zabudovanou podporu pro JSON kódování
 // a dekódování, včetně do a ze zabudovaných i
-// uživatelských datových tyů.
+// uživatelských datových typů.
 
 package main
 
-import "encoding/json"
-import "fmt"
-import "os"
+import (
+	"bytes"
+	"encoding/json/v2"
+	"fmt"
+	"strings"
+)
 
 // Tyto dvě struktury použijeme k demonstrování kódování a
 // dekódování uživatelských datových typů níže.
@@ -14,6 +17,9 @@ type response1 struct {
 	Page   int
 	Fruits []string
 }
+
+// Do JSON se kódují/dekódují jen exportované prvky.
+// Aby byly prvky exportované, musí začínat velkým písmenem.
 type response2 struct {
 	Page   int      `json:"page"`
 	Fruits []string `json:"fruits"`
@@ -73,12 +79,15 @@ func main() {
 
 	// Musíme poskytnout nějakou proměnnou kam bude
 	// balíček JSON vkládat dekódovaná data. Typ
-	// `map[string]interface{}` bude obsahovat mapu řetězců
+	// `map[string]any` bude obsahovat mapu řetězců
 	// na libovolný datový typ.
-	var dat map[string]interface{}
+	var dat map[string]any
 
 	// Tady je vlastní dekódování a kontrola s tím spojených
 	// chyb.
+	// Pro stručnost v těchto příkladech chyby ignorujeme;
+	// ve skutečném kódu byste ale chyby měli vždy
+	// kontrolovat a reagovat na ně.
 	if err := json.Unmarshal(byt, &dat); err != nil {
 		panic(err)
 	}
@@ -93,7 +102,7 @@ func main() {
 
 	// Přístup ke vnořeným datům vyžaduje sérii
 	// konverzí.
-	strs := dat["strs"].([]interface{})
+	strs := dat["strs"].([]any)
 	str1 := strs[0].(string)
 	fmt.Println(str1)
 
@@ -103,16 +112,24 @@ func main() {
 	// datům.
 	str := `{"page": 1, "fruits": ["apple", "peach"]}`
 	res := response2{}
-	json.Unmarshal([]byte(str), &res)
+	_ = json.Unmarshal([]byte(str), &res)
 	fmt.Println(res)
 	fmt.Println(res.Fruits[0])
 
 	// V příkladech výše jsme vždy používali bajty a řetězce
 	// jako meziprodukty mezi daty a JSON reprezentací na
 	// standardním výstupu. Také můžeme streamovat JSON
-	// kódování přímo do `os.Writer`u. Například do
+	// kódování přímo do `io.Writer`u. Například do
 	// `os.Stdout` a nebo dokonce do těla HTTP odpovědi.
-	enc := json.NewEncoder(os.Stdout)
 	d := map[string]int{"apple": 5, "lettuce": 7}
-	enc.Encode(d)
+	var buf bytes.Buffer
+	_ = json.MarshalWrite(&buf, d)
+	fmt.Println(buf.String())
+
+	// Streamované čtení z `io.Reader`ů, jako je `os.Stdin`
+	// nebo tělo HTTP požadavku, se provádí pomocí
+	// `json.UnmarshalRead`.
+	res1 := response2{}
+	_ = json.UnmarshalRead(strings.NewReader(str), &res1)
+	fmt.Println(res1)
 }

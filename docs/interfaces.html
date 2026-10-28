@@ -14,7 +14,7 @@
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'errors';
+              window.location.href = 'enums';
           }
           
       }
@@ -42,7 +42,7 @@ signatur metod.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/8uhw3t1VE-Z"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/RrczwbDJlFU"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -55,8 +55,10 @@ signatur metod.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;math&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;math&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -81,7 +83,7 @@ signatur metod.</p>
         <tr>
           <td class="docs">
             <p>V našem příkladu implementujeme tento interface pro
-typy <code>obdelnik</code> and <code>kruznice</code> types.</p>
+typy <code>obdelnik</code> a <code>kruznice</code>.</p>
 
           </td>
           <td class="code leading">
@@ -157,6 +159,25 @@ libovolnou <code>geometrie</code>.</p>
         
         <tr>
           <td class="docs">
+            <p>Někdy se hodí znát typ hodnoty interface za běhu.
+Jednou z možností je <em>typová aserce</em> (type assertion),
+jak je ukázáno zde; další možností je <a href="switch">typový <code>switch</code></a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">detekujKruznici</span><span class="p">(</span><span class="nx">g</span><span class="w"> </span><span class="nx">geometrie</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">c</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">g</span><span class="p">.(</span><span class="nx">kruznice</span><span class="p">);</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;kružnice s poloměrem&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">polomer</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
             
           </td>
           <td class="code leading">
@@ -177,10 +198,23 @@ použít instance těchto struktur jako argumenty
 funkci <code>zmer</code>.</p>
 
           </td>
-          <td class="code">
+          <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">zmer</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">zmer</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">detekujKruznici</span><span class="p">(</span><span class="nx">r</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">detekujKruznici</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -204,6 +238,7 @@ funkci <code>zmer</code>.</p>
 <span class="go">{5}</span>
 <span class="go">78.53981633974483</span>
 <span class="go">31.41592653589793</span>
+<span class="go">kružnice s poloměrem 5</span>
 </pre></div>
 
           </td>
@@ -211,8 +246,8 @@ funkci <code>zmer</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Pro detaily o Go interface, se podívejte na tento
-<a href="http://jordanorelli.tumblr.com/post/32665860244/how-to-use-interfaces-in-go">skvělý blog post</a>.</p>
+            <p>Pokud chcete pochopit, jak interface v Go fungují pod
+kapotou, podívejte se na tento <a href="https://research.swtch.com/interfaces">blog post</a>.</p>
 
           </td>
           <td class="code empty">
@@ -225,7 +260,7 @@ funkci <code>zmer</code>.</p>
       
       
       <p class="next">
-        Další příklad: <a href="errors">Chyby (errors)</a>.
+        Další příklad: <a href="enums">Výčtové typy (enums)</a>.
       </p>
       
       <p class="footer">
@@ -234,7 +269,7 @@ funkci <code>zmer</code>.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"math\"\u000A');codeLines.push('type geometrie interface {\u000A    plocha() float64\u000A    obvod() float64\u000A}\u000A');codeLines.push('type obdelnik struct {\u000A    sirka, vyska float64\u000A}\u000Atype kruznice struct {\u000A    polomer float64\u000A}\u000A');codeLines.push('func (r obdelnik) plocha() float64 {\u000A    return r.sirka * r.vyska\u000A}\u000Afunc (r obdelnik) obvod() float64 {\u000A    return 2*r.sirka + 2*r.vyska\u000A}\u000A');codeLines.push('func (c kruznice) plocha() float64 {\u000A    return math.Pi * c.polomer * c.polomer\u000A}\u000Afunc (c kruznice) obvod() float64 {\u000A    return 2 * math.Pi * c.polomer\u000A}\u000A');codeLines.push('func zmer(g geometrie) {\u000A    fmt.Println(g)\u000A    fmt.Println(g.plocha())\u000A    fmt.Println(g.obvod())\u000A}\u000A');codeLines.push('func main() {\u000A    r :\u003D obdelnik{sirka: 3, vyska: 4}\u000A    c :\u003D kruznice{polomer: 5}\u000A');codeLines.push('    zmer(r)\u000A    zmer(c)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"math\"\u000A)\u000A');codeLines.push('type geometrie interface {\u000A    plocha() float64\u000A    obvod() float64\u000A}\u000A');codeLines.push('type obdelnik struct {\u000A    sirka, vyska float64\u000A}\u000Atype kruznice struct {\u000A    polomer float64\u000A}\u000A');codeLines.push('func (r obdelnik) plocha() float64 {\u000A    return r.sirka * r.vyska\u000A}\u000Afunc (r obdelnik) obvod() float64 {\u000A    return 2*r.sirka + 2*r.vyska\u000A}\u000A');codeLines.push('func (c kruznice) plocha() float64 {\u000A    return math.Pi * c.polomer * c.polomer\u000A}\u000Afunc (c kruznice) obvod() float64 {\u000A    return 2 * math.Pi * c.polomer\u000A}\u000A');codeLines.push('func zmer(g geometrie) {\u000A    fmt.Println(g)\u000A    fmt.Println(g.plocha())\u000A    fmt.Println(g.obvod())\u000A}\u000A');codeLines.push('func detekujKruznici(g geometrie) {\u000A    if c, ok :\u003D g.(kruznice); ok {\u000A        fmt.Println(\"kružnice s poloměrem\", c.polomer)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A    r :\u003D obdelnik{sirka: 3, vyska: 4}\u000A    c :\u003D kruznice{polomer: 5}\u000A');codeLines.push('    zmer(r)\u000A    zmer(c)\u000A');codeLines.push('    detekujKruznici(r)\u000A    detekujKruznici(c)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

@@ -41,7 +41,7 @@
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/CafZFRcIVSs"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/zOwqIShu3kr"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -54,8 +54,10 @@
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -146,7 +148,7 @@ typ podle své odpovídající klauzule</p>
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">whatAmI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">whatAmI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="kt">any</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">i</span><span class="p">.(</span><span class="kd">type</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="kt">bool</span><span class="p">:</span>
 <span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Jsem boolean&quot;</span><span class="p">)</span>
@@ -200,7 +202,7 @@ typ podle své odpovídající klauzule</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"time\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    i :\u003D 2\u000A    fmt.Print(\"Píšu \", i, \" jako \")\u000A    switch i {\u000A    case 1:\u000A        fmt.Println(\"jedna\")\u000A    case 2:\u000A        fmt.Println(\"dvě\")\u000A    case 3:\u000A        fmt.Println(\"tři\")\u000A    }\u000A');codeLines.push('    switch time.Now().Weekday() {\u000A    case time.Saturday, time.Sunday:\u000A        fmt.Println(\"Je víkend\")\u000A    default:\u000A        fmt.Println(\"Je pracovní den\")\u000A    }\u000A');codeLines.push('    t :\u003D time.Now()\u000A    switch {\u000A    case t.Hour() \u003C 12:\u000A        fmt.Println(\"Je před polednem\")\u000A    default:\u000A        fmt.Println(\"Je po poledni\")\u000A    }\u000A');codeLines.push('    whatAmI :\u003D func(i interface{}) {\u000A        switch t :\u003D i.(type) {\u000A        case bool:\u000A            fmt.Println(\"Jsem boolean\")\u000A        case int:\u000A            fmt.Println(\"Jsem int\")\u000A        default:\u000A            fmt.Printf(\"Neznám typ %T\\n\", t)\u000A        }\u000A    }\u000A    whatAmI(true)\u000A    whatAmI(1)\u000A    whatAmI(\"hej\")\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    i :\u003D 2\u000A    fmt.Print(\"Píšu \", i, \" jako \")\u000A    switch i {\u000A    case 1:\u000A        fmt.Println(\"jedna\")\u000A    case 2:\u000A        fmt.Println(\"dvě\")\u000A    case 3:\u000A        fmt.Println(\"tři\")\u000A    }\u000A');codeLines.push('    switch time.Now().Weekday() {\u000A    case time.Saturday, time.Sunday:\u000A        fmt.Println(\"Je víkend\")\u000A    default:\u000A        fmt.Println(\"Je pracovní den\")\u000A    }\u000A');codeLines.push('    t :\u003D time.Now()\u000A    switch {\u000A    case t.Hour() \u003C 12:\u000A        fmt.Println(\"Je před polednem\")\u000A    default:\u000A        fmt.Println(\"Je po poledni\")\u000A    }\u000A');codeLines.push('    whatAmI :\u003D func(i any) {\u000A        switch t :\u003D i.(type) {\u000A        case bool:\u000A            fmt.Println(\"Jsem boolean\")\u000A        case int:\u000A            fmt.Println(\"Jsem int\")\u000A        default:\u000A            fmt.Printf(\"Neznám typ %T\\n\", t)\u000A        }\u000A    }\u000A    whatAmI(true)\u000A    whatAmI(1)\u000A    whatAmI(\"hej\")\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

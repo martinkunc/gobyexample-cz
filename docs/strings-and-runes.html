@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Řetězce a runy</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'pointers';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'structs';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="strings-and-runes">
+      <h2><a href="./">Go podle Příkladů</a>: Řetězce a runy</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Řetězec je v Go výřez bajtů určený jen pro čtení. Jazyk
+i standardní knihovna zacházejí s řetězci zvláštním
+způsobem - jako s kontejnery textu zakódovaného
+v <a href="https://cs.wikipedia.org/wiki/UTF-8">UTF-8</a>.
+V jiných jazycích se řetězce skládají ze &ldquo;znaků&rdquo;.
+V Go se koncept znaku nazývá <code>runa</code> (<code>rune</code>) - je to
+celé číslo, které reprezentuje Unicode kódový bod.
+<a href="https://go.dev/blog/strings">Tento blog post o Go</a> je
+dobrým úvodem do tématu.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/--aIQqL9Mvz"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;unicode/utf8&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>s</code> je <code>string</code>, kterému je přiřazena literálová
+hodnota reprezentující slovo &ldquo;ahoj&rdquo; v thajštině.
+Řetězcové literály jsou v Go text zakódovaný
+v UTF-8.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;สวัสดี&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Protože řetězce jsou ekvivalentní s <code>[]byte</code>, toto
+vrátí délku surových bajtů, které jsou v něm uložené.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Délka:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Indexování řetězce vrací surové hodnoty bajtů na
+každém indexu. Tento cyklus vypíše hexa hodnoty všech
+bajtů, které tvoří kódové body v <code>s</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%x &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro spočítání, kolik <em>run</em> je v řetězci, můžeme použít
+balíček <code>utf8</code>. Všimněte si, že doba běhu
+<code>RuneCountInString</code> závisí na velikosti řetězce,
+protože musí postupně dekódovat každou UTF-8 runu.
+Některé thajské znaky jsou reprezentované UTF-8 kódovými
+body, které mohou zabírat více bajtů, takže výsledek
+tohoto počítání může být překvapivý.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Počet run:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">utf8</span><span class="p">.</span><span class="nx">RuneCountInString</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Cyklus <code>range</code> zachází s řetězci zvláštním způsobem
+a dekóduje každou <code>runu</code> spolu s jejím posunem
+v řetězci.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">idx</span><span class="p">,</span><span class="w"> </span><span class="nx">runeValue</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%#U začíná na %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">runeValue</span><span class="p">,</span><span class="w"> </span><span class="nx">idx</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Stejné iterace můžeme dosáhnout i explicitním
+použitím funkce <code>utf8.DecodeRuneInString</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;\nPomocí DecodeRuneInString&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">runeValue</span><span class="p">,</span><span class="w"> </span><span class="nx">width</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">utf8</span><span class="p">.</span><span class="nx">DecodeRuneInString</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">:])</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%#U začíná na %d\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">runeValue</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">w</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">width</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tohle ukazuje předání hodnoty <code>rune</code> funkci.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">        </span><span class="nx">examineRune</span><span class="p">(</span><span class="nx">runeValue</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">examineRune</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="kt">rune</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Hodnoty uzavřené v jednoduchých uvozovkách jsou
+<em>runové literály</em>. Hodnotu <code>rune</code> můžeme přímo
+porovnat s runovým literálem.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;t&#39;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;nalezeno tý&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="sc">&#39;ส&#39;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;nalezeno so sua&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>strings-and-runes.go
+<span class="go">Délka: 18</span>
+<span class="go">e0 b8 aa e0 b8 a7 e0 b8 b1 e0 b8 aa e0 b8 94 e0 b8 b5 </span>
+<span class="go">Počet run: 6</span>
+<span class="go">U+0E2A &#39;ส&#39; začíná na 0</span>
+<span class="go">U+0E27 &#39;ว&#39; začíná na 3</span>
+<span class="go">U+0E31 &#39;ั&#39; začíná na 6</span>
+<span class="go">U+0E2A &#39;ส&#39; začíná na 9</span>
+<span class="go">U+0E14 &#39;ด&#39; začíná na 12</span>
+<span class="go">U+0E35 &#39;ี&#39; začíná na 15</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="go">Pomocí DecodeRuneInString</span>
+<span class="go">U+0E2A &#39;ส&#39; začíná na 0</span>
+<span class="go">nalezeno so sua</span>
+<span class="go">U+0E27 &#39;ว&#39; začíná na 3</span>
+<span class="go">U+0E31 &#39;ั&#39; začíná na 6</span>
+<span class="go">U+0E2A &#39;ส&#39; začíná na 9</span>
+<span class="go">nalezeno so sua</span>
+<span class="go">U+0E14 &#39;ด&#39; začíná na 12</span>
+<span class="go">U+0E35 &#39;ี&#39; začíná na 15</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="structs">Struktury (struct)</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"unicode/utf8\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    const s \u003D \"สวัสดี\"\u000A');codeLines.push('    fmt.Println(\"Délka:\", len(s))\u000A');codeLines.push('    for i :\u003D 0; i \u003C len(s); i++ {\u000A        fmt.Printf(\"%x \", s[i])\u000A    }\u000A    fmt.Println()\u000A');codeLines.push('    fmt.Println(\"Počet run:\", utf8.RuneCountInString(s))\u000A');codeLines.push('    for idx, runeValue :\u003D range s {\u000A        fmt.Printf(\"%#U začíná na %d\\n\", runeValue, idx)\u000A    }\u000A');codeLines.push('    fmt.Println(\"\\nPomocí DecodeRuneInString\")\u000A    for i, w :\u003D 0, 0; i \u003C len(s); i +\u003D w {\u000A        runeValue, width :\u003D utf8.DecodeRuneInString(s[i:])\u000A        fmt.Printf(\"%#U začíná na %d\\n\", runeValue, i)\u000A        w \u003D width\u000A');codeLines.push('        examineRune(runeValue)\u000A    }\u000A}\u000A');codeLines.push('func examineRune(r rune) {\u000A');codeLines.push('    if r \u003D\u003D \'t\' {\u000A        fmt.Println(\"nalezeno tý\")\u000A    } else if r \u003D\u003D \'ส\' {\u000A        fmt.Println(\"nalezeno so sua\")\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

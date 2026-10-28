@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Výčtové typy (enums)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'interfaces';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'struct-embedding';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="enums">
+      <h2><a href="./">Go podle Příkladů</a>: Výčtové typy (enums)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Výčtové typy</em> (enums) jsou speciálním případem
+<a href="https://en.wikipedia.org/wiki/Algebraic_data_type">součtových typů</a>.
+Výčtový typ je typ, který má pevný počet možných
+hodnot, každou s odlišným názvem. Go nemá výčtový typ
+jako samostatnou vlastnost jazyka, ale výčtové typy
+se dají jednoduše implementovat pomocí existujících
+idiomů jazyka.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/u0orEU0QQur"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Náš výčtový typ <code>ServerState</code> má podkladový typ <code>int</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">ServerState</span><span class="w"> </span><span class="kt">int</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Možné hodnoty <code>ServerState</code> jsou definované jako
+konstanty. Speciální klíčové slovo <a href="https://go.dev/ref/spec#Iota">iota</a>
+automaticky generuje po sobě jdoucí hodnoty konstant;
+v tomto případě 0, 1, 2 a tak dále.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">StateIdle</span><span class="w"> </span><span class="nx">ServerState</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kc">iota</span>
+<span class="w">    </span><span class="nx">StateConnected</span>
+<span class="w">    </span><span class="nx">StateError</span>
+<span class="w">    </span><span class="nx">StateRetrying</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Díky implementaci interface <a href="https://pkg.go.dev/fmt#Stringer">fmt.Stringer</a>
+je možné hodnoty <code>ServerState</code> vypsat nebo převést
+na řetězce.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="c1">//</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pokud je možných hodnot hodně, může to být těžkopádné.
+V takových případech je možné použít
+<a href="https://pkg.go.dev/golang.org/x/tools/cmd/stringer">nástroj stringer</a>
+spolu s <code>go:generate</code> a celý proces automatizovat.
+Delší vysvětlení najdete v <a href="https://eli.thegreenplace.net/2021/a-comprehensive-guide-to-go-generate">tomto článku</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">var</span><span class="w"> </span><span class="nx">stateName</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="nx">ServerState</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">StateIdle</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;nečinný&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">StateConnected</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;připojený&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">StateError</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;chyba&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">StateRetrying</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;opakování&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">ss</span><span class="w"> </span><span class="nx">ServerState</span><span class="p">)</span><span class="w"> </span><span class="nx">String</span><span class="p">()</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">stateName</span><span class="p">[</span><span class="nx">ss</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pokud máme hodnotu typu <code>int</code>, nemůžeme ji předat
+funkci <code>transition</code> - překladač si bude stěžovat na
+nesoulad typů. To u výčtových typů poskytuje určitou
+míru typové bezpečnosti už při překladu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ns</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transition</span><span class="p">(</span><span class="nx">StateIdle</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">ns</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">ns2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">transition</span><span class="p">(</span><span class="nx">ns</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">ns2</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>transition napodobuje přechod mezi stavy serveru;
+převezme existující stav a vrátí nový stav.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">transition</span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="nx">ServerState</span><span class="p">)</span><span class="w"> </span><span class="nx">ServerState</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">StateIdle</span><span class="p">:</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">StateConnected</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">StateConnected</span><span class="p">,</span><span class="w"> </span><span class="nx">StateRetrying</span><span class="p">:</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Předpokládejme, že tady kontrolujeme nějaké
+podmínky, abychom určili další stav&hellip;</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">StateIdle</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">StateError</span><span class="p">:</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">StateError</span>
+<span class="w">    </span><span class="k">default</span><span class="p">:</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;neznámý stav: %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>enums.go
+<span class="go">připojený</span>
+<span class="go">nečinný</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="struct-embedding">Vkládání struktur (embedding)</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('type ServerState int\u000A');codeLines.push('const (\u000A    StateIdle ServerState \u003D iota\u000A    StateConnected\u000A    StateError\u000A    StateRetrying\u000A)\u000A');codeLines.push('//\u000A');codeLines.push('var stateName \u003D map[ServerState]string{\u000A    StateIdle:      \"nečinný\",\u000A    StateConnected: \"připojený\",\u000A    StateError:     \"chyba\",\u000A    StateRetrying:  \"opakování\",\u000A}\u000A');codeLines.push('func (ss ServerState) String() string {\u000A    return stateName[ss]\u000A}\u000A');codeLines.push('func main() {\u000A    ns :\u003D transition(StateIdle)\u000A    fmt.Println(ns)\u000A');codeLines.push('    ns2 :\u003D transition(ns)\u000A    fmt.Println(ns2)\u000A}\u000A');codeLines.push('func transition(s ServerState) ServerState {\u000A    switch s {\u000A    case StateIdle:\u000A        return StateConnected\u000A    case StateConnected, StateRetrying:\u000A');codeLines.push('        return StateIdle\u000A    case StateError:\u000A        return StateError\u000A    default:\u000A        panic(fmt.Errorf(\"neznámý stav: %s\", s))\u000A    }\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

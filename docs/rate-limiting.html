@@ -27,7 +27,7 @@
         
         <tr>
           <td class="docs">
-            <p><em><a href="http://cs.wikipedia.org/wiki/Rate_limiting">Omezování rychlosti (Rate limiting)</a></em>
+            <p><a href="https://cs.wikipedia.org/wiki/Rate_limiting"><em>Omezování rychlosti (rate limiting)</em></a>
 je důležitý mechanismus pro kontrolu využívání zdrojů
 a udržování kvality služeb. Go elegantně podporuje
 omezování rychlostí pomocí gorutin,
@@ -45,7 +45,7 @@ kanálů a <a href="tickers">opakujících časovaců tickers</a>.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/mnw7HhskdQl"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/W9CKw3ELnoS"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -58,8 +58,10 @@ kanálů a <a href="tickers">opakujících časovaců tickers</a>.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -157,7 +159,7 @@ dávky.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">burstyLimiter</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
@@ -265,7 +267,7 @@ potom obsloužíme zbývající 2 s přibližnou prodlevou
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"time\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    requests :\u003D make(chan int, 5)\u000A    for i :\u003D 1; i \u003C\u003D 5; i++ {\u000A        requests \u003C- i\u000A    }\u000A    close(requests)\u000A');codeLines.push('    limiter :\u003D time.Tick(200 * time.Millisecond)\u000A');codeLines.push('    for req :\u003D range requests {\u000A        \u003C-limiter\u000A        fmt.Println(\"požadavek\", req, time.Now())\u000A    }\u000A');codeLines.push('    burstyLimiter :\u003D make(chan time.Time, 3)\u000A');codeLines.push('    for i :\u003D 0; i \u003C 3; i++ {\u000A        burstyLimiter \u003C- time.Now()\u000A    }\u000A');codeLines.push('    go func() {\u000A        for t :\u003D range time.Tick(200 * time.Millisecond) {\u000A            burstyLimiter \u003C- t\u000A        }\u000A    }()\u000A');codeLines.push('    burstyRequests :\u003D make(chan int, 5)\u000A    for i :\u003D 1; i \u003C\u003D 5; i++ {\u000A        burstyRequests \u003C- i\u000A    }\u000A    close(burstyRequests)\u000A    for req :\u003D range burstyRequests {\u000A        \u003C-burstyLimiter\u000A        fmt.Println(\"požadavek\", req, time.Now())\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    requests :\u003D make(chan int, 5)\u000A    for i :\u003D 1; i \u003C\u003D 5; i++ {\u000A        requests \u003C- i\u000A    }\u000A    close(requests)\u000A');codeLines.push('    limiter :\u003D time.Tick(200 * time.Millisecond)\u000A');codeLines.push('    for req :\u003D range requests {\u000A        \u003C-limiter\u000A        fmt.Println(\"požadavek\", req, time.Now())\u000A    }\u000A');codeLines.push('    burstyLimiter :\u003D make(chan time.Time, 3)\u000A');codeLines.push('    for range 3 {\u000A        burstyLimiter \u003C- time.Now()\u000A    }\u000A');codeLines.push('    go func() {\u000A        for t :\u003D range time.Tick(200 * time.Millisecond) {\u000A            burstyLimiter \u003C- t\u000A        }\u000A    }()\u000A');codeLines.push('    burstyRequests :\u003D make(chan int, 5)\u000A    for i :\u003D 1; i \u003C\u003D 5; i++ {\u000A        burstyRequests \u003C- i\u000A    }\u000A    close(burstyRequests)\u000A    for req :\u003D range burstyRequests {\u000A        \u003C-burstyLimiter\u000A        fmt.Println(\"požadavek\", req, time.Now())\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

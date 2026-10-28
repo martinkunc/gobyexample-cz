@@ -2,8 +2,11 @@
 # jako bychom je spustili přímo z příkazové řádky.
 $ go run spawning-processes.go 
 > date
-Wed Oct 10 09:53:11 PDT 2012
+Thu 05 May 2022 10:10:12 PM PDT
 
+# date nemá volbu `-x`, takže skončí s chybovou
+# hláškou a nenulovým návratovým kódem.
+návratový kód příkazu = 1
 > grep hello
 hello grep
 

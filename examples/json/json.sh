@@ -13,9 +13,10 @@ a
 {1 [apple peach]}
 apple
 {"apple":5,"lettuce":7}
+{1 [apple peach]}
 
 
 # Probrali jsme zde základy JSONu v Go, ale pro
-# více informací se můžete podívat na blog post 
-# [JSON and Go](http://blog.golang.org/2011/01/json-and-go.html) 
-# a [dokumentaci balíčku JSON](http://golang.org/pkg/encoding/json/).
+# více informací se můžete podívat na blog post
+# [JSON and Go](https://go.dev/blog/json)
+# a [dokumentaci balíčku JSON](https://pkg.go.dev/encoding/json/v2).

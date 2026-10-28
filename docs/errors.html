@@ -9,12 +9,12 @@
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'interfaces';
+              window.location.href = 'range-over-iterators';
           }
           
           
           if (e.key == "ArrowRight") {
-              window.location.href = 'goroutines';
+              window.location.href = 'custom-errors';
           }
           
       }
@@ -29,12 +29,27 @@
           <td class="docs">
             <p>V Go je přirozené komunikovat chyby pomocí
 explicitních, oddělených návratových hodnot. To je
-v kontrastu k výjimkám používaných v jazycích jako Java
-a Ruby a přetíženým samostatným hodnotám výsledku/chyby
-někdy používané v C. Go přístup usnadňuje zjištění zda
-funkce vrací chyby a jejich ošetření stejnými
-jazykovými prostředky jako pro úkoly které se
-netýkají chyb.</p>
+v kontrastu k výjimkám používaným v jazycích jako Java,
+Python a Ruby a přetíženým samostatným hodnotám
+výsledku/chyby někdy používaným v C. Go přístup
+usnadňuje zjištění, zda funkce vrací chyby, a jejich
+ošetření stejnými jazykovými prostředky jako pro úkoly,
+které se netýkají chyb.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="c1">//</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro další podrobnosti se podívejte na dokumentaci
+<a href="https://pkg.go.dev/errors">balíčku errors</a>
+a <a href="https://go.dev/blog/go1.13-errors">tento blog post</a>.</p>
 
           </td>
           <td class="code empty leading">
@@ -48,7 +63,7 @@ netýkají chyb.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/vFAa-Uml482"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/sMbuFUNjNpo"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -61,8 +76,10 @@ netýkají chyb.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;errors&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;errors&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -76,7 +93,7 @@ a mají typ <code>error</code>, což je zabudovaný interface.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">f1</span><span class="p">(</span><span class="nx">arg</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">f</span><span class="p">(</span><span class="nx">arg</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">arg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">{</span>
 </pre></div>
 
@@ -92,18 +109,7 @@ se zadanou chybovou hláškou.</p>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;nemohu pracovat se 42&quot;</span><span class="p">)</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
 </pre></div>
 
           </td>
@@ -126,18 +132,15 @@ k chybě.</p>
         
         <tr>
           <td class="docs">
-            <p>Je možné použít vlastní typy jako <code>error</code>, když k nim
-implementujeme metodu <code>Error()</code>. Zde je varianta
-příkladu nahoře která používá vlastní typ pro
-konkrétní určení chyby argumentu.</p>
+            <p>Sentinelová chyba (sentinel error) je předem
+deklarovaná proměnná, která označuje konkrétní
+chybový stav.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">argError</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">arg</span><span class="w">  </span><span class="kt">int</span>
-<span class="w">    </span><span class="nx">prob</span><span class="w"> </span><span class="kt">string</span>
-<span class="p">}</span>
+          <div class="highlight"><pre><span class="kd">var</span><span class="w"> </span><span class="nx">ErrDoselCaj</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;čaj došel&quot;</span><span class="p">)</span>
+<span class="kd">var</span><span class="w"> </span><span class="nx">ErrProud</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;nelze uvařit vodu&quot;</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -149,9 +152,10 @@ konkrétní určení chyby argumentu.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">e</span><span class="w"> </span><span class="o">*</span><span class="nx">argError</span><span class="p">)</span><span class="w"> </span><span class="nx">Error</span><span class="p">()</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%d - %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">arg</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">prob</span><span class="p">)</span>
-<span class="p">}</span>
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">uvarCaj</span><span class="p">(</span><span class="nx">arg</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">arg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">ErrDoselCaj</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">arg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="p">{</span>
 </pre></div>
 
           </td>
@@ -159,30 +163,19 @@ konkrétní určení chyby argumentu.</p>
         
         <tr>
           <td class="docs">
-            
-          </td>
-          <td class="code leading">
-            
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">f2</span><span class="p">(</span><span class="nx">arg</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">arg</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="p">{</span>
-</pre></div>
-
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>V tomto případě používáme zápis <code>&amp;argError</code> pro
-novou strukturu, a dodáváme ji hodnoty pro
-dva prvky struktury <code>arg</code> a <code>prob</code>.</p>
+            <p>Chyby můžeme obalovat chybami vyšší úrovně
+a přidat tak kontext. Nejjednodušší způsob je
+sloveso <code>%w</code> ve <code>fmt.Errorf</code>. Obalené chyby
+vytvářejí logický řetězec (A obaluje B, které
+obaluje C, atd.), na který se lze dotazovat
+funkcemi jako <code>errors.Is</code> a <code>errors.AsType</code>.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">argError</span><span class="p">{</span><span class="nx">arg</span><span class="p">,</span>
-<span class="w">            </span><span class="s">&quot;s tímto nemohu pracovat&quot;</span><span class="p">}</span>
+          <div class="highlight"><pre><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;vaření čaje: %w&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ErrProud</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">arg</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -196,6 +189,7 @@ dva prvky struktury <code>arg</code> a <code>prob</code>.</p>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">}</span><span class="w"> </span><span class="p">{</span>
 </pre></div>
 
           </td>
@@ -203,26 +197,16 @@ dva prvky struktury <code>arg</code> a <code>prob</code>.</p>
         
         <tr>
           <td class="docs">
-            <p>Tyto dva cykly testují každou z našich funkcí
-vracejících chyby.
-Zapamatujte si, že použití kontroly chyb uvnitř
-řádku je běžný idiom v Go.</p>
+            <p>Použití kontroly chyb přímo na řádku s <code>if</code>
+je běžný idiom v Go.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">}</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f1</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;f1 selhala:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;f selhala:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;f1 fungovala:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">}</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">r</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f2</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;f2 selhala:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;f2 fungovala:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">)</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;f fungovala:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 </pre></div>
@@ -232,18 +216,50 @@ Zapamatujte si, že použití kontroly chyb uvnitř
         
         <tr>
           <td class="docs">
-            <p>Pokud budete potřebovat v programu přistoupit k
-datům ve vlastní chybě, budete muset získat
-instanci vlastního typu chyby pomocí typového
-vynucení (type assertion).</p>
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">uvarCaj</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
 
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>errors.Is</code> kontroluje, zda daná chyba (nebo
+jakákoli chyba v jejím řetězci) odpovídá
+konkrétní hodnotě chyby. To je užitečné
+hlavně u obalených nebo vnořených chyb, kde
+tak můžete v řetězci chyb rozpoznat konkrétní
+typy chyb nebo sentinelové chyby.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">Is</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">ErrDoselCaj</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Měli bychom koupit nový čaj!&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">Is</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span><span class="w"> </span><span class="nx">ErrProud</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Teď je tma.&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;neznámá chyba: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">continue</span>
+<span class="w">        </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f2</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">ae</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">e</span><span class="p">.(</span><span class="o">*</span><span class="nx">argError</span><span class="p">);</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">ae</span><span class="p">.</span><span class="nx">arg</span><span class="p">)</span>
-<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">ae</span><span class="p">.</span><span class="nx">prob</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Čaj je hotový!&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -259,29 +275,18 @@ vynucení (type assertion).</p>
           <td class="docs">
             
           </td>
-          <td class="code leading">
+          <td class="code">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>errors.go
-<span class="go">f1 fungovala: 10</span>
-<span class="go">f1 selhala: nemohu pracovat se 42</span>
-<span class="go">f2 fungovala: 10</span>
-<span class="go">f2 selhala: 42 - s tímto nemohu pracovat</span>
-<span class="go">42</span>
-<span class="go">s tímto nemohu pracovat</span>
+<span class="go">f fungovala: 10</span>
+<span class="go">f selhala: nemohu pracovat se 42</span>
+<span class="go">Čaj je hotový!</span>
+<span class="go">Čaj je hotový!</span>
+<span class="go">Měli bychom koupit nový čaj!</span>
+<span class="go">Čaj je hotový!</span>
+<span class="go">Teď je tma.</span>
 </pre></div>
 
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Podívejte se na tento <a href="http://blog.golang.org/2011/07/error-handling-and-go.html">skvělý post</a>
-na Go blogu pro více informací o práci s chybami.</p>
-
-          </td>
-          <td class="code empty">
-            
-          
           </td>
         </tr>
         
@@ -289,7 +294,7 @@ na Go blogu pro více informací o práci s chybami.</p>
       
       
       <p class="next">
-        Další příklad: <a href="goroutines">Gorutiny</a>.
+        Další příklad: <a href="custom-errors">Vlastní chyby</a>.
       </p>
       
       <p class="footer">
@@ -298,7 +303,7 @@ na Go blogu pro více informací o práci s chybami.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"errors\"\u000Aimport \"fmt\"\u000A');codeLines.push('func f1(arg int) (int, error) {\u000A    if arg \u003D\u003D 42 {\u000A');codeLines.push('        return -1, errors.New(\"nemohu pracovat se 42\")\u000A');codeLines.push('    }\u000A');codeLines.push('    return arg + 3, nil\u000A}\u000A');codeLines.push('type argError struct {\u000A    arg  int\u000A    prob string\u000A}\u000A');codeLines.push('func (e *argError) Error() string {\u000A    return fmt.Sprintf(\"%d - %s\", e.arg, e.prob)\u000A}\u000A');codeLines.push('func f2(arg int) (int, error) {\u000A    if arg \u003D\u003D 42 {\u000A');codeLines.push('        return -1, \u0026argError{arg,\u000A            \"s tímto nemohu pracovat\"}\u000A    }\u000A    return arg + 3, nil\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    for _, i :\u003D range []int{7, 42} {\u000A        if r, e :\u003D f1(i); e !\u003D nil {\u000A            fmt.Println(\"f1 selhala:\", e)\u000A        } else {\u000A            fmt.Println(\"f1 fungovala:\", r)\u000A        }\u000A    }\u000A    for _, i :\u003D range []int{7, 42} {\u000A        if r, e :\u003D f2(i); e !\u003D nil {\u000A            fmt.Println(\"f2 selhala:\", e)\u000A        } else {\u000A            fmt.Println(\"f2 fungovala:\", r)\u000A        }\u000A    }\u000A');codeLines.push('    _, e :\u003D f2(42)\u000A    if ae, ok :\u003D e.(*argError); ok {\u000A        fmt.Println(ae.arg)\u000A        fmt.Println(ae.prob)\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('//\u000A');codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"errors\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('func f(arg int) (int, error) {\u000A    if arg \u003D\u003D 42 {\u000A');codeLines.push('        return -1, errors.New(\"nemohu pracovat se 42\")\u000A    }\u000A');codeLines.push('    return arg + 3, nil\u000A}\u000A');codeLines.push('var ErrDoselCaj \u003D errors.New(\"čaj došel\")\u000Avar ErrProud \u003D errors.New(\"nelze uvařit vodu\")\u000A');codeLines.push('func uvarCaj(arg int) error {\u000A    if arg \u003D\u003D 2 {\u000A        return ErrDoselCaj\u000A    } else if arg \u003D\u003D 4 {\u000A');codeLines.push('        return fmt.Errorf(\"vaření čaje: %w\", ErrProud)\u000A    }\u000A    return nil\u000A}\u000A');codeLines.push('func main() {\u000A    for _, i :\u003D range []int{7, 42} {\u000A');codeLines.push('        if r, e :\u003D f(i); e !\u003D nil {\u000A            fmt.Println(\"f selhala:\", e)\u000A        } else {\u000A            fmt.Println(\"f fungovala:\", r)\u000A        }\u000A    }\u000A');codeLines.push('    for i :\u003D range 5 {\u000A        if err :\u003D uvarCaj(i); err !\u003D nil {\u000A');codeLines.push('            if errors.Is(err, ErrDoselCaj) {\u000A                fmt.Println(\"Měli bychom koupit nový čaj!\")\u000A            } else if errors.Is(err, ErrProud) {\u000A                fmt.Println(\"Teď je tma.\")\u000A            } else {\u000A                fmt.Printf(\"neznámá chyba: %s\\n\", err)\u000A            }\u000A            continue\u000A        }\u000A');codeLines.push('        fmt.Println(\"Čaj je hotový!\")\u000A    }\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

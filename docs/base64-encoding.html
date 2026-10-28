@@ -9,7 +9,7 @@
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'sha1-hashes';
+              window.location.href = 'sha256-hashes';
           }
           
           
@@ -27,7 +27,7 @@
         
         <tr>
           <td class="docs">
-            <p>Go poskytuje zabudovanou podporu pro <a href="http://en.wikipedia.org/wiki/Base64">base64
+            <p>Go poskytuje zabudovanou podporu pro <a href="https://en.wikipedia.org/wiki/Base64">base64
 kódování/dekódování</a>.</p>
 
           </td>
@@ -42,7 +42,7 @@ kódování/dekódování</a>.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/d1GfXw8ggkz"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/w0BHnyfdTlK"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -58,8 +58,10 @@ místo.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nx">b64</span><span class="w"> </span><span class="s">&quot;encoding/base64&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="nx">b64</span><span class="w"> </span><span class="s">&quot;encoding/base64&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -188,7 +190,7 @@ ale jak se očekává oba dekódují do původního řetězce.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import b64 \"encoding/base64\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    data :\u003D \"abc123!?$*\u0026()\'-\u003D@~\"\u000A');codeLines.push('    sEnc :\u003D b64.StdEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(sEnc)\u000A');codeLines.push('    sDec, _ :\u003D b64.StdEncoding.DecodeString(sEnc)\u000A    fmt.Println(string(sDec))\u000A    fmt.Println()\u000A');codeLines.push('    uEnc :\u003D b64.URLEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(uEnc)\u000A    uDec, _ :\u003D b64.URLEncoding.DecodeString(uEnc)\u000A    fmt.Println(string(uDec))\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    b64 \"encoding/base64\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    data :\u003D \"abc123!?$*\u0026()\'-\u003D@~\"\u000A');codeLines.push('    sEnc :\u003D b64.StdEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(sEnc)\u000A');codeLines.push('    sDec, _ :\u003D b64.StdEncoding.DecodeString(sEnc)\u000A    fmt.Println(string(sDec))\u000A    fmt.Println()\u000A');codeLines.push('    uEnc :\u003D b64.URLEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(uEnc)\u000A    uDec, _ :\u003D b64.URLEncoding.DecodeString(uEnc)\u000A    fmt.Println(string(uDec))\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

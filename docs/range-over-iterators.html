@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Range přes iterátory</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'generics';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'errors';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="range-over-iterators">
+      <h2><a href="./">Go podle Příkladů</a>: Range přes iterátory</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Od verze 1.23 přidalo Go podporu pro
+<a href="https://go.dev/blog/range-functions">iterátory</a>,
+díky kterým můžeme pomocí <code>range</code> iterovat prakticky
+přes cokoliv!</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/T52enXPWZBA"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;iter&quot;</span>
+<span class="w">    </span><span class="s">&quot;slices&quot;</span>
+<span class="w">    </span><span class="s">&quot;strings&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Podívejme se znovu na typ <code>List</code> z
+<a href="generics">předchozího příkladu</a>. V tom příkladu jsme
+měli metodu <code>AllElements</code>, která vracela výřez všech
+prvků v seznamu. S iterátory v Go to můžeme udělat
+lépe - jak je ukázáno níže.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">List</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">head</span><span class="p">,</span><span class="w"> </span><span class="nx">tail</span><span class="w"> </span><span class="o">*</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">next</span><span class="w"> </span><span class="o">*</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">val</span><span class="w">  </span><span class="nx">T</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">lst</span><span class="w"> </span><span class="o">*</span><span class="nx">List</span><span class="p">[</span><span class="nx">T</span><span class="p">])</span><span class="w"> </span><span class="nx">Push</span><span class="p">(</span><span class="nx">v</span><span class="w"> </span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">head</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span><span class="nx">val</span><span class="p">:</span><span class="w"> </span><span class="nx">v</span><span class="p">}</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">head</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="p">.</span><span class="nx">next</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span><span class="nx">val</span><span class="p">:</span><span class="w"> </span><span class="nx">v</span><span class="p">}</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="p">.</span><span class="nx">next</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>All vrací <em>iterátor</em>, což je v Go funkce se
+<a href="https://pkg.go.dev/iter#Seq">speciální signaturou</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">lst</span><span class="w"> </span><span class="o">*</span><span class="nx">List</span><span class="p">[</span><span class="nx">T</span><span class="p">])</span><span class="w"> </span><span class="nx">All</span><span class="p">()</span><span class="w"> </span><span class="nx">iter</span><span class="p">.</span><span class="nx">Seq</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">yield</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Funkce iterátoru přebírá jako parametr jinou
+funkci, podle konvence nazvanou <code>yield</code> (název
+ale může být libovolný). Zavolá <code>yield</code> pro každý
+prvek, přes který chceme iterovat, a sleduje
+návratovou hodnotu <code>yield</code> kvůli případnému
+předčasnému ukončení.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">head</span><span class="p">;</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="p">;</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">next</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">yield</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Iterace nevyžaduje podkladovou datovou strukturu
+a nemusí být dokonce ani konečná! Tady je funkce
+vracející iterátor přes Fibonacciho čísla: běží tak
+dlouho, dokud <code>yield</code> vrací <code>true</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">genFib</span><span class="p">()</span><span class="w"> </span><span class="nx">iter</span><span class="p">.</span><span class="nx">Seq</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">yield</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">yield</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="o">+</span><span class="nx">b</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">lst</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">List</span><span class="p">[</span><span class="kt">int</span><span class="p">]{}</span>
+<span class="w">    </span><span class="nx">lst</span><span class="p">.</span><span class="nx">Push</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">lst</span><span class="p">.</span><span class="nx">Push</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">lst</span><span class="p">.</span><span class="nx">Push</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Protože <code>List.All</code> vrací iterátor, můžeme ho použít
+v běžném cyklu <code>range</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">All</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíčky jako <a href="https://pkg.go.dev/slices">slices</a> mají
+řadu užitečných funkcí pro práci s iterátory.
+Například <code>Collect</code> převezme libovolný iterátor
+a posbírá všechny jeho hodnoty do výřezu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">all</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slices</span><span class="p">.</span><span class="nx">Collect</span><span class="p">(</span><span class="nx">lst</span><span class="p">.</span><span class="nx">All</span><span class="p">())</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;vše:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">all</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíčky standardní knihovny teď také nabízejí
+pomocné funkce s iterátory. Například
+<code>strings.SplitSeq</code> iteruje přes části řetězce, aniž
+by nejdřív vytvářel výřez s výsledkem.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">part</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">SplitSeq</span><span class="p">(</span><span class="s">&quot;go-by-example&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;část: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">part</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">genFib</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Jakmile cyklus narazí na <code>break</code> nebo předčasný
+<code>return</code>, funkce <code>yield</code> předaná iterátoru
+vrátí <code>false</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">n</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">n</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>range-over-iterators.go
+<span class="go">10</span>
+<span class="go">13</span>
+<span class="go">23</span>
+<span class="go">vše: [10 13 23]</span>
+<span class="go">část: go</span>
+<span class="go">část: by</span>
+<span class="go">část: example</span>
+<span class="go">0</span>
+<span class="go">1</span>
+<span class="go">1</span>
+<span class="go">2</span>
+<span class="go">3</span>
+<span class="go">5</span>
+<span class="go">8</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="errors">Chyby (errors)</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"iter\"\u000A    \"slices\"\u000A    \"strings\"\u000A)\u000A');codeLines.push('type List[T any] struct {\u000A    head, tail *element[T]\u000A}\u000A');codeLines.push('type element[T any] struct {\u000A    next *element[T]\u000A    val  T\u000A}\u000A');codeLines.push('func (lst *List[T]) Push(v T) {\u000A    if lst.tail \u003D\u003D nil {\u000A        lst.head \u003D \u0026element[T]{val: v}\u000A        lst.tail \u003D lst.head\u000A    } else {\u000A        lst.tail.next \u003D \u0026element[T]{val: v}\u000A        lst.tail \u003D lst.tail.next\u000A    }\u000A}\u000A');codeLines.push('func (lst *List[T]) All() iter.Seq[T] {\u000A    return func(yield func(T) bool) {\u000A');codeLines.push('        for e :\u003D lst.head; e !\u003D nil; e \u003D e.next {\u000A            if !yield(e.val) {\u000A                return\u000A            }\u000A        }\u000A    }\u000A}\u000A');codeLines.push('func genFib() iter.Seq[int] {\u000A    return func(yield func(int) bool) {\u000A        a, b :\u003D 0, 1\u000A');codeLines.push('        for {\u000A            if !yield(a) {\u000A                return\u000A            }\u000A            a, b \u003D b, a+b\u000A        }\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A    lst :\u003D List[int]{}\u000A    lst.Push(10)\u000A    lst.Push(13)\u000A    lst.Push(23)\u000A');codeLines.push('    for e :\u003D range lst.All() {\u000A        fmt.Println(e)\u000A    }\u000A');codeLines.push('    all :\u003D slices.Collect(lst.All())\u000A    fmt.Println(\"vše:\", all)\u000A');codeLines.push('    for part :\u003D range strings.SplitSeq(\"go-by-example\", \"-\") {\u000A        fmt.Printf(\"část: %s\\n\", part)\u000A    }\u000A');codeLines.push('    for n :\u003D range genFib() {\u000A');codeLines.push('        if n \u003E\u003D 10 {\u000A            break\u000A        }\u000A        fmt.Println(n)\u000A    }\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

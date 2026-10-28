@@ -42,7 +42,7 @@ v Go přímočaré</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/Azbsym6m8ka"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/Y_ptbS3v9F5"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -107,9 +107,25 @@ v Go přímočaré</p>
         
         <tr>
           <td class="docs">
+            <p>Logické operátory jako <code>&amp;&amp;</code> a <code>||</code> se v podmínkách
+často hodí.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="mi">8</span><span class="o">%</span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="mi">7</span><span class="o">%</span><span class="mi">2</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;8 nebo 7 je sudá&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
             <p>Podmínky může předcházet příkaz; proměnné
-deklarované v tomto příkazu jsou dostupné ve všech
-větvích</p>
+deklarované v tomto příkazu jsou dostupné v aktuální
+a ve všech následujících větvích.</p>
 
           </td>
           <td class="code leading">
@@ -149,9 +165,10 @@ závorky, naproti tomu složené závorky jsou povinné.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span><span class="k">if</span>-else.go<span class="w"> </span>
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span><span class="k">if</span>-else.go
 <span class="go">7 je lichá</span>
 <span class="go">8 je dělitelná 4</span>
+<span class="go">8 nebo 7 je sudá</span>
 <span class="go">9 obsahuje 1 číslici</span>
 </pre></div>
 
@@ -160,7 +177,7 @@ závorky, naproti tomu složené závorky jsou povinné.</p>
         
         <tr>
           <td class="docs">
-            <p>V Go není žádný <a href="http://en.wikipedia.org/wiki/%3F:">ternální if</a>
+            <p>V Go není žádný <a href="https://en.wikipedia.org/wiki/%3F:">ternární if</a>
 takže i pro elementární podmínky budete muset použít
 plný příkaz <code>if</code>.</p>
 
@@ -184,7 +201,7 @@ plný příkaz <code>if</code>.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    if 7%2 \u003D\u003D 0 {\u000A        fmt.Println(\"7 je sudá\")\u000A    } else {\u000A        fmt.Println(\"7 je lichá\")\u000A    }\u000A');codeLines.push('    if 8%4 \u003D\u003D 0 {\u000A        fmt.Println(\"8 je dělitelná 4\")\u000A    }\u000A');codeLines.push('    if num :\u003D 9; num \u003C 0 {\u000A        fmt.Println(num, \"je záporná\")\u000A    } else if num \u003C 10 {\u000A        fmt.Println(num, \"obsahuje 1 číslici\")\u000A    } else {\u000A        fmt.Println(num, \"obsahuje víc číslic\")\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    if 7%2 \u003D\u003D 0 {\u000A        fmt.Println(\"7 je sudá\")\u000A    } else {\u000A        fmt.Println(\"7 je lichá\")\u000A    }\u000A');codeLines.push('    if 8%4 \u003D\u003D 0 {\u000A        fmt.Println(\"8 je dělitelná 4\")\u000A    }\u000A');codeLines.push('    if 8%2 \u003D\u003D 0 || 7%2 \u003D\u003D 0 {\u000A        fmt.Println(\"8 nebo 7 je sudá\")\u000A    }\u000A');codeLines.push('    if num :\u003D 9; num \u003C 0 {\u000A        fmt.Println(num, \"je záporná\")\u000A    } else if num \u003C 10 {\u000A        fmt.Println(num, \"obsahuje 1 číslici\")\u000A    } else {\u000A        fmt.Println(num, \"obsahuje víc číslic\")\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

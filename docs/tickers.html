@@ -46,7 +46,7 @@ periodicky dokud ho nezastavíme.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/QlurKesP39m"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/Qqsdvn66-Wd"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -59,8 +59,10 @@ periodicky dokud ho nezastavíme.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;time&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -82,17 +84,34 @@ periodicky dokud ho nezastavíme.</p>
           <td class="docs">
             <p>Opakující časovače používají podobný mechanismus
 jako běžné časovače: kanál kterému je posílaná
-hodnota. Zde použijeme zabudovaný příkaz <code>range</code>
-pro iterování přes hodnoty které do kanálu
+hodnota. Zde použijeme na kanálu zabudovaný příkaz
+<code>select</code> pro čekání na hodnoty, které do kanálu
 přijdou každých 500ms.</p>
 
           </td>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">ticker</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">NewTicker</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
-<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">ticker</span><span class="p">.</span><span class="nx">C</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Tik v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">done</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">select</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">done</span><span class="p">:</span>
+<span class="w">                </span><span class="k">return</span>
+<span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="nx">t</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">ticker</span><span class="p">.</span><span class="nx">C</span><span class="p">:</span>
+<span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Tik v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">t</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}()</span>
 </pre></div>
@@ -112,6 +131,7 @@ Náš zastavíme po 1600ms.</p>
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">1600</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
 <span class="w">    </span><span class="nx">ticker</span><span class="p">.</span><span class="nx">Stop</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">done</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Ticker zastaven&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
@@ -154,7 +174,7 @@ Náš zastavíme po 1600ms.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"time\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    ticker :\u003D time.NewTicker(500 * time.Millisecond)\u000A    go func() {\u000A        for t :\u003D range ticker.C {\u000A            fmt.Println(\"Tik v\", t)\u000A        }\u000A    }()\u000A');codeLines.push('    time.Sleep(1600 * time.Millisecond)\u000A    ticker.Stop()\u000A    fmt.Println(\"Ticker zastaven\")\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"time\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    ticker :\u003D time.NewTicker(500 * time.Millisecond)\u000A    done :\u003D make(chan bool)\u000A');codeLines.push('    go func() {\u000A        for {\u000A            select {\u000A            case \u003C-done:\u000A                return\u000A            case t :\u003D \u003C-ticker.C:\u000A                fmt.Println(\"Tik v\", t)\u000A            }\u000A        }\u000A    }()\u000A');codeLines.push('    time.Sleep(1600 * time.Millisecond)\u000A    ticker.Stop()\u000A    done \u003C- true\u000A    fmt.Println(\"Ticker zastaven\")\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

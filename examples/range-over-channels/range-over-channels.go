@@ -1,4 +1,4 @@
-// V [předchozím](range) příkladu jsme viděli jak `for` a
+// V [předchozím](range-over-built-in-types) příkladu jsme viděli jak `for` a
 // `range` umožňují iterování přes základní datové
 // struktury. Tento zápis můžeme také použít pro iterování
 // po hodnotách přijímaných z kanálu.

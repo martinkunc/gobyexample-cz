@@ -5,8 +5,11 @@
 
 package main
 
-import "fmt"
-import "os"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+)
 
 // Předpokládejme že jsme chtěli vytvořit soubor, zapsat
 // do něho a potom když jsme hotovi ho zavřít. Tady je jak
@@ -18,7 +21,8 @@ func main() {
 	// souboru zavoláním `closeFile`. To se provede při ukončení
 	// volající funkce (`main`), potom co skončilo
 	// `writeFile`.
-	f := createFile("/tmp/defer.txt")
+	path := filepath.Join(os.TempDir(), "defer.txt")
+	f := createFile(path)
 	defer closeFile(f)
 	writeFile(f)
 }
@@ -35,10 +39,14 @@ func createFile(p string) *os.File {
 func writeFile(f *os.File) {
 	fmt.Println("zápis")
 	fmt.Fprintln(f, "data")
-
 }
 
 func closeFile(f *os.File) {
 	fmt.Println("zavírání")
-	f.Close()
+	err := f.Close()
+	// Při zavírání souboru je důležité kontrolovat chyby,
+	// a to i v odložené funkci.
+	if err != nil {
+		panic(err)
+	}
 }

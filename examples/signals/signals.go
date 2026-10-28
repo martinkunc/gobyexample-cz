@@ -1,44 +1,35 @@
-// Někdy bychom chtěli aby naše Go programy inteligentně
-// ošetřovali [Unixové signály](http://en.wikipedia.org/wiki/Unix_signal).
-// Například, můžeme chtít aby server we might want a server to elegantně
-// skončil když dostaneme signál `SIGTERM`, nebo aby nástroj
-// příkazové řádky přestal zpracovávat vstup pokud obdrží `SIGINT`.
-// Zde je jak ošetřit signály v Go pomocí kanálů.
+// Někdy bychom chtěli, aby naše Go programy inteligentně
+// ošetřovaly [Unixové signály](https://en.wikipedia.org/wiki/Unix_signal).
+// Například můžeme chtít, aby server elegantně
+// skončil, když dostane signál `SIGTERM`, nebo aby nástroj
+// příkazové řádky přestal zpracovávat vstup, pokud obdrží `SIGINT`.
+// Zde je moderní způsob, jak ošetřit signály pomocí kontextů.
 
 package main
 
-import "fmt"
-import "os"
-import "os/signal"
-import "syscall"
+import (
+	"context"
+	"fmt"
+	"os/signal"
+	"syscall"
+)
 
 func main() {
+	// `signal.NotifyContext` vrací kontext, který je zrušen
+	// ve chvíli, kdy přijde jeden z uvedených signálů.
+	ctx, stop := signal.NotifyContext(
+		context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
 
-	// Go notifikace o signálech pracuje tak, že posílá
-	// hodnoty `os.Signal` do kanálu. Vytvoříme kanál pro
-	// příjem takových notifikací (a také jeden kde se sami
-	// notifikujeme že program může skončit).
-	sigs := make(chan os.Signal, 1)
-	done := make(chan bool, 1)
-
-	// `signal.Notify` registruje daný kanál pro příjem notifikací
-	// o specifikovaných signálech.
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
-	// Tato goroutina provádí blokující příjem signálů.
-	// Když nějaký dostané tak ho vypíše a oznámí programu
-	// že může skončit.
-	go func() {
-		sig := <-sigs
-		fmt.Println()
-		fmt.Println(sig)
-		done <- true
-	}()
-
-	// Program zde bude čekat dokud nedostane
-	// očekávaný signál (jak je naznačeno v gorutině výše
-	// posílající hodnotu když je `done`) a pak skončí.
+	// Program zde bude čekat, dokud nedostane jeden
+	// z nastavených signálů.
 	fmt.Println("awaiting signal")
-	<-done
+	<-ctx.Done()
+
+	// `context.Cause` sděluje, proč byl kontext zrušen.
+	// U zrušení vyvolaného signálem obsahuje i hodnotu
+	// signálu.
+	fmt.Println()
+	fmt.Println(context.Cause(ctx))
 	fmt.Println("exiting")
 }

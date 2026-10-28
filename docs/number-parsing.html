@@ -43,7 +43,7 @@ to dělat v Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/0ZWsGj515l6"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/_1tk1D9vU_0"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -57,8 +57,10 @@ to dělat v Go.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;strconv&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;strconv&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -181,7 +183,7 @@ v desítkové soustavě.</p>
 <span class="go">456</span>
 <span class="go">789</span>
 <span class="go">135</span>
-<span class="go">strconv.ParseInt: parsing &quot;co?&quot;: invalid syntax</span>
+<span class="go">strconv.Atoi: parsing &quot;co?&quot;: invalid syntax</span>
 </pre></div>
 
           </td>
@@ -212,7 +214,7 @@ parsování: URL.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"strconv\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    f, _ :\u003D strconv.ParseFloat(\"1.234\", 64)\u000A    fmt.Println(f)\u000A');codeLines.push('    i, _ :\u003D strconv.ParseInt(\"123\", 0, 64)\u000A    fmt.Println(i)\u000A');codeLines.push('    d, _ :\u003D strconv.ParseInt(\"0x1c8\", 0, 64)\u000A    fmt.Println(d)\u000A');codeLines.push('    u, _ :\u003D strconv.ParseUint(\"789\", 0, 64)\u000A    fmt.Println(u)\u000A');codeLines.push('    k, _ :\u003D strconv.Atoi(\"135\")\u000A    fmt.Println(k)\u000A');codeLines.push('    _, e :\u003D strconv.Atoi(\"co?\")\u000A    fmt.Println(e)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"strconv\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    f, _ :\u003D strconv.ParseFloat(\"1.234\", 64)\u000A    fmt.Println(f)\u000A');codeLines.push('    i, _ :\u003D strconv.ParseInt(\"123\", 0, 64)\u000A    fmt.Println(i)\u000A');codeLines.push('    d, _ :\u003D strconv.ParseInt(\"0x1c8\", 0, 64)\u000A    fmt.Println(d)\u000A');codeLines.push('    u, _ :\u003D strconv.ParseUint(\"789\", 0, 64)\u000A    fmt.Println(u)\u000A');codeLines.push('    k, _ :\u003D strconv.Atoi(\"135\")\u000A    fmt.Println(k)\u000A');codeLines.push('    _, e :\u003D strconv.Atoi(\"co?\")\u000A    fmt.Println(e)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

@@ -4,8 +4,10 @@
 
 package main
 
-import "fmt"
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // Tady je pracovní rutina které spustíme několik instancí
 // soubežně. Tyto rutiny přijmou práce na kanálu `jobs` a
@@ -26,8 +28,9 @@ func main() {
 	// Pro náš zásobník rutin jim budeme chtít poslat
 	// práci a pak přijmout a poté posbírat jejich
 	// výsledky. K tomu si vytvoříme 2 kanály.
-	jobs := make(chan int, 100)
-	results := make(chan int, 100)
+	const numJobs = 5
+	jobs := make(chan int, numJobs)
+	results := make(chan int, numJobs)
 
 	// Tohle nastartuje 3 pracovní rutiny, nejdřív
 	// zablokované, protože ještě nemají žádnou práci
@@ -39,7 +42,7 @@ func main() {
 	// Zde pošleme 5 `job`ů a potom kanál zavřeme s
 	// `close` pro oznámení že to byla všechna práce
 	// kterou máme.
-	for j := 1; j <= 5; j++ {
+	for j := 1; j <= numJobs; j++ {
 		jobs <- j
 	}
 	close(jobs)
@@ -48,7 +51,7 @@ func main() {
 	// To také zajistí že pracovní gorutiny skončily.
 	// Alternativně můžeme také počkat na víc gorutin s
 	// použitím [Čekání na skupiny s WaitGroup](waitgroups).
-	for a := 1; a <= 5; a++ {
+	for a := 1; a <= numJobs; a++ {
 		<-results
 	}
 }

@@ -1,10 +1,13 @@
-// _Mapy_ jsou [asociativní datové typy](http://en.wikipedia.org/wiki/Associative_array)
+// _Mapy_ jsou [asociativní datové typy](https://en.wikipedia.org/wiki/Associative_array)
 // zabudované do Go. (Někdy v jiných programovacích
 // jazycích se jim také říká _hashe_ nebo _slovníky_).
 
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"maps"
+)
 
 func main() {
 
@@ -26,7 +29,13 @@ func main() {
 	// Hodnotu můžeme získat pro daný klíč zápisem
 	// `jméno[klíč]`.
 	v1 := m["k1"]
-	fmt.Println("v1: ", v1)
+	fmt.Println("v1:", v1)
+
+	// Pokud klíč neexistuje, vrátí se
+	// [nulová hodnota](https://go.dev/ref/spec#The_zero_value)
+	// typu hodnoty.
+	v3 := m["k3"]
+	fmt.Println("v3:", v3)
 
 	// Zabudovaná funkce `len` vrací při použití s mapou
 	// počet dvojic klíč/hodnota
@@ -35,6 +44,11 @@ func main() {
 	// Zabudovaná funkce `delete` odstraňuje dvojice
 	// klíč hodnota z mapy.
 	delete(m, "k2")
+	fmt.Println("mapa:", m)
+
+	// Pro odstranění *všech* dvojic klíč/hodnota z mapy
+	// použijte zabudovanou funkci `clear`.
+	clear(m)
 	fmt.Println("mapa:", m)
 
 	// Volitelná druhá návratová hodnota během získávání
@@ -52,4 +66,11 @@ func main() {
 	// na stejném řádku s takovouhle syntaxí:
 	n := map[string]int{"foo": 1, "bar": 2}
 	fmt.Println("mapa:", n)
+
+	// Balíček `maps` obsahuje řadu užitečných pomocných
+	// funkcí pro práci s mapami.
+	n2 := map[string]int{"foo": 1, "bar": 2}
+	if maps.Equal(n, n2) {
+		fmt.Println("n == n2")
+	}
 }

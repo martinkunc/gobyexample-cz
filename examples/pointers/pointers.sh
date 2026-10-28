@@ -6,3 +6,5 @@ počáteční: 1
 nulujhodn: 1
 nulujukaz: 0
 ukazatel: 0x414020
+hodnota na *p: 42
+hodnota na *p: 0

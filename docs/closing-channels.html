@@ -43,7 +43,7 @@ komunikace příjemcům kanálů.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/k2tMI3TBm1t"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/4KisqdRr_JM"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -136,9 +136,28 @@ a poté ho uzavře.</p>
 kterou jsme viděli dříve.</p>
 
           </td>
-          <td class="code">
+          <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="o">&lt;-</span><span class="nx">done</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Čtení ze zavřeného kanálu proběhne okamžitě a vrátí
+nulovou hodnotu typu, který kanál přenáší.
+Volitelná druhá návratová hodnota je <code>true</code>, pokud
+přijatá hodnota byla do kanálu doručena úspěšným
+odesláním, nebo <code>false</code>, pokud jde o nulovou hodnotu
+vrácenou proto, že je kanál zavřený a prázdný.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">jobs</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;přijal další práce:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -164,6 +183,7 @@ kterou jsme viděli dříve.</p>
 <span class="go">přijal práci 2</span>
 <span class="go">přijal práci 3</span>
 <span class="go">přijal všechny práce</span>
+<span class="go">přijal další práce: false</span>
 </pre></div>
 
           </td>
@@ -195,7 +215,7 @@ našemu dalšímu příkladu: iterování kanálů pomocí
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A    jobs :\u003D make(chan int, 5)\u000A    done :\u003D make(chan bool)\u000A');codeLines.push('    go func() {\u000A        for {\u000A            j, more :\u003D \u003C-jobs\u000A            if more {\u000A                fmt.Println(\"přijal práci\", j)\u000A            } else {\u000A                fmt.Println(\"přijal všechny práce\")\u000A                done \u003C- true\u000A                return\u000A            }\u000A        }\u000A    }()\u000A');codeLines.push('    for j :\u003D 1; j \u003C\u003D 3; j++ {\u000A        jobs \u003C- j\u000A        fmt.Println(\"poslal práci\", j)\u000A    }\u000A    close(jobs)\u000A    fmt.Println(\"poslal všechny práce\")\u000A');codeLines.push('    \u003C-done\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A    jobs :\u003D make(chan int, 5)\u000A    done :\u003D make(chan bool)\u000A');codeLines.push('    go func() {\u000A        for {\u000A            j, more :\u003D \u003C-jobs\u000A            if more {\u000A                fmt.Println(\"přijal práci\", j)\u000A            } else {\u000A                fmt.Println(\"přijal všechny práce\")\u000A                done \u003C- true\u000A                return\u000A            }\u000A        }\u000A    }()\u000A');codeLines.push('    for j :\u003D 1; j \u003C\u003D 3; j++ {\u000A        jobs \u003C- j\u000A        fmt.Println(\"poslal práci\", j)\u000A    }\u000A    close(jobs)\u000A    fmt.Println(\"poslal všechny práce\")\u000A');codeLines.push('    \u003C-done\u000A');codeLines.push('    _, ok :\u003D \u003C-jobs\u000A    fmt.Println(\"přijal další práce:\", ok)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

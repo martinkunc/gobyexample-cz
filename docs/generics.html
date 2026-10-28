@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Generika (generics)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'struct-embedding';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'range-over-iterators';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="generics">
+      <h2><a href="./">Go podle Příkladů</a>: Generika (generics)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Od verze 1.18 přidalo Go podporu pro <em>generika</em>
+(generics), známá také jako <em>typové parametry</em>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/F2fWr00lql3"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Jako příklad generické funkce, <code>SlicesIndex</code> převezme
+výřez libovolného typu <code>comparable</code> a prvek tohoto
+typu a vrátí index prvního výskytu v v s, nebo -1,
+pokud tam není. Omezení <code>comparable</code> znamená, že
+hodnoty tohoto typu můžeme porovnávat operátory <code>==</code>
+a <code>!=</code>. Podrobnější vysvětlení této typové signatury
+najdete v <a href="https://go.dev/blog/deconstructing-type-parameters">tomto blog postu</a>.
+Všimněte si, že tato funkce ve standardní knihovně
+existuje jako <a href="https://pkg.go.dev/slices#Index">slices.Index</a>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">SlicesIndex</span><span class="p">[</span><span class="nx">S</span><span class="w"> </span><span class="o">~</span><span class="p">[]</span><span class="nx">E</span><span class="p">,</span><span class="w"> </span><span class="nx">E</span><span class="w"> </span><span class="kt">comparable</span><span class="p">](</span><span class="nx">s</span><span class="w"> </span><span class="nx">S</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="nx">E</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">v</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">i</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Jako příklad generického typu, <code>List</code> je jednosměrně
+vázaný seznam s hodnotami libovolného typu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">List</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">head</span><span class="p">,</span><span class="w"> </span><span class="nx">tail</span><span class="w"> </span><span class="o">*</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="w"> </span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">next</span><span class="w"> </span><span class="o">*</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">val</span><span class="w">  </span><span class="nx">T</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Na generických typech můžeme definovat metody stejně
+jako na běžných typech, ale typové parametry musíme
+ponechat na místě. Typ je <code>List[T]</code>, ne <code>List</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">lst</span><span class="w"> </span><span class="o">*</span><span class="nx">List</span><span class="p">[</span><span class="nx">T</span><span class="p">])</span><span class="w"> </span><span class="nx">Push</span><span class="p">(</span><span class="nx">v</span><span class="w"> </span><span class="nx">T</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">head</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span><span class="nx">val</span><span class="p">:</span><span class="w"> </span><span class="nx">v</span><span class="p">}</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">head</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="p">.</span><span class="nx">next</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">element</span><span class="p">[</span><span class="nx">T</span><span class="p">]{</span><span class="nx">val</span><span class="p">:</span><span class="w"> </span><span class="nx">v</span><span class="p">}</span>
+<span class="w">        </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">tail</span><span class="p">.</span><span class="nx">next</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>AllElements vrátí všechny prvky seznamu <code>List</code> jako
+výřez. V dalším příkladu uvidíme idiomatičtější způsob,
+jak iterovat přes všechny prvky uživatelských typů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">lst</span><span class="w"> </span><span class="o">*</span><span class="nx">List</span><span class="p">[</span><span class="nx">T</span><span class="p">])</span><span class="w"> </span><span class="nx">AllElements</span><span class="p">()</span><span class="w"> </span><span class="p">[]</span><span class="nx">T</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">elems</span><span class="w"> </span><span class="p">[]</span><span class="nx">T</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">head</span><span class="p">;</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="p">;</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">next</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">elems</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">elems</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">val</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">elems</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;foo&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bar&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;zoo&quot;</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Při volání generických funkcí se často můžeme
+spolehnout na <em>odvození typů</em> (type inference).
+Všimněte si, že při volání <code>SlicesIndex</code> nemusíme
+uvádět typy pro <code>S</code> a <code>E</code> - překladač je odvodí
+automaticky.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;index zoo:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">SlicesIndex</span><span class="p">(</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;zoo&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>&hellip; i když bychom je mohli uvést i explicitně.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">SlicesIndex</span><span class="p">[[]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">string</span><span class="p">](</span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;zoo&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">lst</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">List</span><span class="p">[</span><span class="kt">int</span><span class="p">]{}</span>
+<span class="w">    </span><span class="nx">lst</span><span class="p">.</span><span class="nx">Push</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">lst</span><span class="p">.</span><span class="nx">Push</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">lst</span><span class="p">.</span><span class="nx">Push</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;seznam:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">lst</span><span class="p">.</span><span class="nx">AllElements</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>generics.go
+<span class="go">index zoo: 2</span>
+<span class="go">seznam: [10 13 23]</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="range-over-iterators">Range přes iterátory</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func SlicesIndex[S ~[]E, E comparable](s S, v E) int {\u000A    for i :\u003D range s {\u000A        if v \u003D\u003D s[i] {\u000A            return i\u000A        }\u000A    }\u000A    return -1\u000A}\u000A');codeLines.push('type List[T any] struct {\u000A    head, tail *element[T]\u000A}\u000A');codeLines.push('type element[T any] struct {\u000A    next *element[T]\u000A    val  T\u000A}\u000A');codeLines.push('func (lst *List[T]) Push(v T) {\u000A    if lst.tail \u003D\u003D nil {\u000A        lst.head \u003D \u0026element[T]{val: v}\u000A        lst.tail \u003D lst.head\u000A    } else {\u000A        lst.tail.next \u003D \u0026element[T]{val: v}\u000A        lst.tail \u003D lst.tail.next\u000A    }\u000A}\u000A');codeLines.push('func (lst *List[T]) AllElements() []T {\u000A    var elems []T\u000A    for e :\u003D lst.head; e !\u003D nil; e \u003D e.next {\u000A        elems \u003D append(elems, e.val)\u000A    }\u000A    return elems\u000A}\u000A');codeLines.push('func main() {\u000A    var s \u003D []string{\"foo\", \"bar\", \"zoo\"}\u000A');codeLines.push('    fmt.Println(\"index zoo:\", SlicesIndex(s, \"zoo\"))\u000A');codeLines.push('    _ \u003D SlicesIndex[[]string, string](s, \"zoo\")\u000A');codeLines.push('    lst :\u003D List[int]{}\u000A    lst.Push(10)\u000A    lst.Push(13)\u000A    lst.Push(23)\u000A    fmt.Println(\"seznam:\", lst.AllElements())\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

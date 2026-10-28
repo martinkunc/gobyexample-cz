@@ -12,6 +12,17 @@ type osoba struct {
 	vek   int
 }
 
+// `novaOsoba` vytvoří novou strukturu `osoba` s daným jménem.
+func novaOsoba(jmeno string) *osoba {
+	// Go je jazyk se správou paměti pomocí garbage
+	// collectoru; můžete bezpečně vrátit ukazatel na
+	// lokální proměnnou - garbage collector ji uklidí až
+	// ve chvíli, kdy na ni neexistují žádné aktivní odkazy.
+	o := osoba{jmeno: jmeno}
+	o.vek = 42
+	return &o
+}
+
 func main() {
 
 	// Tento zápis vytvoří novou strukturu.
@@ -27,17 +38,35 @@ func main() {
 	// S prefixem `&` bude vrácený ukazatel na strukturu.
 	fmt.Println(&osoba{jmeno: "Ann", vek: 40})
 
+	// Je idiomatické zapouzdřit vytváření nových struktur
+	// do konstruktorových funkcí.
+	fmt.Println(novaOsoba("Jon"))
+
 	// K položkám struktur se přistupuje pomocí tečky.
 	s := osoba{jmeno: "Sean", vek: 50}
 	fmt.Println(s.jmeno)
+
+	// Struktury je možné měnit.
+	s.vek = 51
+	fmt.Println(s)
 
 	// Také je možné používat tečku na ukazatel na
 	// strukturu - ukazatelé jsou automaticky
 	// dereferencovány.
 	sp := &s
+	sp.vek = 52
 	fmt.Println(sp.vek)
 
-	// Struktury je možné měnit.
-	sp.vek = 51
-	fmt.Println(sp.vek)
+	// Pokud typ struktury použijeme jen pro jedinou
+	// hodnotu, nemusíme ho pojmenovávat. Hodnota může mít
+	// anonymní typ struktury. Tato technika se běžně
+	// používá pro [testy řízené tabulkou](testing-and-benchmarking).
+	pes := struct {
+		jmeno string
+		hodny bool
+	}{
+		"Rex",
+		true,
+	}
+	fmt.Println(pes)
 }

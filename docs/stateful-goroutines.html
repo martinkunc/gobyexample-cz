@@ -31,10 +31,10 @@
 <a href="mutexes">mutexy</a> pro synchronizaci přístupu ke sdílenému stavu
 přes několik gorutin. Jinou možností k dosažení toho stejného
 výsledku je použít zabudované vlastnosti pro synchronizaci
-goroutin a kanálů. TEnto přístup založený na kanálech
+gorutin a kanálů. Tento přístup založený na kanálech
 odpovídá myšlenkám Go se sdílením paměti pomocí
 komunikace, kdy každý kousek dat je vlastněný
-přesně 1 goroutinou.</p>
+přesně jednou gorutinou.</p>
 
           </td>
           <td class="code empty leading">
@@ -48,7 +48,7 @@ přesně 1 goroutinou.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/e93PmlkTl4Z"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/yATrewDymij"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -182,7 +182,7 @@ v poskytnutém kanálu <code>resp</code>.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="nx">r</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="nx">read</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">readOp</span><span class="p">{</span>
@@ -208,7 +208,7 @@ přístupu.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">w</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="nx">w</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="nx">write</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">writeOp</span><span class="p">{</span>
@@ -309,7 +309,7 @@ správnosti tvého programu.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"math/rand\"\u000A    \"sync/atomic\"\u000A    \"time\"\u000A)\u000A');codeLines.push('type readOp struct {\u000A    key  int\u000A    resp chan int\u000A}\u000Atype writeOp struct {\u000A    key  int\u000A    val  int\u000A    resp chan bool\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var readOps uint64\u000A    var writeOps uint64\u000A');codeLines.push('    reads :\u003D make(chan readOp)\u000A    writes :\u003D make(chan writeOp)\u000A');codeLines.push('    go func() {\u000A        var state \u003D make(map[int]int)\u000A        for {\u000A            select {\u000A            case read :\u003D \u003C-reads:\u000A                read.resp \u003C- state[read.key]\u000A            case write :\u003D \u003C-writes:\u000A                state[write.key] \u003D write.val\u000A                write.resp \u003C- true\u000A            }\u000A        }\u000A    }()\u000A');codeLines.push('    for r :\u003D 0; r \u003C 100; r++ {\u000A        go func() {\u000A            for {\u000A                read :\u003D readOp{\u000A                    key:  rand.Intn(5),\u000A                    resp: make(chan int)}\u000A                reads \u003C- read\u000A                \u003C-read.resp\u000A                atomic.AddUint64(\u0026readOps, 1)\u000A                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    for w :\u003D 0; w \u003C 10; w++ {\u000A        go func() {\u000A            for {\u000A                write :\u003D writeOp{\u000A                    key:  rand.Intn(5),\u000A                    val:  rand.Intn(100),\u000A                    resp: make(chan bool)}\u000A                writes \u003C- write\u000A                \u003C-write.resp\u000A                atomic.AddUint64(\u0026writeOps, 1)\u000A                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    time.Sleep(time.Second)\u000A');codeLines.push('    readOpsFinal :\u003D atomic.LoadUint64(\u0026readOps)\u000A    fmt.Println(\"readOps:\", readOpsFinal)\u000A    writeOpsFinal :\u003D atomic.LoadUint64(\u0026writeOps)\u000A    fmt.Println(\"writeOps:\", writeOpsFinal)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"math/rand\"\u000A    \"sync/atomic\"\u000A    \"time\"\u000A)\u000A');codeLines.push('type readOp struct {\u000A    key  int\u000A    resp chan int\u000A}\u000Atype writeOp struct {\u000A    key  int\u000A    val  int\u000A    resp chan bool\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var readOps uint64\u000A    var writeOps uint64\u000A');codeLines.push('    reads :\u003D make(chan readOp)\u000A    writes :\u003D make(chan writeOp)\u000A');codeLines.push('    go func() {\u000A        var state \u003D make(map[int]int)\u000A        for {\u000A            select {\u000A            case read :\u003D \u003C-reads:\u000A                read.resp \u003C- state[read.key]\u000A            case write :\u003D \u003C-writes:\u000A                state[write.key] \u003D write.val\u000A                write.resp \u003C- true\u000A            }\u000A        }\u000A    }()\u000A');codeLines.push('    for range 100 {\u000A        go func() {\u000A            for {\u000A                read :\u003D readOp{\u000A                    key:  rand.Intn(5),\u000A                    resp: make(chan int)}\u000A                reads \u003C- read\u000A                \u003C-read.resp\u000A                atomic.AddUint64(\u0026readOps, 1)\u000A                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    for range 10 {\u000A        go func() {\u000A            for {\u000A                write :\u003D writeOp{\u000A                    key:  rand.Intn(5),\u000A                    val:  rand.Intn(100),\u000A                    resp: make(chan bool)}\u000A                writes \u003C- write\u000A                \u003C-write.resp\u000A                atomic.AddUint64(\u0026writeOps, 1)\u000A                time.Sleep(time.Millisecond)\u000A            }\u000A        }()\u000A    }\u000A');codeLines.push('    time.Sleep(time.Second)\u000A');codeLines.push('    readOpsFinal :\u003D atomic.LoadUint64(\u0026readOps)\u000A    fmt.Println(\"readOps:\", readOpsFinal)\u000A    writeOpsFinal :\u003D atomic.LoadUint64(\u0026writeOps)\u000A    fmt.Println(\"writeOps:\", writeOpsFinal)\u000A}\u000A');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

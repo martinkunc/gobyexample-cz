@@ -27,8 +27,8 @@
         
         <tr>
           <td class="docs">
-            <p>Někdz budeme chtít třídit kolekci podle něčeho jiného
- než je její přirozené řazení. Například, předpokládejme
+            <p>Někdy budeme chtít třídit kolekci podle něčeho jiného
+než je její přirozené řazení. Například, předpokládejme
 že jsme chtěli setřídit řetězce podle jejich délky
 a ne abecedně. Zde je příklad volitelných třídění
 v Go.</p>
@@ -45,7 +45,7 @@ v Go.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/OICvRvst9j2"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/X-wPfOPjvVJ"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -58,8 +58,11 @@ v Go.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;sort&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;cmp&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;slices&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -67,15 +70,28 @@ v Go.</p>
         
         <tr>
           <td class="docs">
-            <p>Abychom v Go setřídili podle zvolené funkce, budeme
-potřebovat odpovídající typ. Vytvořili jsme tady typ
-<code>byLength</code> který je jenom alias na zabudovaný typ
-<code>[]string</code>.</p>
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fruits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;peach&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kiwi&quot;</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Naimplementujeme porovnávací funkci pro délky
+řetězců. Hodí se nám k tomu <code>cmp.Compare</code>.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">byLength</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">lenCmp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">cmp</span><span class="p">.</span><span class="nx">Compare</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nx">a</span><span class="p">),</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">b</span><span class="p">))</span>
+<span class="w">    </span><span class="p">}</span>
 </pre></div>
 
           </td>
@@ -83,26 +99,15 @@ potřebovat odpovídající typ. Vytvořili jsme tady typ
         
         <tr>
           <td class="docs">
-            <p>Implementujeme interface <code>sort.Interface</code> - <code>Len</code>, <code>Less</code>, a
-<code>Swap</code> - na našem typu, takže můžeme použít generickou funkci
-<code>Sort</code> z balíčku <code>sort.</code>Len<code>a</code>Swap<code>budou
-obvykle podobné napříč typy a</code>Less<code>bude obsahovat
-vlastní třídící logiku. V našem případě chceme třídit podle
-délky řetězce vzestupně, takže zde použijeme
-</code>len(s[i])<code>a</code>len(s[j])`.</p>
+            <p>Teď můžeme zavolat <code>slices.SortFunc</code> s touto vlastní
+porovnávací funkcí a setřídit <code>fruits</code> podle délky
+názvu.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="nx">byLength</span><span class="p">)</span><span class="w"> </span><span class="nx">Len</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="nx">byLength</span><span class="p">)</span><span class="w"> </span><span class="nx">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span><span class="w"> </span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-<span class="p">}</span>
-<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">s</span><span class="w"> </span><span class="nx">byLength</span><span class="p">)</span><span class="w"> </span><span class="nx">Less</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">])</span>
-<span class="p">}</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">slices</span><span class="p">.</span><span class="nx">SortFunc</span><span class="p">(</span><span class="nx">fruits</span><span class="p">,</span><span class="w"> </span><span class="nx">lenCmp</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">fruits</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -110,17 +115,65 @@ délky řetězce vzestupně, takže zde použijeme
         
         <tr>
           <td class="docs">
-            <p>Když máme všechno připravené, nyní můžeme naimplementovat
-naše volitelné třídění překonvertováním původního výřezu <code>fruits</code>
-na <code>byLength</code> a poté na výřez s tímto typem použít  <code>sort.Sort</code>.</p>
+            <p>Stejnou techniku můžeme použít i pro třídění výřezu
+hodnot, které nejsou zabudovanými typy.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">type</span><span class="w"> </span><span class="nx">Osoba</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">        </span><span class="nx">vek</span><span class="w">   </span><span class="kt">int</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">lide</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="nx">Osoba</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">Osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Jax&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">37</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TJ&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Alex&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">72</span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Setřídíme <code>lide</code> podle věku pomocí <code>slices.SortFunc</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="c1">//</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pozn.: pokud je struktura <code>Osoba</code> velká, možná
+budete chtít, aby výřez obsahoval <code>*Osoba</code>,
+a třídicí funkci tomu přizpůsobíte. Pokud si
+nejste jistí, <a href="testing-and-benchmarking">změřte to</a>!</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">fruits</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;peach&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;banana&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;kiwi&quot;</span><span class="p">}</span>
-<span class="w">    </span><span class="nx">sort</span><span class="p">.</span><span class="nx">Sort</span><span class="p">(</span><span class="nx">byLength</span><span class="p">(</span><span class="nx">fruits</span><span class="p">))</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">fruits</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">slices</span><span class="p">.</span><span class="nx">SortFunc</span><span class="p">(</span><span class="nx">lide</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">func</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="w"> </span><span class="nx">Osoba</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="nx">cmp</span><span class="p">.</span><span class="nx">Compare</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">vek</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">vek</span><span class="p">)</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">lide</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -133,31 +186,15 @@ na <code>byLength</code> a poté na výřez s tímto typem použít  <code>sort.
         
         <tr>
           <td class="docs">
-            <p>Spuštění našeho programu ukáže list setříyení podle
-délky řetězce, tak jak jsme chtěli.</p>
-
-          </td>
-          <td class="code leading">
             
-          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>sorting-by-functions.go<span class="w"> </span>
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>sorting-by-functions.go
 <span class="go">[kiwi peach banana]</span>
+<span class="go">[{TJ 25} {Jax 37} {Alex 72}]</span>
 </pre></div>
 
-          </td>
-        </tr>
-        
-        <tr>
-          <td class="docs">
-            <p>Na tomto principu, vytvořením uživatelského typu,
-implementováním tří metod <code>Interface</code> na tomto typu a
-poté zavoláním funkce sort.Sort na kolekci tohoto
-uživatelského typu, můžeme setřídit výřezy v Go podle
-libovolných funkcí.</p>
-
-          </td>
-          <td class="code empty">
-            
-          
           </td>
         </tr>
         
@@ -174,7 +211,7 @@ libovolných funkcí.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"sort\"\u000Aimport \"fmt\"\u000A');codeLines.push('type byLength []string\u000A');codeLines.push('func (s byLength) Len() int {\u000A    return len(s)\u000A}\u000Afunc (s byLength) Swap(i, j int) {\u000A    s[i], s[j] \u003D s[j], s[i]\u000A}\u000Afunc (s byLength) Less(i, j int) bool {\u000A    return len(s[i]) \u003C len(s[j])\u000A}\u000A');codeLines.push('func main() {\u000A    fruits :\u003D []string{\"peach\", \"banana\", \"kiwi\"}\u000A    sort.Sort(byLength(fruits))\u000A    fmt.Println(fruits)\u000A}\u000A');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"cmp\"\u000A    \"fmt\"\u000A    \"slices\"\u000A)\u000A');codeLines.push('func main() {\u000A    fruits :\u003D []string{\"peach\", \"banana\", \"kiwi\"}\u000A');codeLines.push('    lenCmp :\u003D func(a, b string) int {\u000A        return cmp.Compare(len(a), len(b))\u000A    }\u000A');codeLines.push('    slices.SortFunc(fruits, lenCmp)\u000A    fmt.Println(fruits)\u000A');codeLines.push('    type Osoba struct {\u000A        jmeno string\u000A        vek   int\u000A    }\u000A');codeLines.push('    lide :\u003D []Osoba{\u000A        Osoba{jmeno: \"Jax\", vek: 37},\u000A        Osoba{jmeno: \"TJ\", vek: 25},\u000A        Osoba{jmeno: \"Alex\", vek: 72},\u000A    }\u000A');codeLines.push('    //\u000A');codeLines.push('    slices.SortFunc(lide,\u000A        func(a, b Osoba) int {\u000A            return cmp.Compare(a.vek, b.vek)\u000A        })\u000A    fmt.Println(lide)\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

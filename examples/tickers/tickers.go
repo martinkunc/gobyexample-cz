@@ -7,20 +7,29 @@
 
 package main
 
-import "time"
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
 	// Opakující časovače používají podobný mechanismus
 	// jako běžné časovače: kanál kterému je posílaná
-	// hodnota. Zde použijeme zabudovaný příkaz `range`
-	// pro iterování přes hodnoty které do kanálu
+	// hodnota. Zde použijeme na kanálu zabudovaný příkaz
+	// `select` pro čekání na hodnoty, které do kanálu
 	// přijdou každých 500ms.
 	ticker := time.NewTicker(500 * time.Millisecond)
+	done := make(chan bool)
+
 	go func() {
-		for t := range ticker.C {
-			fmt.Println("Tik v", t)
+		for {
+			select {
+			case <-done:
+				return
+			case t := <-ticker.C:
+				fmt.Println("Tik v", t)
+			}
 		}
 	}()
 
@@ -30,5 +39,6 @@ func main() {
 	// Náš zastavíme po 1600ms.
 	time.Sleep(1600 * time.Millisecond)
 	ticker.Stop()
+	done <- true
 	fmt.Println("Ticker zastaven")
 }

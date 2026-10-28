@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Dočasné soubory a adresáře</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'directories';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'embed-directive';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="temporary-files-and-directories">
+      <h2><a href="./">Go podle Příkladů</a>: Dočasné soubory a adresáře</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Během běhu programu často chceme vytvářet data, která
+po skončení programu už nejsou potřeba. K tomu se
+hodí <em>dočasné soubory a adresáře</em>, protože časem
+nezaneřádí souborový systém.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/BAUAtnEJbLK"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="w">    </span><span class="s">&quot;path/filepath&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">check</span><span class="p">(</span><span class="nx">e</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nejjednodušší způsob, jak vytvořit dočasný soubor,
+je zavolat <code>os.CreateTemp</code>. Ten soubor vytvoří <em>a</em>
+otevře ho pro čtení i zápis. Jako první argument
+předáme <code>&quot;&quot;</code>, takže <code>os.CreateTemp</code> vytvoří soubor
+ve výchozím umístění pro náš operační systém.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">CreateTemp</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sample&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Vypíšeme název dočasného souboru. Na operačních
+systémech založených na Unixu to bude
+pravděpodobně adresář <code>/tmp</code>. Název souboru začíná
+prefixem předaným jako druhý argument
+<code>os.CreateTemp</code> a zbytek se zvolí automaticky tak,
+aby souběžná volání vždy vytvořila různé názvy.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Název dočasného souboru:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Name</span><span class="p">())</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Po skončení soubor uklidíme. Operační systém
+dočasné soubory pravděpodobně po nějaké době uklidí
+sám, ale je dobrým zvykem to udělat explicitně.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Remove</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">Name</span><span class="p">())</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Do souboru můžeme zapsat nějaká data.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Write</span><span class="p">([]</span><span class="kt">byte</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">})</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pokud chceme zapisovat hodně dočasných souborů,
+možná dáme přednost vytvoření dočasného <em>adresáře</em>.
+Argumenty <code>os.MkdirTemp</code> jsou stejné jako
+u <code>CreateTemp</code>, ale vrací <em>název</em> adresáře místo
+otevřeného souboru.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">dname</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">MkdirTemp</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sampledir&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Název dočasného adresáře:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">dname</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">RemoveAll</span><span class="p">(</span><span class="nx">dname</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Teď můžeme vytvářet názvy dočasných souborů tak,
+že před ně přidáme náš dočasný adresář.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fname</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">dname</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;file1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">WriteFile</span><span class="p">(</span><span class="nx">fname</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">},</span><span class="w"> </span><span class="mo">0666</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>temporary-files-and-directories.go
+<span class="go">Název dočasného souboru: /tmp/sample610887201</span>
+<span class="go">Název dočasného adresáře: /tmp/sampledir898854668</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="embed-directive">Direktiva embed</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"os\"\u000A    \"path/filepath\"\u000A)\u000A');codeLines.push('func check(e error) {\u000A    if e !\u003D nil {\u000A        panic(e)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    f, err :\u003D os.CreateTemp(\"\", \"sample\")\u000A    check(err)\u000A');codeLines.push('    fmt.Println(\"Název dočasného souboru:\", f.Name())\u000A');codeLines.push('    defer os.Remove(f.Name())\u000A');codeLines.push('    _, err \u003D f.Write([]byte{1, 2, 3, 4})\u000A    check(err)\u000A');codeLines.push('    dname, err :\u003D os.MkdirTemp(\"\", \"sampledir\")\u000A    check(err)\u000A    fmt.Println(\"Název dočasného adresáře:\", dname)\u000A');codeLines.push('    defer os.RemoveAll(dname)\u000A');codeLines.push('    fname :\u003D filepath.Join(dname, \"file1\")\u000A    err \u003D os.WriteFile(fname, []byte{1, 2}, 0666)\u000A    check(err)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

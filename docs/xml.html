@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: XML</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'json';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'time';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="xml">
+      <h2><a href="./">Go podle Příkladů</a>: XML</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go nabízí zabudovanou podporu pro XML a formáty
+podobné XML pomocí balíčku <code>encoding/xml</code>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/Ei8jLTYbL6T"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;encoding/xml&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Struktura Plant bude namapována na XML. Podobně jako
+v příkladech s JSON obsahují značky (tagy) prvků
+direktivy pro enkodér a dekodér. Tady používáme
+některé speciální vlastnosti balíčku XML: název prvku
+<code>XMLName</code> určuje název XML elementu, který tuto
+strukturu reprezentuje; <code>id,attr</code> znamená, že prvek
+<code>Id</code> je XML <em>atribut</em>, a ne vnořený element.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">Plant</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">XMLName</span><span class="w"> </span><span class="nx">xml</span><span class="p">.</span><span class="nx">Name</span><span class="w"> </span><span class="s">`xml:&quot;plant&quot;`</span>
+<span class="w">    </span><span class="nx">Id</span><span class="w">      </span><span class="kt">int</span><span class="w">      </span><span class="s">`xml:&quot;id,attr&quot;`</span>
+<span class="w">    </span><span class="nx">Name</span><span class="w">    </span><span class="kt">string</span><span class="w">   </span><span class="s">`xml:&quot;name&quot;`</span>
+<span class="w">    </span><span class="nx">Origin</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="w"> </span><span class="s">`xml:&quot;origin&quot;`</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="nx">Plant</span><span class="p">)</span><span class="w"> </span><span class="nx">String</span><span class="p">()</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;Rostlina id=%v, název=%v, původ=%v&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">p</span><span class="p">.</span><span class="nx">Id</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">Origin</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">coffee</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">Plant</span><span class="p">{</span><span class="nx">Id</span><span class="p">:</span><span class="w"> </span><span class="mi">27</span><span class="p">,</span><span class="w"> </span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Káva&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">coffee</span><span class="p">.</span><span class="nx">Origin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;Etiopie&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Brazílie&quot;</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Vygenerujeme XML reprezentující naši rostlinu;
+pomocí <code>MarshalIndent</code> dostaneme výstup lépe
+čitelný pro člověka.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">xml</span><span class="p">.</span><span class="nx">MarshalIndent</span><span class="p">(</span><span class="nx">coffee</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;  &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">out</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro přidání obecné XML hlavičky do výstupu ji
+explicitně připojte.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">xml</span><span class="p">.</span><span class="nx">Header</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">out</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pomocí <code>Unmarshal</code> naparsujeme proud bajtů s XML
+do datové struktury. Pokud je XML poškozené nebo
+ho nelze namapovat na Plant, vrátí se popisná chyba.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="nx">Plant</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">xml</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">p</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">tomato</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">Plant</span><span class="p">{</span><span class="nx">Id</span><span class="p">:</span><span class="w"> </span><span class="mi">81</span><span class="p">,</span><span class="w"> </span><span class="nx">Name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Rajče&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">tomato</span><span class="p">.</span><span class="nx">Origin</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;Mexiko&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Kalifornie&quot;</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Značka prvku <code>parent&gt;child&gt;plant</code> říká enkodéru,
+aby všechny <code>plant</code> vnořil pod <code>&lt;parent&gt;&lt;child&gt;...</code></p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">type</span><span class="w"> </span><span class="nx">Nesting</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">XMLName</span><span class="w"> </span><span class="nx">xml</span><span class="p">.</span><span class="nx">Name</span><span class="w"> </span><span class="s">`xml:&quot;nesting&quot;`</span>
+<span class="w">        </span><span class="nx">Plants</span><span class="w">  </span><span class="p">[]</span><span class="o">*</span><span class="nx">Plant</span><span class="w"> </span><span class="s">`xml:&quot;parent&gt;child&gt;plant&quot;`</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">nesting</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">Nesting</span><span class="p">{}</span>
+<span class="w">    </span><span class="nx">nesting</span><span class="p">.</span><span class="nx">Plants</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">Plant</span><span class="p">{</span><span class="nx">coffee</span><span class="p">,</span><span class="w"> </span><span class="nx">tomato</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">out</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">xml</span><span class="p">.</span><span class="nx">MarshalIndent</span><span class="p">(</span><span class="nx">nesting</span><span class="p">,</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;  &quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">out</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>xml.go
+<span class="go"> &lt;plant id=&quot;27&quot;&gt;</span>
+<span class="go">   &lt;name&gt;Káva&lt;/name&gt;</span>
+<span class="go">   &lt;origin&gt;Etiopie&lt;/origin&gt;</span>
+<span class="go">   &lt;origin&gt;Brazílie&lt;/origin&gt;</span>
+<span class="go"> &lt;/plant&gt;</span>
+<span class="go">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="go"> &lt;plant id=&quot;27&quot;&gt;</span>
+<span class="go">   &lt;name&gt;Káva&lt;/name&gt;</span>
+<span class="go">   &lt;origin&gt;Etiopie&lt;/origin&gt;</span>
+<span class="go">   &lt;origin&gt;Brazílie&lt;/origin&gt;</span>
+<span class="go"> &lt;/plant&gt;</span>
+<span class="go">Rostlina id=27, název=Káva, původ=[Etiopie Brazílie]</span>
+<span class="go"> &lt;nesting&gt;</span>
+<span class="go">   &lt;parent&gt;</span>
+<span class="go">     &lt;child&gt;</span>
+<span class="go">       &lt;plant id=&quot;27&quot;&gt;</span>
+<span class="go">         &lt;name&gt;Káva&lt;/name&gt;</span>
+<span class="go">         &lt;origin&gt;Etiopie&lt;/origin&gt;</span>
+<span class="go">         &lt;origin&gt;Brazílie&lt;/origin&gt;</span>
+<span class="go">       &lt;/plant&gt;</span>
+<span class="go">       &lt;plant id=&quot;81&quot;&gt;</span>
+<span class="go">         &lt;name&gt;Rajče&lt;/name&gt;</span>
+<span class="go">         &lt;origin&gt;Mexiko&lt;/origin&gt;</span>
+<span class="go">         &lt;origin&gt;Kalifornie&lt;/origin&gt;</span>
+<span class="go">       &lt;/plant&gt;</span>
+<span class="go">     &lt;/child&gt;</span>
+<span class="go">   &lt;/parent&gt;</span>
+<span class="go"> &lt;/nesting&gt;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="time">Time</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"encoding/xml\"\u000A    \"fmt\"\u000A)\u000A');codeLines.push('type Plant struct {\u000A    XMLName xml.Name `xml:\"plant\"`\u000A    Id      int      `xml:\"id,attr\"`\u000A    Name    string   `xml:\"name\"`\u000A    Origin  []string `xml:\"origin\"`\u000A}\u000A');codeLines.push('func (p Plant) String() string {\u000A    return fmt.Sprintf(\"Rostlina id\u003D%v, název\u003D%v, původ\u003D%v\",\u000A        p.Id, p.Name, p.Origin)\u000A}\u000A');codeLines.push('func main() {\u000A    coffee :\u003D \u0026Plant{Id: 27, Name: \"Káva\"}\u000A    coffee.Origin \u003D []string{\"Etiopie\", \"Brazílie\"}\u000A');codeLines.push('    out, _ :\u003D xml.MarshalIndent(coffee, \" \", \"  \")\u000A    fmt.Println(string(out))\u000A');codeLines.push('    fmt.Println(xml.Header + string(out))\u000A');codeLines.push('    var p Plant\u000A    if err :\u003D xml.Unmarshal(out, \u0026p); err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(p)\u000A');codeLines.push('    tomato :\u003D \u0026Plant{Id: 81, Name: \"Rajče\"}\u000A    tomato.Origin \u003D []string{\"Mexiko\", \"Kalifornie\"}\u000A');codeLines.push('    type Nesting struct {\u000A        XMLName xml.Name `xml:\"nesting\"`\u000A        Plants  []*Plant `xml:\"parent\u003Echild\u003Eplant\"`\u000A    }\u000A');codeLines.push('    nesting :\u003D \u0026Nesting{}\u000A    nesting.Plants \u003D []*Plant{coffee, tomato}\u000A');codeLines.push('    out, _ \u003D xml.MarshalIndent(nesting, \" \", \"  \")\u000A    fmt.Println(string(out))\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

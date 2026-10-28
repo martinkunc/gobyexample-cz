@@ -9,36 +9,37 @@ import (
 	"time"
 )
 
-// Toto je funkce která poběží v každé gorutině
-// Všimněte si že WaitGroup musí být předána funkcím jako
-// ukazatel.
-func worker(id int, wg *sync.WaitGroup) {
+// Toto je funkce, která poběží v každé gorutině.
+func worker(id int) {
 	fmt.Printf("Worker %d startuje\n", id)
 
 	// Čekáme abychom simulovali dlouhý úkol.
 	time.Sleep(time.Second)
 	fmt.Printf("Worker %d končí\n", id)
-
-	// Oznamujeme do WaitGroup že tato rutina je hotova.
-	wg.Done()
 }
 
 func main() {
 
 	// Tato čekací skupina (WaitGroup) je použita pro
 	// čekání na ukončení všech gorutin zde
-	// nastartovaných
+	// nastartovaných. Pozn.: pokud WaitGroup explicitně
+	// předáváte do funkcí, mělo by to být *jako ukazatel*.
 	var wg sync.WaitGroup
 
-	// Nastartujeme několik gorutin a pro každou zvýšíme
-	// počítadlo ve WaitGroup.
+	// Nastartujeme několik gorutin pomocí `WaitGroup.Go`.
 	for i := 1; i <= 5; i++ {
-		wg.Add(1)
-		go worker(i, &wg)
+		wg.Go(func() {
+			worker(i)
+		})
 	}
 
-	// Blokujeme dokud počítadlo ve WaitGroup nespadne
-	// zpět na 0; Tj že všechny rutiny oznámily že jsou
-	// hotové.
+	// Blokujeme, dokud nejsou hotové všechny gorutiny
+	// nastartované pomocí `wg`. Gorutina je hotová, když
+	// se funkce, kterou volá, vrátí.
 	wg.Wait()
+
+	// Všimněte si, že tento přístup nenabízí přímočarý
+	// způsob, jak předat chyby z pracovních rutin. Pro
+	// pokročilejší případy použití zvažte
+	// [balíček errgroup](https://pkg.go.dev/golang.org/x/sync/errgroup).
 }

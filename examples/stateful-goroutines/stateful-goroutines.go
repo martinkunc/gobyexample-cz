@@ -2,10 +2,10 @@
 // [mutexy](mutexes) pro synchronizaci přístupu ke sdílenému stavu
 // přes několik gorutin. Jinou možností k dosažení toho stejného
 // výsledku je použít zabudované vlastnosti pro synchronizaci
-// goroutin a kanálů. TEnto přístup založený na kanálech
+// gorutin a kanálů. Tento přístup založený na kanálech
 // odpovídá myšlenkám Go se sdílením paměti pomocí
 // komunikace, kdy každý kousek dat je vlastněný
-// přesně 1 goroutinou.
+// přesně jednou gorutinou.
 
 package main
 
@@ -70,7 +70,7 @@ func main() {
 	// Každé čtení vyžaduje vytvoření `readOp` a jejího
 	// odeslání skrz kanál `reads` a poté přijetí odpovědi
 	// v poskytnutém kanálu `resp`.
-	for r := 0; r < 100; r++ {
+	for range 100 {
 		go func() {
 			for {
 				read := readOp{
@@ -86,7 +86,7 @@ func main() {
 
 	// A také nastartujeme 10 zápisů s použitím stejného
 	// přístupu.
-	for w := 0; w < 10; w++ {
+	for range 10 {
 		go func() {
 			for {
 				write := writeOp{

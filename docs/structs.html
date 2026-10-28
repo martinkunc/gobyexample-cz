@@ -9,7 +9,7 @@
       onkeydown = (e) => {
           
           if (e.key == "ArrowLeft") {
-              window.location.href = 'pointers';
+              window.location.href = 'strings-and-runes';
           }
           
           
@@ -43,7 +43,7 @@ záznamů.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/VbmHYXJljEd"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/zHIr9tsaQc-"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -72,6 +72,38 @@ záznamů.</p>
           <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">osoba</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span>
 <span class="w">    </span><span class="nx">vek</span><span class="w">   </span><span class="kt">int</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>novaOsoba</code> vytvoří novou strukturu <code>osoba</code> s daným jménem.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">novaOsoba</span><span class="p">(</span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">osoba</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go je jazyk se správou paměti pomocí garbage
+collectoru; můžete bezpečně vrátit ukazatel na
+lokální proměnnou - garbage collector ji uklidí až
+ve chvíli, kdy na ni neexistují žádné aktivní odkazy.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">o</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="nx">jmeno</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">o</span><span class="p">.</span><span class="nx">vek</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">42</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">o</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -145,6 +177,20 @@ položky.</p>
         
         <tr>
           <td class="docs">
+            <p>Je idiomatické zapouzdřit vytváření nových struktur
+do konstruktorových funkcí.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">novaOsoba</span><span class="p">(</span><span class="s">&quot;Jon&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
             <p>K položkám struktur se přistupuje pomocí tečky.</p>
 
           </td>
@@ -152,6 +198,20 @@ položky.</p>
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">osoba</span><span class="p">{</span><span class="nx">jmeno</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Sean&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vek</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">}</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">jmeno</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Struktury je možné měnit.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="p">.</span><span class="nx">vek</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">51</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
 </pre></div>
 
           </td>
@@ -167,6 +227,7 @@ dereferencovány.</p>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">sp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">s</span>
+<span class="w">    </span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">52</span>
 <span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="p">)</span>
 </pre></div>
 
@@ -175,13 +236,22 @@ dereferencovány.</p>
         
         <tr>
           <td class="docs">
-            <p>Struktury je možné měnit.</p>
+            <p>Pokud typ struktury použijeme jen pro jedinou
+hodnotu, nemusíme ho pojmenovávat. Hodnota může mít
+anonymní typ struktury. Tato technika se běžně
+používá pro <a href="testing-and-benchmarking">testy řízené tabulkou</a>.</p>
 
           </td>
           <td class="code">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">51</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">sp</span><span class="p">.</span><span class="nx">vek</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">pes</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">jmeno</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">        </span><span class="nx">hodny</span><span class="w"> </span><span class="kt">bool</span>
+<span class="w">    </span><span class="p">}{</span>
+<span class="w">        </span><span class="s">&quot;Rex&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">pes</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -203,9 +273,11 @@ dereferencovány.</p>
 <span class="go">{Alice 30}</span>
 <span class="go">{Fred 0}</span>
 <span class="go">&amp;{Ann 40}</span>
+<span class="go">&amp;{Jon 42}</span>
 <span class="go">Sean</span>
-<span class="go">50</span>
-<span class="go">51</span>
+<span class="go">{Sean 51}</span>
+<span class="go">52</span>
+<span class="go">{Rex true}</span>
 </pre></div>
 
           </td>
@@ -224,7 +296,7 @@ dereferencovány.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('type osoba struct {\u000A    jmeno string\u000A    vek   int\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    fmt.Println(osoba{\"Bob\", 20})\u000A');codeLines.push('    fmt.Println(osoba{jmeno: \"Alice\", vek: 30})\u000A');codeLines.push('    fmt.Println(osoba{jmeno: \"Fred\"})\u000A');codeLines.push('    fmt.Println(\u0026osoba{jmeno: \"Ann\", vek: 40})\u000A');codeLines.push('    s :\u003D osoba{jmeno: \"Sean\", vek: 50}\u000A    fmt.Println(s.jmeno)\u000A');codeLines.push('    sp :\u003D \u0026s\u000A    fmt.Println(sp.vek)\u000A');codeLines.push('    sp.vek \u003D 51\u000A    fmt.Println(sp.vek)\u000A}\u000A');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('type osoba struct {\u000A    jmeno string\u000A    vek   int\u000A}\u000A');codeLines.push('func novaOsoba(jmeno string) *osoba {\u000A');codeLines.push('    o :\u003D osoba{jmeno: jmeno}\u000A    o.vek \u003D 42\u000A    return \u0026o\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    fmt.Println(osoba{\"Bob\", 20})\u000A');codeLines.push('    fmt.Println(osoba{jmeno: \"Alice\", vek: 30})\u000A');codeLines.push('    fmt.Println(osoba{jmeno: \"Fred\"})\u000A');codeLines.push('    fmt.Println(\u0026osoba{jmeno: \"Ann\", vek: 40})\u000A');codeLines.push('    fmt.Println(novaOsoba(\"Jon\"))\u000A');codeLines.push('    s :\u003D osoba{jmeno: \"Sean\", vek: 50}\u000A    fmt.Println(s.jmeno)\u000A');codeLines.push('    s.vek \u003D 51\u000A    fmt.Println(s)\u000A');codeLines.push('    sp :\u003D \u0026s\u000A    sp.vek \u003D 52\u000A    fmt.Println(sp.vek)\u000A');codeLines.push('    pes :\u003D struct {\u000A        jmeno string\u000A        hodny bool\u000A    }{\u000A        \"Rex\",\u000A        true,\u000A    }\u000A    fmt.Println(pes)\u000A}\u000A');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>

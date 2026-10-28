@@ -27,7 +27,7 @@
         
         <tr>
           <td class="docs">
-            <p><em>Výřezy</em>, v angličtině Slices, jsou klíčovým datovým
+            <p><em>Výřezy</em>, v angličtině Slices, jsou důležitým datovým
 typem v Go, poskytujícím sekvencím bohatší rozhraní
 než polím.</p>
 
@@ -43,7 +43,7 @@ než polím.</p>
             
           </td>
           <td class="code leading">
-            <a href="http://play.golang.org/p/nq-Txg0zxcV"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+            <a href="http://play.golang.org/p/QK9eos7DI41"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
           <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </pre></div>
 
@@ -56,7 +56,10 @@ než polím.</p>
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;slices&quot;</span>
+<span class="p">)</span>
 </pre></div>
 
           </td>
@@ -78,16 +81,35 @@ než polím.</p>
           <td class="docs">
             <p>Na rozdíl od polí, typ výřezů je jen typ jejich
 prvků (ne počet prvků).
-Pro vytvoření prázdného výřezu nulové délky,
-použijte zabudovanou funkci <code>make</code>. Tady vytváříme
-výřez <code>string</code>ů délky <code>3</code> (automaticky
-inicializovaný na nulové hodnoty).</p>
+Neinicializovaný výřez je roven nil a má
+délku 0.</p>
 
           </td>
           <td class="code leading">
             
-          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
-<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;prázdné:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">)</span>
+          <div class="highlight"><pre><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;neinic:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro vytvoření výřezu nenulové délky
+použijte zabudovanou funkci <code>make</code>. Tady vytváříme
+výřez <code>string</code>ů délky <code>3</code> (automaticky
+inicializovaný na nulové hodnoty).
+Ve výchozím stavu je kapacita nového výřezu rovna
+jeho délce; pokud předem víme, že výřez bude růst,
+můžeme kapacitu předat explicitně jako další
+parametr funkce <code>make</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">s</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;prázdné:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;délka:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;kap.:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">cap</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
 </pre></div>
 
           </td>
@@ -129,7 +151,7 @@ inicializovaný na nulové hodnoty).</p>
 několik dalších, díky nimž jsou bohatší než pole.
 Jednou je zabudovaný <code>append</code>, který vrací výřez
 obsahující jednu nebo více nových hodnot.
-Všimněte si, že musíme přimnout návratovou hodnotu
+Všimněte si, že musíme přijmout návratovou hodnotu
 <code>append</code>u, protože můžeme dostat novou hodnotu
 výřezu.</p>
 
@@ -223,6 +245,23 @@ s výřezem na jednom řádku.</p>
         
         <tr>
           <td class="docs">
+            <p>Balíček <code>slices</code> obsahuje řadu užitečných pomocných
+funkcí pro práci s výřezy.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">t2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;g&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;h&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;i&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">slices</span><span class="p">.</span><span class="nx">Equal</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span><span class="w"> </span><span class="nx">t2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;t == t2&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
             <p>Výřezy se mohou skládat do vícerozměrných datových
 struktur. Délky vnitřních výřezů se mohou měnit,
 na rozdíl od více-rozměrných polí.</p>
@@ -231,10 +270,10 @@ na rozdíl od více-rozměrných polí.</p>
           <td class="code">
             
           <div class="highlight"><pre><span class="w">    </span><span class="nx">twoD</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([][]</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="nx">i</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nx">innerLen</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
 <span class="w">        </span><span class="nx">twoD</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">innerLen</span><span class="p">)</span>
-<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="p">&lt;</span><span class="w"> </span><span class="nx">innerLen</span><span class="p">;</span><span class="w"> </span><span class="nx">j</span><span class="o">++</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">j</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">innerLen</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="nx">twoD</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="nx">j</span><span class="p">]</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">j</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -258,7 +297,8 @@ jsou pomocí <code>fmt.Println</code> renderované podobně.</p>
           <td class="code leading">
             
           <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>slices.go
-<span class="go">prázdné: [  ]</span>
+<span class="go">neinic: [] true true</span>
+<span class="go">prázdné: [  ] délka: 3 kap.: 3</span>
 <span class="go">nastavené: [a b c]</span>
 <span class="go">získáno: c</span>
 <span class="go">délka: 3</span>
@@ -268,6 +308,7 @@ jsou pomocí <code>fmt.Println</code> renderované podobně.</p>
 <span class="go">vy2: [a b c d e]</span>
 <span class="go">vy3: [c d e f]</span>
 <span class="go">dekl: [g h i]</span>
+<span class="go">t == t2</span>
 <span class="go">2d:  [[0] [1 2] [2 3 4]]</span>
 </pre></div>
 
@@ -277,7 +318,7 @@ jsou pomocí <code>fmt.Println</code> renderované podobně.</p>
         <tr>
           <td class="docs">
             <p>Pro další detaily o návrhu a implementaci výřezů v Go se
-podívejte na tento <a href="http://blog.golang.org/2011/01/go-slices-usage-and-internals.html">skvělý blogpost</a>
+podívejte na tento <a href="https://go.dev/blog/slices-intro">skvělý blogpost</a>
 od Go týmu.</p>
 
           </td>
@@ -313,7 +354,7 @@ mapy.</p>
     </div>
     <script>
       var codeLines = [];
-      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    s :\u003D make([]string, 3)\u000A    fmt.Println(\"prázdné:\", s)\u000A');codeLines.push('    s[0] \u003D \"a\"\u000A    s[1] \u003D \"b\"\u000A    s[2] \u003D \"c\"\u000A    fmt.Println(\"nastavené:\", s)\u000A    fmt.Println(\"získáno:\", s[2])\u000A');codeLines.push('    fmt.Println(\"délka:\", len(s))\u000A');codeLines.push('    s \u003D append(s, \"d\")\u000A    s \u003D append(s, \"e\", \"f\")\u000A    fmt.Println(\"přidané:\", s)\u000A');codeLines.push('    c :\u003D make([]string, len(s))\u000A    copy(c, s)\u000A    fmt.Println(\"kopie:\", c)\u000A');codeLines.push('    l :\u003D s[2:5]\u000A    fmt.Println(\"vy1:\", l)\u000A');codeLines.push('    l \u003D s[:5]\u000A    fmt.Println(\"vy2:\", l)\u000A');codeLines.push('    l \u003D s[2:]\u000A    fmt.Println(\"vy3:\", l)\u000A');codeLines.push('    t :\u003D []string{\"g\", \"h\", \"i\"}\u000A    fmt.Println(\"dekl:\", t)\u000A');codeLines.push('    twoD :\u003D make([][]int, 3)\u000A    for i :\u003D 0; i \u003C 3; i++ {\u000A        innerLen :\u003D i + 1\u000A        twoD[i] \u003D make([]int, innerLen)\u000A        for j :\u003D 0; j \u003C innerLen; j++ {\u000A            twoD[i][j] \u003D i + j\u000A        }\u000A    }\u000A    fmt.Println(\"2d: \", twoD)\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"slices\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    var s []string\u000A    fmt.Println(\"neinic:\", s, s \u003D\u003D nil, len(s) \u003D\u003D 0)\u000A');codeLines.push('    s \u003D make([]string, 3)\u000A    fmt.Println(\"prázdné:\", s, \"délka:\", len(s), \"kap.:\", cap(s))\u000A');codeLines.push('    s[0] \u003D \"a\"\u000A    s[1] \u003D \"b\"\u000A    s[2] \u003D \"c\"\u000A    fmt.Println(\"nastavené:\", s)\u000A    fmt.Println(\"získáno:\", s[2])\u000A');codeLines.push('    fmt.Println(\"délka:\", len(s))\u000A');codeLines.push('    s \u003D append(s, \"d\")\u000A    s \u003D append(s, \"e\", \"f\")\u000A    fmt.Println(\"přidané:\", s)\u000A');codeLines.push('    c :\u003D make([]string, len(s))\u000A    copy(c, s)\u000A    fmt.Println(\"kopie:\", c)\u000A');codeLines.push('    l :\u003D s[2:5]\u000A    fmt.Println(\"vy1:\", l)\u000A');codeLines.push('    l \u003D s[:5]\u000A    fmt.Println(\"vy2:\", l)\u000A');codeLines.push('    l \u003D s[2:]\u000A    fmt.Println(\"vy3:\", l)\u000A');codeLines.push('    t :\u003D []string{\"g\", \"h\", \"i\"}\u000A    fmt.Println(\"dekl:\", t)\u000A');codeLines.push('    t2 :\u003D []string{\"g\", \"h\", \"i\"}\u000A    if slices.Equal(t, t2) {\u000A        fmt.Println(\"t \u003D\u003D t2\")\u000A    }\u000A');codeLines.push('    twoD :\u003D make([][]int, 3)\u000A    for i :\u003D range 3 {\u000A        innerLen :\u003D i + 1\u000A        twoD[i] \u003D make([]int, innerLen)\u000A        for j :\u003D range innerLen {\u000A            twoD[i][j] \u003D i + j\u000A        }\u000A    }\u000A    fmt.Println(\"2d: \", twoD)\u000A}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
     </script>
     <script src="site.js" async></script>
   </body>
