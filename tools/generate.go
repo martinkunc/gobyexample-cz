@@ -129,7 +129,6 @@ func debug(msg string) {
 }
 
 var docsPat = regexp.MustCompile("^\\s*(\\/\\/|#)\\s")
-var dashPat = regexp.MustCompile("\\-+")
 
 // Seg is a segment of an example
 type Seg struct {
@@ -242,10 +241,18 @@ func parseAndRenderSegs(sourcePath string) ([]*Seg, string) {
 }
 
 func parseExamples() []*Example {
-	var exampleNames []string
+	// Each line of examples.txt is "<id>: <name>". The id is the upstream
+	// (English) example ID, used for the directory and the page URL, so they
+	// match gobyexample.com; the name is the translated title.
+	var exampleIDs, exampleNames []string
 	for _, line := range readLines("examples.txt") {
 		if line != "" && !strings.HasPrefix(line, "#") {
-			exampleNames = append(exampleNames, line)
+			parts := strings.SplitN(line, ":", 2)
+			if len(parts) != 2 {
+				panic("examples.txt: expected \"<id>: <name>\", got: " + line)
+			}
+			exampleIDs = append(exampleIDs, strings.TrimSpace(parts[0]))
+			exampleNames = append(exampleNames, strings.TrimSpace(parts[1]))
 		}
 	}
 	examples := make([]*Example, 0)
@@ -254,14 +261,7 @@ func parseExamples() []*Example {
 			fmt.Printf("Processing %s [%d/%d]\n", exampleName, i+1, len(exampleNames))
 		}
 		example := Example{Name: exampleName}
-		exampleID := strings.ToLower(exampleName)
-		exampleID = strings.Replace(exampleID, " ", "-", -1)
-		exampleID = strings.Replace(exampleID, "/", "-", -1)
-		exampleID = strings.Replace(exampleID, "'", "", -1)
-		exampleID = strings.Replace(exampleID, "(", "", -1)
-		exampleID = strings.Replace(exampleID, ")", "", -1)
-		exampleID = removeAccents(exampleID)
-		exampleID = dashPat.ReplaceAllString(exampleID, "-")
+		exampleID := exampleIDs[i]
 		example.ID = exampleID
 		example.Segs = make([][]*Seg, 0)
 		sourcePaths := mustGlob("examples/" + exampleID + "/*")
@@ -291,18 +291,6 @@ func parseExamples() []*Example {
 		}
 	}
 	return examples
-}
-
-// accentReplacer maps accented (Czech) letters to their ASCII base, so
-// that example IDs and URLs are plain ASCII.
-var accentReplacer = strings.NewReplacer(
-	"á", "a", "č", "c", "ď", "d", "é", "e", "ě", "e", "í", "i", "ň", "n",
-	"ó", "o", "ř", "r", "š", "s", "ť", "t", "ú", "u", "ů", "u", "ý", "y",
-	"ž", "z",
-)
-
-func removeAccents(s string) string {
-	return accentReplacer.Replace(s)
 }
 
 func renderIndex(examples []*Example) {

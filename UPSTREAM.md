@@ -16,8 +16,9 @@ upstream between `46fe6bc` and `65c2883` and are also missing from the
 translation: XML (`xml`), Directories (`directories`) and Temporary Files and
 Directories (`temporary-files-and-directories`).
 
-The example directories here use the Czech IDs (e.g. `ahoj-svete` for
-`hello-world`); the `.go` file names inside them keep the upstream names.
+Example directories, file names and page URLs use the upstream (English) IDs,
+so `examples/<id>` here corresponds to `examples/<id>` upstream; only the text
+is translated. `examples.txt` lists each example as `<id>: <Czech title>`.
 
 Compared against upstream `master` at `28c81a7` (checked 2026-10-24).
 

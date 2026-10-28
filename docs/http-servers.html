@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: HTTP Servery</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'http-clients';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'spawning-processes';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="http-servers">
+      <h2><a href="./">Go podle Příkladů</a>: HTTP Servery</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>S použitím balíčku <code>net/http</code> je jednoduché
+napsat základní HTTP server.</p>
+
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/p628qACRfz4"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;net/http&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Základním konceptem v serverech v <code>net/http</code> jsou
+<em>handlery</em>. Handler je objekt implementující interface
+<code>http.Handler</code>. Běžný způsob pro psaní handleru
+je použít adapter <code>http.HandlerFunc</code> adaptér
+na funkcích s vhodnou signaturou.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">hello</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Funkce sloužící jako handlery akceptují jako
+parametry <code>http.ResponseWriter</code> a <code>http.Request</code>.
+ResponseWriter je používaný pro plnění
+HTTP odpovědi. Tady je naše jednoduchá odpověď
+jenom &ldquo;hello\n&rdquo;.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello\n&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">headers</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tento handler dělá něco trochu sofistikovanějšího
+když načte všechny hlavičky z požadavku a
+vypisuje je do těla odpovědi.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">Header</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">h</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">headers</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;%v: %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">h</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Registrujeme naše handlery k cestám na serveru s
+použitím vhodné funkce <code>http.HandleFunc</code>. Nastavuje
+<em>výchozí router</em> v balíčku <code>net/http</code> a bere funkci
+jako argument.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">hello</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">HandleFunc</span><span class="p">(</span><span class="s">&quot;/headers&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">headers</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Nakonec zavoláme <code>ListenAndServe</code> s portem a handlerem.
+<code>nil</code> ji řekne aby použila výchozí router
+který jsme právě nastavli.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">http</span><span class="p">.</span><span class="nx">ListenAndServe</span><span class="p">(</span><span class="s">&quot;:8090&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Spustí server na pozadí.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>http-servers.go<span class="w"> </span><span class="p">&amp;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Připojí se k cestě <code>/hello</code>.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>curl<span class="w"> </span>localhost:8090/hello
+<span class="go">hello</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="spawning-processes">Vytváření podprocesů</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"net/http\"\u000A)\u000A');codeLines.push('func hello(w http.ResponseWriter, req *http.Request) {\u000A');codeLines.push('    fmt.Fprintf(w, \"hello\\n\")\u000A}\u000A');codeLines.push('func headers(w http.ResponseWriter, req *http.Request) {\u000A');codeLines.push('    for name, headers :\u003D range req.Header {\u000A        for _, h :\u003D range headers {\u000A            fmt.Fprintf(w, \"%v: %v\\n\", name, h)\u000A        }\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    http.HandleFunc(\"/hello\", hello)\u000A    http.HandleFunc(\"/headers\", headers)\u000A');codeLines.push('    http.ListenAndServe(\":8090\", nil)\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

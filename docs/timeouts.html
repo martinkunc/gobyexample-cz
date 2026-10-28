@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Timeouty</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'select';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'non-blocking-channel-operations';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="timeouts">
+      <h2><a href="./">Go podle Příkladů</a>: Timeouty</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><em>Timeouty</em> (časová omezení) jsou důležitá pro programy
+připojující se k externím zdrojům a nebo ty co jakkoliv
+potřebují omezovat čas provádění. Implementace timeoutů
+je v Go díky kanálům a <code>select</code>ům elegantní.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/Vjz1KEyo4RV"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>V našem příkladě předpokládejme že provádímě
+externí volání které vrací svůj výsledek na kanálu
+<code>c1</code> po 2s.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">c1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">c1</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;výsledek 1&quot;</span>
+<span class="w">    </span><span class="p">}()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Zde je <code>select</code> implementující timeout.
+<code>res := &lt;-c1</code> čeká na výsledek a <code>&lt;-Time.After</code>
+očekává obdrženou hodnotu po timeoutu 1s.
+A protože <code>select</code> pokračuje s první přijatou
+hodnotou která je připravena, vybere si větev
+timeoutu pokud bude operace trvat více než
+povolenou 1s.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">select</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">c1</span><span class="p">:</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">):</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;timeout 1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pokud dovoleníme delší timeout 3s, potom uspěje
+příjem z <code>c2</code> a my vypíšeme výsledek.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">c2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">c2</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;výsledek 2&quot;</span>
+<span class="w">    </span><span class="p">}()</span>
+<span class="w">    </span><span class="k">select</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">c2</span><span class="p">:</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nx">After</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">):</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;timeout 2&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Spuštění tohoto programu ukazuje že první operace
+timeoutuje a druhá uspěje.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>timeouts.go<span class="w"> </span>
+<span class="go">timeout 1</span>
+<span class="go">result 2</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Použití vzoru <code>select</code> timeoutu potřebuje
+poslání výsledků pomocí kanálů. Je to obecně dobrý
+nápad - další dúležité vlastnosti Go jsou na kanálech a
+<code>select</code>u založené. Příště se podíváme na dva takové
+příklady: časovače a tikače.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="non-blocking-channel-operations">Neblokující operace s kanály</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"time\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    c1 :\u003D make(chan string, 1)\u000A    go func() {\u000A        time.Sleep(2 * time.Second)\u000A        c1 \u003C- \"výsledek 1\"\u000A    }()\u000A');codeLines.push('    select {\u000A    case res :\u003D \u003C-c1:\u000A        fmt.Println(res)\u000A    case \u003C-time.After(1 * time.Second):\u000A        fmt.Println(\"timeout 1\")\u000A    }\u000A');codeLines.push('    c2 :\u003D make(chan string, 1)\u000A    go func() {\u000A        time.Sleep(2 * time.Second)\u000A        c2 \u003C- \"výsledek 2\"\u000A    }()\u000A    select {\u000A    case res :\u003D \u003C-c2:\u000A        fmt.Println(res)\u000A    case \u003C-time.After(3 * time.Second):\u000A        fmt.Println(\"timeout 2\")\u000A    }\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

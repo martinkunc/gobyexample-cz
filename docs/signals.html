@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Signály</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'execing-processes';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'exit';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="signals">
+      <h2><a href="./">Go podle Příkladů</a>: Signály</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Někdy bychom chtěli aby naše Go programy inteligentně
+ošetřovali <a href="http://en.wikipedia.org/wiki/Unix_signal">Unixové signály</a>.
+Například, můžeme chtít aby server we might want a server to elegantně
+skončil když dostaneme signál <code>SIGTERM</code>, nebo aby nástroj
+příkazové řádky přestal zpracovávat vstup pokud obdrží <code>SIGINT</code>.
+Zde je jak ošetřit signály v Go pomocí kanálů.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/B2xmKXFaD4l"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;os/signal&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;syscall&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go notifikace o signálech pracuje tak, že posílá
+hodnoty <code>os.Signal</code> do kanálu. Vytvoříme kanál pro
+příjem takových notifikací (a také jeden kde se sami
+notifikujeme že program může skončit).</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">sigs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">done</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">(</span><span class="kd">chan</span><span class="w"> </span><span class="kt">bool</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>signal.Notify</code> registruje daný kanál pro příjem notifikací
+o specifikovaných signálech.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">signal</span><span class="p">.</span><span class="nx">Notify</span><span class="p">(</span><span class="nx">sigs</span><span class="p">,</span><span class="w"> </span><span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGINT</span><span class="p">,</span><span class="w"> </span><span class="nx">syscall</span><span class="p">.</span><span class="nx">SIGTERM</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tato goroutina provádí blokující příjem signálů.
+Když nějaký dostané tak ho vypíše a oznámí programu
+že může skončit.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">sig</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">sigs</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">sig</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">done</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Program zde bude čekat dokud nedostane
+očekávaný signál (jak je naznačeno v gorutině výše
+posílající hodnotu když je <code>done</code>) a pak skončí.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;awaiting signal&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="o">&lt;-</span><span class="nx">done</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;exiting&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Když spustíme tento program tak bude blokovat a čekat
+na signál. Stisknutím <code>ctrl-C</code> (které se na terminálu
+ukáže jako <code>^C</code>) můžeme poslat signál <code>SIGINT</code>,
+který způsobí že program vypíše <code>interrupt</code> a poté se
+ukončí.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>signals.go
+<span class="go">awaiting signal</span>
+<span class="go">^C</span>
+<span class="go">interrupt</span>
+<span class="go">exiting</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="exit">Exit</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000Aimport \"os\"\u000Aimport \"os/signal\"\u000Aimport \"syscall\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    sigs :\u003D make(chan os.Signal, 1)\u000A    done :\u003D make(chan bool, 1)\u000A');codeLines.push('    signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)\u000A');codeLines.push('    go func() {\u000A        sig :\u003D \u003C-sigs\u000A        fmt.Println()\u000A        fmt.Println(sig)\u000A        done \u003C- true\u000A    }()\u000A');codeLines.push('    fmt.Println(\"awaiting signal\")\u000A    \u003C-done\u000A    fmt.Println(\"exiting\")\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

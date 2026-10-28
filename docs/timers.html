@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Časovače (timers)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'range-over-channels';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'tickers';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="timers">
+      <h2><a href="./">Go podle Příkladů</a>: Časovače (timers)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Často chceme v Go provádět kód v nějakám čase v
+budoucnu, a nebo opakovaně v nějakém intervalu.
+Dva zabudované typy v Go, časovače <em>timers</em> a opakující
+časovače <em>tickers</em> takové případy usnadňují.
+Nejdřív se podíváme na časovače (timers) a potom
+na <a href="tickers">opakující časovače (tickers)</a>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/plFflYAw-0L"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;time&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Časovače představují jednu událost v budoucnu.
+Sdělíte časovaci jak dlouho chcete čekat, a on vám
+poskytne kanál kterému bude po tom čase bude
+posláno oznámení.
+Tento časovač bude čekat 2 vteřiny.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">timer1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">NewTimer</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Výraz <code>&lt;-timer1.C</code> bude blokovat na kanálu <code>C</code>
+časovače, dokud ten nepošle hodnotu oznamující
+že čas vypršel.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="o">&lt;-</span><span class="nx">timer1</span><span class="p">.</span><span class="nx">C</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Timer 1 vypršel&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Jestli jste jen chtěli počkat, tak jste mohli
+použít <code>time.Sleep</code>. Jeden důvod kde časovač může
+být užitečný je že časovač můžete zrušit ještě
+předtím než čas vyprší.
+Příklad toho je tady.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">timer2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">NewTimer</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="o">&lt;-</span><span class="nx">timer2</span><span class="p">.</span><span class="nx">C</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Timer 2 vypršel&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}()</span>
+<span class="w">    </span><span class="nx">stop2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">timer2</span><span class="p">.</span><span class="nx">Stop</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">stop2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Timer 2 byl zastaven&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>První časovač vyprší ~2s poté co zepneme program,
+ale druhý by měl být zastaven ještě předtím než bude
+mít šanci vypršet.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>timers.go
+<span class="go">Timer 1 vypršel</span>
+<span class="go">Timer 2 byl zastaven</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="tickers">Opakující časovače (tickers)</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"time\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    timer1 :\u003D time.NewTimer(2 * time.Second)\u000A');codeLines.push('    \u003C-timer1.C\u000A    fmt.Println(\"Timer 1 vypršel\")\u000A');codeLines.push('    timer2 :\u003D time.NewTimer(time.Second)\u000A    go func() {\u000A        \u003C-timer2.C\u000A        fmt.Println(\"Timer 2 vypršel\")\u000A    }()\u000A    stop2 :\u003D timer2.Stop()\u000A    if stop2 {\u000A        fmt.Println(\"Timer 2 byl zastaven\")\u000A    }\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

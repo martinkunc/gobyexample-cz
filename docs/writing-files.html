@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Zápis do souborů</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'reading-files';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'line-filters';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="writing-files">
+      <h2><a href="./">Go podle Příkladů</a>: Zápis do souborů</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Zápis do souborů v Go sleduje podobné vzory jako
+jsme viděli dříve u čtení.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/7TgxH_P01BT"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bufio&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;io/ioutil&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">check</span><span class="p">(</span><span class="nx">e</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro začátek tady je jako vypsat řetězec, nebo prostě
+bajty) do souboru.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">d1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;ahoj\ngo\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ioutil</span><span class="p">.</span><span class="nx">WriteFile</span><span class="p">(</span><span class="s">&quot;/tmp/dat1&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">d1</span><span class="p">,</span><span class="w"> </span><span class="mo">0644</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tento trochu méně sofistikovaný zápis otevře soubor
+pro zápis.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="s">&quot;/tmp/dat2&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>V Go je idiomatické odložit <code>Close</code> hned po
+otevření souboru.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Jak byste asi čekali, je možné zapsat s <code>Write</code> výřez
+bajtů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">d2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="mi">110</span><span class="p">,</span><span class="w"> </span><span class="mi">196</span><span class="p">,</span><span class="w"> </span><span class="mi">155</span><span class="p">,</span><span class="w"> </span><span class="mi">106</span><span class="p">,</span><span class="w"> </span><span class="mi">97</span><span class="p">,</span><span class="w"> </span><span class="mi">107</span><span class="p">,</span><span class="w"> </span><span class="mi">195</span><span class="p">,</span>
+<span class="w">        </span><span class="mi">169</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">n2</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Write</span><span class="p">(</span><span class="nx">d2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;zapsáno %d bajtů\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n2</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Také existuje <code>WriteString</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">n3</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="s">&quot;writes\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;zapsáno %d bajtů\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n3</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro vyprázdnění zápisů na stabilní úložiště
+zavolej <code>Sync</code></p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">f</span><span class="p">.</span><span class="nx">Sync</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>bufio</code> umožňuje bufferované Writery podobné bufferovaným
+ Readerům které jsme viděli dříve.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">w</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewWriter</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">n4</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">w</span><span class="p">.</span><span class="nx">WriteString</span><span class="p">(</span><span class="s">&quot;bufferováno\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;zapsáno %d bajtů\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n4</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Použijte <code>Flush</code> pro zajištění že všechny bufferované operace
+byly na vnitřním Writeru provedené.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">w</span><span class="p">.</span><span class="nx">Flush</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Zkus spuštění kódu pro zápis do souboru.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>writing-files.go<span class="w"> </span>
+<span class="go">zapsáno 5 bajtů</span>
+<span class="go">zapsáno 7 bajtů</span>
+<span class="go">zapsáno 13 bajtů</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Potom zkontroluj obsah zapsaných souborů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>cat<span class="w"> </span>/tmp/dat1
+<span class="go">ahoj</span>
+<span class="go">go</span>
+<span class="gp">$ </span>cat<span class="w"> </span>/tmp/dat2
+<span class="go">nějaké</span>
+<span class="go">zápisy</span>
+<span class="go">bufferovány</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Příště se podíváme na některé vlastností I/O které jsme
+právě viděli u streamů <code>stdin</code> a <code>stdout</code>.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="line-filters">Řádkové filtry</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"bufio\"\u000A    \"fmt\"\u000A    \"io/ioutil\"\u000A    \"os\"\u000A)\u000A');codeLines.push('func check(e error) {\u000A    if e !\u003D nil {\u000A        panic(e)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    d1 :\u003D []byte(\"ahoj\\ngo\\n\")\u000A    err :\u003D ioutil.WriteFile(\"/tmp/dat1\", d1, 0644)\u000A    check(err)\u000A');codeLines.push('    f, err :\u003D os.Create(\"/tmp/dat2\")\u000A    check(err)\u000A');codeLines.push('    defer f.Close()\u000A');codeLines.push('    d2 :\u003D []byte{110, 196, 155, 106, 97, 107, 195,\u000A        169, 10}\u000A    n2, err :\u003D f.Write(d2)\u000A    check(err)\u000A    fmt.Printf(\"zapsáno %d bajtů\\n\", n2)\u000A');codeLines.push('    n3, err :\u003D f.WriteString(\"writes\\n\")\u000A    fmt.Printf(\"zapsáno %d bajtů\\n\", n3)\u000A');codeLines.push('    f.Sync()\u000A');codeLines.push('    w :\u003D bufio.NewWriter(f)\u000A    n4, err :\u003D w.WriteString(\"bufferováno\\n\")\u000A    fmt.Printf(\"zapsáno %d bajtů\\n\", n4)\u000A');codeLines.push('    w.Flush()\u000A');codeLines.push('}\u000A');codeLines.push('');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

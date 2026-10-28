@@ -1,70 +1,70 @@
-Ahoj světe
-Hodnoty
-Proměnné
-Konstanty
-For
-If/Else
-Switch
-Pole
-Výřezy (slice)
-Mapy
-Range
-Funkce
-Return s více návratovými hodnotami
-Variadické funkce
-Uzávěry (closure)
-Rekurze
-Ukazatelé (pointers)
-Struktury (struct)
-Metody
-Interface
-Chyby (errors)
-Gorutiny
-Kanály
-Kanály s vyrovnávací pamětí
-Kanály a synchronizace
-Kanály se směrem
-Select
-Timeouty
-Neblokující operace s kanály
-Zavírání kanálů
-Iterování kanálů pomocí range
-Časovače (timers)
-Opakující časovače (tickers)
-Zásobníky pracovních rutin (worker pools)
-Čekání na skupiny s WaitGroup
-Omezování rychlosti (rate limiting)
-Atomické countery
-Mutexy
-Stavové gorutiny
-Třídění
-Třídění s funkcemi
-Panika (panic)
-Odložené vykonání defer
-Funkce pro práci s kolekcemi
-Funkce pro práci s řetězci
-Formátování řetězců
-Regulární výrazy
-JSON
-Time
-Epocha
-Parsování a formátování času
-Náhodná čísla
-Parsování čísel
-Parsování URL
-SHA1 Hashe
-Kódování base64
-Čtení souborů
-Zápis do souborů
-Řádkové filtry
-Cesty k souborům
-Parametry příkazové řádky
-Příznaky na příkazové řádce
-Podpříkazy příkazové řádky
-Proměnné prostředí
-HTTP Klienti
-HTTP Servery
-Vytváření podprocesů
-Spouštění procesů
-Signály
-Exit
+hello-world: Ahoj světe
+values: Hodnoty
+variables: Proměnné
+constants: Konstanty
+for: For
+if-else: If/Else
+switch: Switch
+arrays: Pole
+slices: Výřezy (slice)
+maps: Mapy
+range: Range
+functions: Funkce
+multiple-return-values: Return s více návratovými hodnotami
+variadic-functions: Variadické funkce
+closures: Uzávěry (closure)
+recursion: Rekurze
+pointers: Ukazatelé (pointers)
+structs: Struktury (struct)
+methods: Metody
+interfaces: Interface
+errors: Chyby (errors)
+goroutines: Gorutiny
+channels: Kanály
+channel-buffering: Kanály s vyrovnávací pamětí
+channel-synchronization: Kanály a synchronizace
+channel-directions: Kanály se směrem
+select: Select
+timeouts: Timeouty
+non-blocking-channel-operations: Neblokující operace s kanály
+closing-channels: Zavírání kanálů
+range-over-channels: Iterování kanálů pomocí range
+timers: Časovače (timers)
+tickers: Opakující časovače (tickers)
+worker-pools: Zásobníky pracovních rutin (worker pools)
+waitgroups: Čekání na skupiny s WaitGroup
+rate-limiting: Omezování rychlosti (rate limiting)
+atomic-counters: Atomické countery
+mutexes: Mutexy
+stateful-goroutines: Stavové gorutiny
+sorting: Třídění
+sorting-by-functions: Třídění s funkcemi
+panic: Panika (panic)
+defer: Odložené vykonání defer
+collection-functions: Funkce pro práci s kolekcemi
+string-functions: Funkce pro práci s řetězci
+string-formatting: Formátování řetězců
+regular-expressions: Regulární výrazy
+json: JSON
+time: Time
+epoch: Epocha
+time-formatting-parsing: Parsování a formátování času
+random-numbers: Náhodná čísla
+number-parsing: Parsování čísel
+url-parsing: Parsování URL
+sha1-hashes: SHA1 Hashe
+base64-encoding: Kódování base64
+reading-files: Čtení souborů
+writing-files: Zápis do souborů
+line-filters: Řádkové filtry
+file-paths: Cesty k souborům
+command-line-arguments: Parametry příkazové řádky
+command-line-flags: Příznaky na příkazové řádce
+command-line-subcommands: Podpříkazy příkazové řádky
+environment-variables: Proměnné prostředí
+http-clients: HTTP Klienti
+http-servers: HTTP Servery
+spawning-processes: Vytváření podprocesů
+execing-processes: Spouštění procesů
+signals: Signály
+exit: Exit

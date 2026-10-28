@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Kódování base64</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'sha1-hashes';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'reading-files';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="base64-encoding">
+      <h2><a href="./">Go podle Příkladů</a>: Kódování base64</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go poskytuje zabudovanou podporu pro <a href="http://en.wikipedia.org/wiki/Base64">base64
+kódování/dekódování</a>.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/d1GfXw8ggkz"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tato syntaxe importuje balíček <code>encoding/base64</code> se jménem
+<code>b64</code> místo výchozího <code>base64</code>. Ušetří nám to níže nějaké
+místo.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="nx">b64</span><span class="w"> </span><span class="s">&quot;encoding/base64&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tady je <code>string</code> který budeme kódovat/dekódovat.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;abc123!?$*&amp;()&#39;-=@~&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go podporuje standardní i URL-kompatibilní
+base64. Tady je jak zakódovat s použitím
+standardního enkóderu. Enkóder vyžaduje <code>[]byte</code>
+takže převedeme náš <code>string</code> na tento typ.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">sEnc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">b64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">sEnc</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Dekódování může vrátit chybu, kterou můžeme zkontrolovat,
+pokud už nevíš že je vstup dobře naformátovaný.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">sDec</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">b64</span><span class="p">.</span><span class="nx">StdEncoding</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">sEnc</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">sDec</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">()</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Toto kóduje/dekóduje s použitím URL-kompatibilního base64
+formátu.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">uEnc</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">b64</span><span class="p">.</span><span class="nx">URLEncoding</span><span class="p">.</span><span class="nx">EncodeToString</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">data</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">uEnc</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">uDec</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">b64</span><span class="p">.</span><span class="nx">URLEncoding</span><span class="p">.</span><span class="nx">DecodeString</span><span class="p">(</span><span class="nx">uEnc</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">uDec</span><span class="p">))</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Řetězec kóduje do lehce odlišných hodnot u standarního
+a URL base64 enkodóru (koncové <code>+</code> vs <code>-</code>)
+ale jak se očekává oba dekódují do původního řetězce.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>base64-encoding.go
+<span class="go">YWJjMTIzIT8kKiYoKSctPUB+</span>
+<span class="go">abc123!?$*&amp;()&#39;-=@~</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="go">YWJjMTIzIT8kKiYoKSctPUB-</span>
+<span class="go">abc123!?$*&amp;()&#39;-=@~</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="reading-files">Čtení souborů</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import b64 \"encoding/base64\"\u000Aimport \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    data :\u003D \"abc123!?$*\u0026()\'-\u003D@~\"\u000A');codeLines.push('    sEnc :\u003D b64.StdEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(sEnc)\u000A');codeLines.push('    sDec, _ :\u003D b64.StdEncoding.DecodeString(sEnc)\u000A    fmt.Println(string(sDec))\u000A    fmt.Println()\u000A');codeLines.push('    uEnc :\u003D b64.URLEncoding.EncodeToString([]byte(data))\u000A    fmt.Println(uEnc)\u000A    uDec, _ :\u003D b64.URLEncoding.DecodeString(uEnc)\u000A    fmt.Println(string(uDec))\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

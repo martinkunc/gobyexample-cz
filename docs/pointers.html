@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Ukazatelé (pointers)</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'recursion';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'structs';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="pointers">
+      <h2><a href="./">Go podle Příkladů</a>: Ukazatelé (pointers)</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go podporuje <em><a href="http://en.wikipedia.org/wiki/Pointer_(computer_programming)">ukazatele</a></em>,
+díky nim je možné předávat si v programu odkazy na
+hodnoty a záznamy.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/hlEipMZzaio"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Jak ukazatelé fungují v protikladu k proměnným si
+ukážeme na příkladu dvou funkcí: <code>nulujhodn</code> a
+<code>nulujukaz</code>. <code>nulujhodn</code> má
+parametr <code>int</code> a argument ji tak bude předaný jako
+hodnota. <code>nulujhodn</code> dostane kopii <code>ival</code> odlišnou od
+té ve volající funkci</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">nulujhodn</span><span class="p">(</span><span class="nx">ival</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ival</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Naproti tomu <code>nulujukaz</code> má parametr typu <code>*int</code>,
+značící že přijímá ukazatel na <code>int</code>. V těle funkce
+potom kód <code>*iptr</code> <em>dereferencuje</em> ukazatel z jeho
+adresy v paměti na aktuální hodnotu na této adrese.
+Přiřazením hodnoty do dereferencovaného ukazatele
+změní hodnotu na odkazované adrese.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">nulujukaz</span><span class="p">(</span><span class="nx">iptr</span><span class="w"> </span><span class="o">*</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">*</span><span class="nx">iptr</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">i</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;počáteční:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">nulujhodn</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;nulujhodn:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Zápis <code>&amp;i</code> vrací adresu proměnné <code>i</code> v paměti,
+např. ukazatel na <code>i</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">nulujukaz</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">i</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;nulujukaz:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pointers can be printed too.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;ukazatel:&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">i</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p><code>nulujhodn</code> nemění <code>i</code> ve volající funkci <code>main</code>, ale
+<code>nulujukaz</code> ano, protože má pro tuto proměnnou referenci
+na adresu v paměti</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>pointers.go
+<span class="go">počáteční: 1</span>
+<span class="go">nulujhodn: 1</span>
+<span class="go">nulujukaz: 0</span>
+<span class="go">ukazatel: 0x414020</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="structs">Struktury (struct)</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func nulujhodn(ival int) {\u000A    ival \u003D 0\u000A}\u000A');codeLines.push('func nulujukaz(iptr *int) {\u000A    *iptr \u003D 0\u000A}\u000A');codeLines.push('func main() {\u000A    i :\u003D 1\u000A    fmt.Println(\"počáteční:\", i)\u000A');codeLines.push('    nulujhodn(i)\u000A    fmt.Println(\"nulujhodn:\", i)\u000A');codeLines.push('    nulujukaz(\u0026i)\u000A    fmt.Println(\"nulujukaz:\", i)\u000A');codeLines.push('    fmt.Println(\"ukazatel:\", \u0026i)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

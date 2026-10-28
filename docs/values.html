@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Hodnoty</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'hello-world';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'variables';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="values">
+      <h2><a href="./">Go podle Příkladů</a>: Hodnoty</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go má různé hodnotové typy (value types) zahrnující
+řetězce (strings), celá čísla (integers), čísla s
+plovoucí des.čáskou (floats), pravdivostní hodnoty
+(booleans), atd. Tady je pár základních příkladů.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/jHnhYwvjIzx"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Řetězce, které je možné spojovat pomocí <code>+</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;go&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;lang&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Integery a Floaty.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;1+1 =&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;7.0/3.0 =&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">7.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Booleany i s boolean operátory, jak byste čekali.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="kc">true</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="kc">true</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(!</span><span class="kc">true</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>values.go
+<span class="go">golang</span>
+<span class="go">1+1 = 2</span>
+<span class="go">7.0/3.0 = 2.3333333333333335</span>
+<span class="go">false</span>
+<span class="go">true</span>
+<span class="go">false</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="variables">Proměnné</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('func main() {\u000A');codeLines.push('    fmt.Println(\"go\" + \"lang\")\u000A');codeLines.push('    fmt.Println(\"1+1 \u003D\", 1+1)\u000A    fmt.Println(\"7.0/3.0 \u003D\", 7.0/3.0)\u000A');codeLines.push('    fmt.Println(true \u0026\u0026 false)\u000A    fmt.Println(true || false)\u000A    fmt.Println(!true)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

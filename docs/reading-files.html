@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Čtení souborů</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'base64-encoding';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'writing-files';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="reading-files">
+      <h2><a href="./">Go podle Příkladů</a>: Čtení souborů</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Čtení z a zapisování do souborů jsou základní součásti
+mnoha Go programů. Nejprve se podíváme na nějaké
+příklady jak ze souborů číst.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/yW7zYctjC9N"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;bufio&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;io&quot;</span>
+<span class="w">    </span><span class="s">&quot;io/ioutil&quot;</span>
+<span class="w">    </span><span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Čtení souborů vyžaduje kontrolu chyb u většiny volání.
+Tato pomocná funkce nám zjednoduší naše kontroly chyb
+níže.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">check</span><span class="p">(</span><span class="nx">e</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Snad nejzákladnější operací při čtení souborů je
+nasátí kompletního obsahu souboru do paměti.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">dat</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ioutil</span><span class="p">.</span><span class="nx">ReadFile</span><span class="p">(</span><span class="s">&quot;/tmp/dat&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">dat</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Často budete chtít více kontroly jak a jaké části
+souboru jsou načítané. Pro tyto úkoly začněte s
+otevřením souboru pomocí <code>Open</code> pro získání hodnoty
+<code>os.File</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;/tmp/dat&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Načteme pár bytů ze začátku souboru.
+Zkusí načíst až 5 a vrátí kolik jich bylo
+ve skutečnosti načteno.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">b1</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">n1</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">b1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%d bytů: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n1</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">b1</span><span class="p">[:</span><span class="nx">n1</span><span class="p">]))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Můžete také přeskočit na danou pozici pomocí <code>Seek</code>
+a pomocí <code>Read</code> načíst odtamtud.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">o2</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Seek</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">b2</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">n2</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">b2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%d bytů @ %d: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n2</span><span class="p">,</span><span class="w"> </span><span class="nx">o2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">b2</span><span class="p">[:</span><span class="nx">n2</span><span class="p">]))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíček <code>io</code> poskytuje nějaké funkce které mohou
+být užitečné pro čtení souborů. Například čtení
+jako výše může být robustněji implementované pomocí
+<code>ReadAtLeast</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">o3</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Seek</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">b3</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">n3</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">ReadAtLeast</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span><span class="w"> </span><span class="nx">b3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%d bytů @ %d: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">n3</span><span class="p">,</span><span class="w"> </span><span class="nx">o3</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">b3</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Neexistuje žádné zabudované přetočení. Dá se toho
+dosáhnout pomocí skoku na pozici užitím
+<code>Seek(0, 0)</code> které je relativní k počátku souboru.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">f</span><span class="p">.</span><span class="nx">Seek</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíček <code>bufio</code> implementuje čtení pomocí readeru s
+vyrovnávací pamětí které může být užitečné pro svou
+efektivitu  při mnoha malých čteních ale pri kvůli
+spoustě metod pro čtení které poskytuje.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">r4</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">bufio</span><span class="p">.</span><span class="nx">NewReader</span><span class="p">(</span><span class="nx">f</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">b4</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">r4</span><span class="p">.</span><span class="nx">Peek</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">check</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;5 bytů: %s\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">b4</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Zavře soubor když jsme hotovi. (Obvykle to bude
+naplánováno hned po otevření s využitím <code>defer</code>).</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">f</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;ahoj&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>/tmp/dat
+<span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;go&quot;</span><span class="w"> </span>&gt;&gt;<span class="w">   </span>/tmp/dat
+<span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>reading-files.go
+<span class="go">ahoj</span>
+<span class="go">go</span>
+<span class="go">4 bytes: ahoj</span>
+<span class="go">2 bytes @ 6: go</span>
+<span class="go">2 bytes @ 6: go</span>
+<span class="go">5 bytes: ahoj</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Dále se podíváme na zapisování do souborů.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="writing-files">Zápis do souborů</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"bufio\"\u000A    \"fmt\"\u000A    \"io\"\u000A    \"io/ioutil\"\u000A    \"os\"\u000A)\u000A');codeLines.push('func check(e error) {\u000A    if e !\u003D nil {\u000A        panic(e)\u000A    }\u000A}\u000A');codeLines.push('func main() {\u000A');codeLines.push('    dat, err :\u003D ioutil.ReadFile(\"/tmp/dat\")\u000A    check(err)\u000A    fmt.Print(string(dat))\u000A');codeLines.push('    f, err :\u003D os.Open(\"/tmp/dat\")\u000A    check(err)\u000A');codeLines.push('    b1 :\u003D make([]byte, 5)\u000A    n1, err :\u003D f.Read(b1)\u000A    check(err)\u000A    fmt.Printf(\"%d bytů: %s\\n\", n1, string(b1[:n1]))\u000A');codeLines.push('    o2, err :\u003D f.Seek(6, 0)\u000A    check(err)\u000A    b2 :\u003D make([]byte, 2)\u000A    n2, err :\u003D f.Read(b2)\u000A    check(err)\u000A    fmt.Printf(\"%d bytů @ %d: \", n2, o2)\u000A    fmt.Printf(\"%v\\n\", string(b2[:n2]))\u000A');codeLines.push('    o3, err :\u003D f.Seek(6, 0)\u000A    check(err)\u000A    b3 :\u003D make([]byte, 2)\u000A    n3, err :\u003D io.ReadAtLeast(f, b3, 2)\u000A    check(err)\u000A    fmt.Printf(\"%d bytů @ %d: %s\\n\", n3, o3, string(b3))\u000A');codeLines.push('    _, err \u003D f.Seek(0, 0)\u000A    check(err)\u000A');codeLines.push('    r4 :\u003D bufio.NewReader(f)\u000A    b4, err :\u003D r4.Peek(5)\u000A    check(err)\u000A    fmt.Printf(\"5 bytů: %s\\n\", string(b4))\u000A');codeLines.push('    f.Close()\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

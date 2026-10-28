@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Cesty k souborům</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'line-filters';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'command-line-arguments';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="file-paths">
+      <h2><a href="./">Go podle Příkladů</a>: Cesty k souborům</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Balíček <code>filepath</code> poskytuje funkce pro parsování
+a vytváření <em>cest k souborům</em> způsobem který je přenosný
+mezi operačními systémy; například <code>dir/file</code> na Linuxu
+vs. <code>dir\file</code> na Windows.</p>
+
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/od51AEibbvV"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;path/filepath&quot;</span>
+<span class="w">    </span><span class="s">&quot;strings&quot;</span>
+<span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro vytváření cest portovatelným způsobem by měl
+být použítý <code>Join</code>. Ten převezme libovolný počet
+parametrů a vztvoří z nich hierarchickou cestu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">p</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&quot;dir1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;dir2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;filename&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;p:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">p</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Místo ručního spojování <code>/</code>s nebo <code>\</code>s bys měl vždycky
+použít <code>Join</code>. Kromě portability, <code>Join</code> navíc také
+cestu normalizuje a odstraní nadbytečné oddělovace a
+změny adresářů.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&quot;dir1//&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;filename&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="s">&quot;dir1/../dir1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;filename&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Dir</code> a <code>Base</code> se dají použít pro rozdělení cesty
+na adresář a soubor. Alternativně <code>Split</code> vrátí
+obojí v jednom volání.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Dir(p):&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Dir</span><span class="p">(</span><span class="nx">p</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Base(p):&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Base</span><span class="p">(</span><span class="nx">p</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Můžeme zkontrolovat jestli je cesta absolutní.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">IsAbs</span><span class="p">(</span><span class="s">&quot;dir/file&quot;</span><span class="p">))</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">filepath</span><span class="p">.</span><span class="nx">IsAbs</span><span class="p">(</span><span class="s">&quot;/dir/file&quot;</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">filename</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;config.json&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Některé názvy souborů mají po tečce i příponu. Od
+takových jmen můžeme příponu oddělit pomocí <code>Ext</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">ext</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Ext</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">ext</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Pro vrácení názvu souboru bez přípony,
+použijeme <code>strings.TrimSuffix</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">strings</span><span class="p">.</span><span class="nx">TrimSuffix</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span><span class="w"> </span><span class="nx">ext</span><span class="p">))</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p><code>Rel</code> najde relativní cestu mezi <em>základem</em> a
+<em>cílem</em>. Když není možné udělat relativní odkaz
+ze základu na cíl, funkce vrátí chybu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">rel</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Rel</span><span class="p">(</span><span class="s">&quot;a/b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a/b/t/file&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">rel</span><span class="p">)</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">rel</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">filepath</span><span class="p">.</span><span class="nx">Rel</span><span class="p">(</span><span class="s">&quot;a/b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;a/c/t/file&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">rel</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>file-paths.go
+<span class="go">p: dir1/dir2/filename</span>
+<span class="go">dir1/filename</span>
+<span class="go">dir1/filename</span>
+<span class="go">Dir(p): dir1/dir2</span>
+<span class="go">Base(p): filename</span>
+<span class="go">false</span>
+<span class="go">true</span>
+<span class="go">.json</span>
+<span class="go">config</span>
+<span class="go">t/file</span>
+<span class="go">../c/t/file</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="command-line-arguments">Parametry příkazové řádky</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('package main\u000A');codeLines.push('import (\u000A    \"fmt\"\u000A    \"path/filepath\"\u000A    \"strings\"\u000A)\u000A');codeLines.push('func main() {\u000A');codeLines.push('    p :\u003D filepath.Join(\"dir1\", \"dir2\", \"filename\")\u000A    fmt.Println(\"p:\", p)\u000A');codeLines.push('    fmt.Println(filepath.Join(\"dir1//\", \"filename\"))\u000A    fmt.Println(filepath.Join(\"dir1/../dir1\", \"filename\"))\u000A');codeLines.push('    fmt.Println(\"Dir(p):\", filepath.Dir(p))\u000A    fmt.Println(\"Base(p):\", filepath.Base(p))\u000A');codeLines.push('    fmt.Println(filepath.IsAbs(\"dir/file\"))\u000A    fmt.Println(filepath.IsAbs(\"/dir/file\"))\u000A');codeLines.push('    filename :\u003D \"config.json\"\u000A');codeLines.push('    ext :\u003D filepath.Ext(filename)\u000A    fmt.Println(ext)\u000A');codeLines.push('    fmt.Println(strings.TrimSuffix(filename, ext))\u000A');codeLines.push('    rel, err :\u003D filepath.Rel(\"a/b\", \"a/b/t/file\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(rel)\u000A');codeLines.push('    rel, err \u003D filepath.Rel(\"a/b\", \"a/c/t/file\")\u000A    if err !\u003D nil {\u000A        panic(err)\u000A    }\u000A    fmt.Println(rel)\u000A}\u000A');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Go podle Příkladů: Metody</title>
+    <link rel=stylesheet href="site.css">
+  </head>
+  <script>
+      onkeydown = (e) => {
+          
+          if (e.key == "ArrowLeft") {
+              window.location.href = 'structs';
+          }
+          
+          
+          if (e.key == "ArrowRight") {
+              window.location.href = 'interfaces';
+          }
+          
+      }
+  </script>
+  <body>
+    <div class="example" id="methods">
+      <h2><a href="./">Go podle Příkladů</a>: Metody</h2>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            <p>Go podporuje <em>metody</em> definované na typech struktur.</p>
+
+          </td>
+          <td class="code empty leading">
+            
+          
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            <a href="http://play.golang.org/p/V_9Qy4FmeZk"><img title="Spusť kód" src="play.png" class="run" /></a><img title="Zkopíruj kód" src="clipboard.png" class="copy" />
+          <div class="highlight"><pre><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kn">import</span><span class="w"> </span><span class="s">&quot;fmt&quot;</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">type</span><span class="w"> </span><span class="nx">obdel</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">sirka</span><span class="p">,</span><span class="w"> </span><span class="nx">vyska</span><span class="w"> </span><span class="kt">int</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tato metoda <code>plocha</code> má typ příjemce <code>*obdel</code>.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">obdel</span><span class="p">)</span><span class="w"> </span><span class="nx">plocha</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">sirka</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">vyska</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Metody mohou být definovane jako příjemce pro typy buď
+ukazatel, nebo hodnota. Zde je příklad hodnotového
+příjemce.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="nx">obdel</span><span class="p">)</span><span class="w"> </span><span class="nx">obvod</span><span class="p">()</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nx">r</span><span class="p">.</span><span class="nx">sirka</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nx">r</span><span class="p">.</span><span class="nx">vyska</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">obdel</span><span class="p">{</span><span class="nx">sirka</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nx">vyska</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Tady voláme obě dvě metody definované pro naší
+strukturu.</p>
+
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;plocha: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">plocha</span><span class="p">())</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;obvod:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">obvod</span><span class="p">())</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Go se automaticky stará o konverzi mezi voláním
+metod definovaných jako hodnotoví nebo ukazateloví
+příjemci. Metoda na ukazatelovém příjemci se vám
+může hodit abyste se vyhli kopírování struktury při
+volání a nebo abyste dovolili metodě měnit
+příjímající strukturu.</p>
+
+          </td>
+          <td class="code">
+            
+          <div class="highlight"><pre><span class="w">    </span><span class="nx">rp</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">r</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;plocha: &quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">rp</span><span class="p">.</span><span class="nx">plocha</span><span class="p">())</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;obvod:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">rp</span><span class="p">.</span><span class="nx">obvod</span><span class="p">())</span>
+<span class="p">}</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+      </table>
+      
+      <table>
+        
+        <tr>
+          <td class="docs">
+            
+          </td>
+          <td class="code leading">
+            
+          <div class="highlight"><pre><span class="gp">$ </span>go<span class="w"> </span>run<span class="w"> </span>methods.go<span class="w"> </span>
+<span class="go">plocha:  50</span>
+<span class="go">obvod: 30</span>
+<span class="go">plocha:  50</span>
+<span class="go">obvod: 30</span>
+</pre></div>
+
+          </td>
+        </tr>
+        
+        <tr>
+          <td class="docs">
+            <p>Dále se podíváme na mechanismus v Go pro seskupování
+a pojmenovávání množin příbuzných metod: interface.</p>
+
+          </td>
+          <td class="code empty">
+            
+          
+          </td>
+        </tr>
+        
+      </table>
+      
+      
+      <p class="next">
+        Další příklad: <a href="interfaces">Interface</a>.
+      </p>
+      
+      <p class="footer">
+        od <a href="https://markmcgranaghan.com">Marka McGranaghana</a> | autor překladu <a href="mailto:martin.kunc(at)gmail.com">Martin Kunc</a> | <a href="https://github.com/martinkunc/gobyexample-cz">zdrojový kód</a> | <a href="https://github.com/mmcgrana/gobyexample#license">licence</a>
+      </p>
+    </div>
+    <script>
+      var codeLines = [];
+      codeLines.push('');codeLines.push('package main\u000A');codeLines.push('import \"fmt\"\u000A');codeLines.push('type obdel struct {\u000A    sirka, vyska int\u000A}\u000A');codeLines.push('func (r *obdel) plocha() int {\u000A    return r.sirka * r.vyska\u000A}\u000A');codeLines.push('func (r obdel) obvod() int {\u000A    return 2*r.sirka + 2*r.vyska\u000A}\u000A');codeLines.push('func main() {\u000A    r :\u003D obdel{sirka: 10, vyska: 5}\u000A');codeLines.push('    fmt.Println(\"plocha: \", r.plocha())\u000A    fmt.Println(\"obvod:\", r.obvod())\u000A');codeLines.push('    rp :\u003D \u0026r\u000A    fmt.Println(\"plocha: \", rp.plocha())\u000A    fmt.Println(\"obvod:\", rp.obvod())\u000A}\u000A');codeLines.push('');codeLines.push('');
+    </script>
+    <script src="site.js" async></script>
+  </body>
+</html>
